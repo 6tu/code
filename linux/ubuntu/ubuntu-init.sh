@@ -4,7 +4,7 @@
 # apt-get -y upgrade       # 更新已安装的包  -f = --fix-missing 强制/修复安装
 # apt-get -y dist-upgrade  #  更新已安装的包及依赖
 # apt-get -y install wget dos2unix
-# wget https://raw.githubusercontent.com/yourshell/yisuo-script/master/shell/ubuntu-init.sh
+# wget https://raw.githubusercontent.com/6tu/code/master/linux/ubuntu/ubuntu-init.sh
 # chmod +x ubuntu-init.sh
 # dos2unix ubuntu-init.sh
 # ./ubuntu-init.sh
@@ -113,10 +113,10 @@ service shadowsocks restart
 echo "" && echo "======== make Certs and install IKEv2 VPN ========" && echo ""
 cd $basepath
 mkdir vpn && cd vpn
-wget --no-check-certificate https://raw.githubusercontent.com/yourshell/yisuo-script/master/certs/certs-init.sh
-wget --no-check-certificate https://raw.githubusercontent.com/yourshell/yisuo-script/master/certs/makecert.sh
+wget --no-check-certificate https://raw.githubusercontent.com/6tu/code/master/certs/certs-init.sh
+wget --no-check-certificate https://raw.githubusercontent.com/6tu/code/master/certs/makecert.sh
 # wget --no-check-certificate https://raw.githubusercontent.com/quericy/one-key-ikev2-vpn/master/one-key-ikev2.sh
-wget --no-check-certificate https://raw.githubusercontent.com/yourshell/yisuo-script/master/shell/quericy-one-key-ikev2.sh
+wget --no-check-certificate https://raw.githubusercontent.com/6tu/code/master/linux/quericy-one-key-ikev2.sh
 chmod +x *.sh
 ./certs-init.sh
 ./makecert.sh
@@ -129,7 +129,7 @@ echo "" && echo "======== install web tools ========" && echo ""
 apt-get autoremove apache2
 cd $basepath
 mkdir soft && cd soft
-wget --no-check-certificate https://raw.githubusercontent.com/yourshell/yisuo-script/master/shell/xampp/xampp-dir.sh
+wget --no-check-certificate https://raw.githubusercontent.com/6tu/code/master/linux/xampp/xampp-dir.sh
 wget --content-disposition http://yisuo.asia/xampp.php?os=linux
 wget http://soft.vpser.net/lnmp/lnmp1.4-full.tar.gz
 rename "s/\?from_af=t//" *
