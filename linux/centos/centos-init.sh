@@ -116,10 +116,10 @@ service shadowsocks restart
 echo "" && echo "======== make Certs and install IKEv2 VPN ========" && echo ""
 cd $basepath
 mkdir vpn && cd vpn
-wget --no-check-certificate https://raw.githubusercontent.com/yourshell/yisuo-script/master/certs/certs-init.sh
-wget --no-check-certificate https://raw.githubusercontent.com/yourshell/yisuo-script/master/certs/makecert.sh
+wget --no-check-certificate https://raw.githubusercontent.com/6tu/code/master/certs/certs-init.sh
+wget --no-check-certificate https://raw.githubusercontent.com/6tu/code/master/certs/makecert.sh
 #wget --no-check-certificate https://raw.githubusercontent.com/quericy/one-key-ikev2-vpn/master/one-key-ikev2.sh
-wget --no-check-certificate https://raw.githubusercontent.com/yourshell/yisuo-script/master/shell/quericy-one-key-ikev2.sh
+wget --no-check-certificate https://raw.githubusercontent.com/6tu/code/master/linux/quericy-one-key-ikev2.sh
 
 
 chmod +x *.sh
@@ -141,7 +141,7 @@ git clone https://github.com/yourshell/ispconfig_setup.git
 # https://github.com/dclardy64/
 ## 
 wget http://soft.vpser.net/lnmp/lnmp1.4-full.tar.gz
-wget --no-check-certificate https://raw.githubusercontent.com/yourshell/yisuo-script/master/shell/xampp-dir.sh
+wget --no-check-certificate https://raw.githubusercontent.com/6tu/code/master/linux/xampp-dir.sh
 wget --content-disposition http://yisuo.asia/xampp.php?os=linux
 rename "s/\?from_af=t//" *
 rename "s/runrue/run/" *
