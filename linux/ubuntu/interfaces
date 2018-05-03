@@ -1,0 +1,41 @@
+# vim /etc/network/interfaces
+# /etc/init.d/network restart
+
+# interfaces(5) file used by ifup(8) and ifdown(8)
+# from Scaleway
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+# Include all other interfaces from /etc/network/interfaces.d:
+#source /etc/network/interfaces.d/*.cfg
+# auto ens2
+# iface ens2 inet dhcp
+# iface ens2 inet6 auto
+
+# The primary network interface
+auto ens2
+iface ens2 inet static
+        address 10.14.78.131
+        netmask 255.255.255.254
+        gateway 10.14.78.130
+        dns-nameservers 8.8.8.8
+        dns-nameservers 8.8.4.4
+
+auto ens2
+#iface ens2 inet6 auto
+iface ens2 inet6 static
+pre-up modprobe ipv6
+        address 2001:bc8:4400:2b00::b:303
+        netmask 127
+#       autoconf 0
+#       gateway fe80::1
+        gateway 2001:bc8:4400:2b00::b:302
+        dns-nameservers 2001:4860:4860::8888
+        dns-nameservers 2001:4860:4860::8844
+
+#	post-up ip -6 addr add 2605:FB80:F000:0f6b:0000:0000:0000:0001/48 dev eth0
+# up /sbin/ifconfig eth0 inet6 add 2605:FB80:F000:0f6b:0000:0000:0000:0002/48
+
+
+
