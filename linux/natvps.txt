@@ -1,0 +1,64 @@
+gullo.me 的 natvps
+
+1. 在下面的地址中输入内网 IP，查看许可的网络资源
+https://hosting.gullo.me/plugin/support_manager/knowledgebase/view/17/p2/5/
+
+域名    gullo.yisuo.asia
+内网 IP 10.10.42.18
+外网 IP 76.72.171.42
+端口段  1800 —— 1819
+
+ssh root@76.72.171.42 -p 1820
+ssh console-c5EfT3@76.72.171.42 -p 22
+
+2. 用 iptables 把内网端口映射到外网端口
+内网10.10.42.18:80 影射到 外网的 1808
+
+vim /etc/sysctl.conf
+
+# Uncomment the next line to enable packet forwarding for IPv4
+net.ipv4.ip_forward=1
+net.ipv6.conf.all.forwarding=1
+
+sysctl -p
+-----------------------
+
+iptables -P INPUT ACCEPT
+iptables -P FORWARD ACCEPT
+iptables -F
+iptables -Z
+
+iptables -t nat -A PREROUTING -p tcp --dport 1808 -j DNAT --to-destination 10.10.42.18:80
+iptables -t nat -A POSTROUTING -p tcp -d 10.10.42.18/32 -m tcp --sport 80 -j SNAT --to-source 76.72.171.42
+
+# tcp
+iptables -t nat -A PREROUTING -p tcp --dport 1819 -j DNAT --to-destination 10.10.42.18:11269
+iptables -t nat -A POSTROUTING -p tcp -d 10.10.42.18/32 -m tcp --sport 11269 -j SNAT --to-source 76.72.171.42
+# udp 
+iptables -t nat -A PREROUTING -p udp --dport 1819 -j DNAT --to-destination 10.10.42.18:11269
+iptables -t nat -A POSTROUTING -p udp -d 10.10.42.18/32 -m udp --sport 11269 -j SNAT --to-source 76.72.171.42
+
+iptables -t filter -A INPUT -p tcp -m state --state NEW -m tcp --dport 11269 -j ACCEPT
+#service iptables save
+#service iptables restart
+netfilter-persistent save
+netfilter-persistent reload
+
+保存规则的使用iptables-save命令输出所有规则保存到文件并设置开机时使用iptables-restore导入。
+
+3. NAT IPv4如何託管一個網站？
+
+Cloudflare運行免費的IPv6到IPv4代理服務。
+Cloudflare的CDN通常在反向代理上工作（您公開地為您的站點看到Cloudflare IP，同時代表您的實際IP加載您的站點）。
+
+步驟：
+1）  在Cloudflare.com註冊一個免費帳戶 並添加您的域名（可以根據需要添加任意數量  的域名）
+2）  在註冊商處將您的域名服務器更新為Cloudflare提供的域名服務器（<name> .ns.cloudflare .COM）
+3）  編輯您的CloudFlare DNS記錄，創建和指向您的站點/子的四A（AAAA）記錄到您的LES一個IPv6地址（請參閱您的歡迎電子郵件與VPS資訊）
+4）  請確保您有“CloudFlare的打開“為您剛剛設置的域/子域記錄（確保記錄旁邊的小雲圖標為橙色）
+5）  進入您的域的”Cloudflare設置“ - 選擇主域中域名旁邊的齒輪圖標清單
+6）  向下滾動，在'自動IPv6'下，將默認模式'Safe'更改為'Full'
+7）  修改您的Web服務器以監聽您上面使用的IPv6地址，當然在端口80上
+
+資料來源：http://forum.lowendspirit.com/viewtopic.php?id=441
+

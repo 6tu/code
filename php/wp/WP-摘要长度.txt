@@ -1,0 +1,10 @@
+# 默认摘要函数 the_excerpt() 的输出长度取决于 wp_trim_excerpt($text)函数的 excerpt_length 值
+# 该值位于 wp-includes/formatting.php 的 3306 行左右，默认为 55 ，修改该值即改变摘要长度
+# 也可以用以下函数替换 the_excerpt() 函数
+# 该方法来自于 http://it.taocms.org/01/2427.htm
+
+function chinese_excerpt($text, $lenth=155) {
+    $text = mb_substr($text,0, $lenth);
+    return $text;
+}
+add_filter('the_excerpt', 'chinese_excerpt');

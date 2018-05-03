@@ -1,0 +1,10 @@
+建立多类型的证书颁发系统，支持IKE
+
+//建立自签发CA
+openssl req -newkey rsa:2048 -x509 -days 10956 -keyout cakey-2048.pem -out cacert-2048.pem -config conf\openssl.conf
+openssl req -newkey rsa:4096 -x509 -days 10956 -keyout cakey-4096.pem -out cacert-4096.pem -config conf\openssl.conf
+//去私钥口令
+openssl rsa -in cakey-2048.pem -out cakey-2048_nopw.pem
+openssl rsa -in cakey-4096.pem -out cakey-4096_nopw.pem
+
+CN    Liuyun Network    Liuyun Root CA

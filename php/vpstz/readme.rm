@@ -1,0 +1,36 @@
+VPS 上线监控
+
+php 脚本监控VPS是否在线
+
+>> 代码来源
+
+vpstz.php 服务端是雅黑探针v0.4.7的基础上改动来的.这里用 kn007.net 修改的版本,具体位置:
+        https://kn007.net/topics/yahei-php-probe-for-php7/
+
+--> 为兼容PHP7，修正了废弃函数及相关错误语法;
+--> 增加了 access($ALLOWED_IP) 函数，对探针的访问IP进行限制;
+--> 在578~605行,增加 $nic(网卡名称) 和 $os_info (操作系统信息)两变量，供远程调用.
+
+vpsmonitor.php 客户端基本上是雅黑探针的 HTML 部分,只是用PHP脚本对HTML进行修改，使得ajax能并发请求
+
+
+>> 使用说明
+
+服务端vpstz.php
+--> 务必修改vpstz.php文件开头的 $company 和 $ALLOWED_IP 两变量;
+--> 如果网卡流量显示有误，则修改以下四行的[3]为[2] 或[4],或许它可能是[5]
+    第615行 'NetOut2'=>"$NetOut[3]"
+    第617行 'NetInput2'=>"$NetInput[3]",
+    第619行 'NetOutSpeed2'=>"$NetOutSpeed[3]",
+    第620行 'NetInputSpeed2'=>"$NetInputSpeed[3]",
+
+客户端 vpsmonitor.php 需修改文件开头的 $query_string 和 $sites 参数的值
+--> $query_string 是服务器上 vpstz.php 文件的路径,后面的那个 "?" 不能少;
+--> $sites 这是服务器的IP或者域名.由于是数组,数组中各元素的键名不能重复,比如不能有两个'qcloud' 出现;
+--> $sites 中可以是完整的网址,如 http://qcloud.qq.com/tz/vpstz.php?act=rt&callback=? ,但$query_string必须留空;
+--> jquery 沿用 http://lib.sinaapp.com/js/jquery/1.7/jquery.min.js ,如果想更改,这里个网站供参考:
+       http://www.jq22.com/jquery-info122
+
+
+大概就这些.怎么样,小白也算是抄袭狂人吧
+

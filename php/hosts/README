@@ -1,0 +1,25 @@
+
+==> 用途
+该脚本用来修改Linux系统中/etc/hosts.allow文件以允许当前IP临时登录sshd
+该脚本需要使用exec()函数执行shell脚本，确保其没有禁用
+
+==> 安装
+登录sshd后对/etc/hosts.allow和/etc/hosts.deny修改如下
+在/etc/hosts.allow文件中追加 sshd:当前IP
+在/etc/hosts.deny文件中追加 sshd:all
+修改完后重启xinetd #service xinetd restart
+
+用 <?php echo exec('whoami'); ?> 查看当前PHP的所属用户名
+用 visudo 命令编辑/etc/sudoers
+把用户名 $shell_path追加到该文件中，从而使PHP以sudo权限执行该脚本
+
+==> 使用
+用$_GET['admin']调出密码表单
+当 $_POST['pw'] = $pw_allow 时，修改为许可当前IP登录
+当 $_POST['pw'] = $pw_deny 时，恢复默认值
+
+==> 安全策略
+密码策略为关键词匹配和长度匹配
+密码格式为: 设定值 + KEY + 填充值，$pw_allow 长24 ，$pw_deny 长16
+当密码（$_POST['pw']）输错三次，则拒绝该C段IP登录一个月
+如果服务器支持 SSL ,则以HTTPS协议提交密码

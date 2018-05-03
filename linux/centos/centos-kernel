@@ -1,0 +1,16 @@
+CENTTOS 安装卸载内核
+rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
+rpm -Uvh http://www.elrepo.org/elrepo-release-6-8.el6.elrepo.noarch.rpm
+yum --disablerepo="*" --enablerepo="elrepo-kernel" list available
+yum --enablerepo=elrepo-kernel install kernel-ml
+
+vim /boot/grub/grub.conf
+
+rpm -qa | grep kernel
+
+yum remove kernel-2.6.32-696.23.1.el6.x86_64
+yum remove kernel-devel-2.6.32-696.23.1.el6.x86_64
+yum remove kernel-headers-2.6.32-696.23.1.el6.x86_64
+yum remove kernel-2.6.32-504.el6.x86_64
+yum remove kernel-2.6.32-696.1.1.el6.x86_64
+yum remove kernel-firmware-2.6.32-696.23.1.el6.noarch
