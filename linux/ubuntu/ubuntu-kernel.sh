@@ -1,3 +1,6 @@
+apt-get update
+apt-get install -y libelf1
+
 mkdir kernel && cd kernel
 wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v4.15.1/linux-headers-4.15.1-041501_4.15.1-041501.201802031831_all.deb
 wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v4.15.1/linux-headers-4.15.1-041501-generic_4.15.1-041501.201802031831_amd64.deb
