@@ -1,3 +1,1 @@
-# yisuo-script
-
-自学PHP 
+# 自学基地
