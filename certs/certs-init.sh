@@ -12,10 +12,10 @@ touch index.txt
 touch index.txt.attr
 touch crlnumber
 cd ${certspath}
-wget -q -P ${certspath}/demoCA/private/ --no-check-certificate https://raw.githubusercontent.com/yourshell/yisuo-script/master/certs/cakey_nopw.pem
-wget -q -P ${certspath}/demoCA/ --no-check-certificate https://raw.githubusercontent.com/yourshell/yisuo-script/master/certs/cacert.pem
-wget -q -P ${certspath}/conf/ --no-check-certificate https://raw.githubusercontent.com/yourshell/yisuo-script/master/certs/openssl.conf
-wget -q -P ${certspath}/conf/ --no-check-certificate https://raw.githubusercontent.com/yourshell/yisuo-script/master/certs/openssl-ike.conf
+wget -q -P ${certspath}/demoCA/private/ --no-check-certificate https://raw.githubusercontent.com/6tu/code/master/certs/cakey_nopw.pem
+wget -q -P ${certspath}/demoCA/ --no-check-certificate https://raw.githubusercontent.com/6tu/code/master/certs/cacert.pem
+wget -q -P ${certspath}/conf/ --no-check-certificate https://raw.githubusercontent.com/6tu/code/master/certs/openssl.conf
+wget -q -P ${certspath}/conf/ --no-check-certificate https://raw.githubusercontent.com/6tu/code/master/certs/openssl-ike.conf
 
 cakeypw=`openssl rand -base64 8`
 #cakeypw==`head  /dev/urandom  |  tr -dc A-Za-z0-9  | head -c 12`
