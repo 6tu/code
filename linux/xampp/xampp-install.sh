@@ -9,7 +9,7 @@ echo "" && echo "======== install web tools ========" && echo ""
 apt-get autoremove apache2
 cd $basepath
 mkdir soft && cd soft
-wget --no-check-certificate https://raw.githubusercontent.com/yourshell/yisuo-script/master/shell/xampp/xampp-dir.sh
+wget --no-check-certificate https://raw.githubusercontent.com/6tu/code/master/linux/xampp/xampp-dir.sh
 wget --content-disposition http://yisuo.asia/xampp.php?os=linux
 wget http://soft.vpser.net/lnmp/lnmp1.4-full.tar.gz
 rename "s/\?from_af=t//" *
