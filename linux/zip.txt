@@ -1,4 +1,3 @@
-
 apt-get update
 apt-get install -y libpcre3 libpcre3-dev
 
@@ -9,8 +8,8 @@ tar xvfz zlib-1.2.11.tar.gz
 ./configure
 make && make install
 
-wget https://nih.at/libzip/libzip-1.2.0.tar.gz 
-tar -zxvf libzip-1.2.0.tar.gz 
-cd libzip-1.2.0 
-./configure 
+wget https://nih.at/libzip/libzip-1.2.0.tar.gz
+tar -zxvf libzip-1.2.0.tar.gz
+cd libzip-1.2.0
+./configure
 make && make install
