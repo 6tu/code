@@ -138,6 +138,8 @@ chmod +x xampp*.run
 chmod +x xampp-dir.sh
 ./xampp*.run
 ./xampp-dir.sh
+/bin/cp -rf server.cert.pem /opt/lampp/etc/ssl.crt/server.crt
+/bin/cp -rf server.pem      /opt/lampp/etc/ssl.key/server.key
 /opt/lampp/ctlscript.sh restart apache
 
 mkdir /var/pub
