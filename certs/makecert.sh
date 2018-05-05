@@ -55,10 +55,10 @@ openssl req -utf8 -sha512 -days 3653 -passout pass:${userpw} -newkey rsa:4096 \
 echo "issuing a certificate"
 echo -e "y\ny\n"|openssl ca -extensions v3_req \
         -cert ${certspath}/demoCA/cacert.pem -keyfile ${certspath}/demoCA/private/cakey.pem \
-        -passin pass:${cakeypw} -in ${certspath}/user_csr.pem -out ${certspath}/user_cert.crt \
+        -passin pass:${cakeypw} -in ${certspath}/user_csr.pem -md sha256 -out ${certspath}/user_cert.crt \
         -days 3653 -config ${certspath}/conf/openssl-ike.conf
 
-# openssl ca -extensions usr_cert -in ${certspath}/user_csr.pem -out ${certspath}/user_cert.crt \
+# openssl ca -extensions usr_cert -in ${certspath}/user_csr.pem -md sha256 -out ${certspath}/user_cert.crt \
 #        -days 3653 -config ${certspath}/conf/openssl-ike.conf
 
 # 去掉KEY 密码
