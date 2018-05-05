@@ -71,3 +71,6 @@ mv ${certspath}/user_csr_nopw.key    ${certspath}/${time}_${vps_ip}_csr_nopw.key
 mv ${certspath}/user_csr.pem         ${certspath}/${time}_${vps_ip}_csr.pem
 mv ${certspath}/user_cert.crt        ${certspath}/${time}_${vps_ip}_cert.crt
 
+[ -d "${certspath}/$vps_ip" ] && /bin/cp -rf ${certspath}/${time}_${vps_ip}_* ${certspath}/$vps_ip
+mkdir "$vps_ip"
+/bin/cp -rf ${certspath}/${time}_${vps_ip}_* ${certspath}/$vps_ip
