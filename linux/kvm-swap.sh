@@ -1,10 +1,10 @@
 swapoff /home/swap
-dd if=/dev/zero of=/home/swap bs=1024 count=256000
+dd if=/dev/zero of=/home/swap bs=1024 count=262144
 /sbin/mkswap -f /home/swap
 
 /sbin/swapon -f /home/swap
 vim /etc/fstab
-/tmp/swap swap swap defaults 0 0
+/home/swap swap swap defaults 0 0
 
 swapon -s
 
