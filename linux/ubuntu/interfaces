@@ -38,4 +38,31 @@ pre-up modprobe ipv6
 # up /sbin/ifconfig eth0 inet6 add 2605:FB80:F000:0f6b:0000:0000:0000:0002/48
 
 
+====================================
+
+tcpdump -t -vv -n -i venet0 -s 512 proto ipv6
+
+/etc/init.d/networking restart
+vim /etc/network/interfaces
+
+auto venet0
+iface venet0 inet manual
+	up ifconfig venet0 up
+	up ifconfig venet0 127.0.0.2
+	up route add default dev venet0
+	down route del default dev venet0
+	down ifconfig venet0 down
+	dns-nameservers 8.8.8.8
+	dns-nameservers 8.8.4.4
+
+iface venet0 inet6 manual
+	up ifconfig venet0 add 2602:fe90:1:1::2afc:f2b1/128
+	down ifconfig venet0 del 2602:fe90:1:1::2afc:f2b1/128
+	up route -A inet6 add default dev venet0
+	down route -A inet6 del default dev venet0
+
+	dns-nameservers 2001:4860:4860::8888
+	dns-nameservers 2001:4860:4860::8844
+
+
 
