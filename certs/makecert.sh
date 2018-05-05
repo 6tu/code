@@ -56,10 +56,10 @@ echo "issuing a certificate"
 echo -e "y\ny\n"|openssl ca -extensions v3_req \
         -cert ${certspath}/demoCA/cacert.pem -keyfile ${certspath}/demoCA/private/cakey.pem \
         -passin pass:${cakeypw} -in ${certspath}/user_csr.pem -out ${certspath}/user_cert.crt \
-        -days 10957 -config ${certspath}/conf/openssl-ike.conf
+        -days 3653 -config ${certspath}/conf/openssl-ike.conf
 
 # openssl ca -extensions usr_cert -in ${certspath}/user_csr.pem -out ${certspath}/user_cert.crt \
-#        -days 10957 -config ${certspath}/conf/openssl-ike.conf
+#        -days 3653 -config ${certspath}/conf/openssl-ike.conf
 
 # 去掉KEY 密码
 openssl rsa -passin pass:${userpw} -in ${certspath}/user_csr.key -out ${certspath}/user_csr_nopw.key
