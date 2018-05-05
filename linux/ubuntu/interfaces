@@ -1,6 +1,11 @@
 # vim /etc/network/interfaces
 # /etc/init.d/network restart
 
+# netstat -n | awk '/^tcp/ {++S[$NF]} END {for(a in S) print a, S[a]}'
+# tcpdump -t -vv -n -i venet0 -s 512 proto ipv6
+
+
+
 # interfaces(5) file used by ifup(8) and ifdown(8)
 # from Scaleway
 # The loopback network interface
