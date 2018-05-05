@@ -9,7 +9,7 @@
 # dos2unix ubuntu-init.sh
 # ./ubuntu-init.sh
 # nohup screen
-
+#wgetgithub=wget --no-check-certificate https://raw.githubusercontent.com
 # 脚本所在目录,判断系统
 cd
 basepath=$(cd `dirname $0`; pwd)
@@ -138,8 +138,14 @@ chmod +x xampp*.run
 chmod +x xampp-dir.sh
 ./xampp*.run
 ./xampp-dir.sh
-/bin/cp -rf server.cert.pem /opt/lampp/etc/ssl.crt/server.crt
-/bin/cp -rf server.pem      /opt/lampp/etc/ssl.key/server.key
+mkdir -p /var/www/tz
+wget -O /var/www/tz/vpstz.php https://raw.githubusercontent.com/6tu/code/master/php/vpstz/vpstz.php
+chown -R daemon:daemon /var/www
+
+cd $basepath/vpn
+cat server.cert.pem ca.cert.pem > cert.pem
+/bin/cp -rf $basepath/vpn/cert.pem /opt/lampp/etc/ssl.crt/server.crt
+/bin/cp -rf $basepath/vpn/server.pem      /opt/lampp/etc/ssl.key/server.key
 /opt/lampp/ctlscript.sh restart apache
 
 mkdir /var/pub
