@@ -49,7 +49,7 @@ echo ${time} ${userpw} >> ${certspath}/userpw
 echo "Certificate Signing Request"
 openssl req -utf8 -sha512 -days 3653 -passout pass:${userpw} -newkey rsa:4096 \
         -keyout ${certspath}/user_csr.key -out ${certspath}/user_csr.pem \
-        -subj "/C=CN/O=NetSec/CN=$vps_ip" -config ${certspath}/conf/openssl-ike.conf
+        -subj "/C=CN/CN=$vps_ip" -config ${certspath}/conf/openssl-ike.conf
 
 # 颁发证书
 echo "issuing a certificate"
