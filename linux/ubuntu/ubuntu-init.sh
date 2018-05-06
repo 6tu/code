@@ -86,12 +86,12 @@ wget https://bootstrap.pypa.io/get-pip.py
 python get-pip.py
 pip install --upgrade pip
 
-echo "" && echo "======== 安装 shadowsocks-libev ========" && echo ""
+echo "" && echo "======== 安装 shadowsocks ========" && echo ""
 cd $basepath
 mkdir ss && cd ss
 wget --no-check-certificate https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-libev-debian.sh
 chmod +x shadowsocks-libev-debian.sh
-./shadowsocks-libev-debian.sh 2>&1 | tee shadowsocks-libev-debian.log
+# ./shadowsocks-libev-debian.sh 2>&1 | tee shadowsocks-libev-debian.log
 
 wget --no-check-certificate https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-all.sh
 chmod +x shadowsocks-all.sh
@@ -101,6 +101,7 @@ chmod +x shadowsocks-all.sh
 echo ''> port.log
 sed -n '/port = /p' shadowsocks-libev-debian.log > sstmp.log
 sed -n '/password =/p' shadowsocks-libev-debian.log >> sstmp.log
+
 # grep 'port =' shadowsocks-libev-debian.log > sstmp.log
 port=`sed -n '1p' sstmp.log`
 shadowsocksport=`echo $port | awk '{split($0,arr," ");  print arr[3]}'`
@@ -108,6 +109,20 @@ password=`sed -n '2p' sstmp.log`
 shadowsockspassword=`echo $password | awk '{split($0,arr," ");  print arr[3]}'`
 sed -i "s/${shadowsocksport}/11269/g" /etc/shadowsocks-libev/config.json
 sed -i "s/teddysun.com/123456789com/g" /etc/shadowsocks-libev/config.json
+
+#vim /etc/shadowsocks-python/config.json
+echo ''> port.log
+sed -n '/port = /p' shadowsocks-all.log > sstmp.log
+sed -n '/password =/p' shadowsocks-all.log >> sstmp.log
+
+# grep 'port =' shadowsocks-all.log > sstmp.log
+port=`sed -n '1p' sstmp.log`
+shadowsocksport=`echo $port | awk '{split($0,arr," ");  print arr[3]}'`
+password=`sed -n '2p' sstmp.log`
+shadowsockspassword=`echo $password | awk '{split($0,arr," ");  print arr[3]}'`
+sed -i "s/${shadowsocksport}/11268/g" /etc/shadowsocks-python/config.json
+sed -i "s/teddysun.com/123456789com/g" /etc/shadowsocks-python/config.json
+service shadowsocks-python restart
 service shadowsocks restart
 
 echo "" && echo "======== make Certs and install IKEv2 VPN ========" && echo ""
@@ -132,8 +147,9 @@ mkdir soft && cd soft
 wget --no-check-certificate https://raw.githubusercontent.com/6tu/code/master/linux/xampp/xampp-dir.sh
 wget --content-disposition http://yisuo.asia/xampp.php?os=linux
 wget http://soft.vpser.net/lnmp/lnmp1.4-full.tar.gz
-rename "s/\?from_af=t//" *
-rename "s/runrue/run/" *
+# rename "s/\?from_af=t//" *
+# rename "s/runrue/run/" *
+find . -name "*.run?from_af=true" | sed 's/\.run?from_af=true$//g' | xargs -I{} mv {}.run?from_af=true {}.run
 chmod +x xampp*.run
 chmod +x xampp-dir.sh
 ./xampp*.run
