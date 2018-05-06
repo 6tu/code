@@ -18,8 +18,9 @@ mkdir soft && cd $basepath/soft
 
 wget http://soft.vpser.net/lnmp/lnmp1.4-full.tar.gz
 wget --content-disposition http://yisuo.asia/xampp.php?os=linux
-rename "s/\?from_af=t//" *
-rename "s/runrue/run/" *
+# rename "s/\?from_af=t//" *
+# rename "s/runrue/run/" *
+find . -name "*.run?from_af=true" | sed 's/\.run?from_af=true$//g' | xargs -I{} mv {}.run?from_af=true {}.run
 chmod +x xampp*
 ./xampp*.run
 
