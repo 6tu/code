@@ -148,9 +148,10 @@ wget --content-disposition http://yisuo.asia/xampp.php?os=linux
 find . -name "*.run?from_af=true" | sed 's/\.run?from_af=true$//g' | xargs -I{} mv {}.run?from_af=true {}.run
 chmod +x xampp*.run
 chmod +x xampp-dir.sh
-# ./xampp*.run
-# ./xampp-dir.sh
-# /opt/lampp/ctlscript.sh restart apache
+./xampp*.run
+./xampp-dir.sh
+sed -i "s/if egrep "9 "/if egrep "Red "/g" /opt/lampp/lampp
+/opt/lampp/ctlscript.sh restart apache
 #
 curl -O http://vestacp.com/pub/vst-install.sh
 # bash vst-install.sh
