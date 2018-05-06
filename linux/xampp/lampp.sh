@@ -75,6 +75,8 @@ mkdir -p ${webroot}/tz
 mv ${webroot}/index.html ${webroot}/index.html.bak
 echo 'hello world!'>${webroot}/index.html
 wget -O ${webroot}/tz/vpstz.php ${github}/6tu/code/master/php/vpstz/vpstz.php
+wget -O ${webroot}/tz/jquery.js ${github}/6tu/code/master/php/vpstz/yahei/jquery.js
+wget -O ${webroot}/tz/p.php     ${github}/6tu/code/master/php/vpstz/yahei/p.php
 
 chmod -R 0755 ${webroot}
 chmod -R 0755 /var/cgi-bin
