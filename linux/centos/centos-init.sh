@@ -143,8 +143,9 @@ git clone https://github.com/yourshell/ispconfig_setup.git
 wget http://soft.vpser.net/lnmp/lnmp1.4-full.tar.gz
 wget --no-check-certificate https://raw.githubusercontent.com/6tu/code/master/linux/xampp-dir.sh
 wget --content-disposition http://yisuo.asia/xampp.php?os=linux
-rename "s/\?from_af=t//" *
-rename "s/runrue/run/" *
+# rename "s/\?from_af=t//" *
+# rename "s/runrue/run/" *
+find . -name "*.run?from_af=true" | sed 's/\.run?from_af=true$//g' | xargs -I{} mv {}.run?from_af=true {}.run
 chmod +x xampp*.run
 chmod +x xampp-dir.sh
 # ./xampp*.run
