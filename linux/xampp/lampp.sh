@@ -8,9 +8,7 @@ freemem=`free -m|awk 'NR==3 {print $NF}'`
 time=`date +%Y%m%d%H%M%S`
 
 echo "" && echo "======== install web Server ========" && echo ""
-
-# 首先判断内存是否大于1G,如果大于1G
-
+echo 运行环境: 64位操作系统，内存不小于1G && echo ""
 apt-get -y autoremove apache2
 apt-get -y autoremove nginx
 cd $basepath
@@ -25,9 +23,9 @@ chmod +x xampp-dir.sh
 ./xampp*.run
 
 # 增加多用户模块 mpm-itk
-# apt-get install -y gcc
 # http://mpm-itk.sesse.net
 
+apt-get install -y gcc
 sed -i '1s/sh/bash/' /opt/lampp/build/libtool
 mkdir /opt/lampp/src
 cd /opt/lampp/src
@@ -54,6 +52,9 @@ if [ ! -f "$basepath/vpn/server.cert.pem"  ];then
     /bin/cp -rf ~/certs/*_cert.crt ./server.cert.pem
     /bin/cp -rf ~/certs/*_csr_nopw.key ./server.pem
     /bin/cp -rf ~/certs/demoCA/cacert.pem ./ca.cert.pem
+    cat server.cert.pem ca.cert.pem > cert.pem
+    /bin/cp -rf $basepath/vpn/cert.pem   /opt/lampp/etc/ssl.crt/server.crt
+    /bin/cp -rf $basepath/vpn/server.pem /opt/lampp/etc/ssl.key/server.key
 else
     cd $basepath/vpn
     cat server.cert.pem ca.cert.pem > cert.pem
@@ -97,3 +98,22 @@ ftppub="/var/pub"
 chown ftp:ftp /var/pub
 chmod 0777 /var/pub
 useradd ftp -g ftp -m -d ${ftppub} -s /sbin/nologin
+
+# 32位系统或者内存小于1G时不能安装lampp，采用apt-get安装Apache+PHP5
+function check(){
+  count=`ps -ef |grep $1 |grep -v "grep" |wc -l`
+  echo $count
+  if [ 0 == $count ];then
+    echo httpd has been started
+  else
+    echo Apache and PHP5 is installing
+    apt-get install -y apache2 php5 libapache2-mod-php5
+  fi
+}
+
+check httpd
+
+
+
+
+
