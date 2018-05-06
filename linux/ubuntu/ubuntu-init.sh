@@ -70,7 +70,7 @@ echo LANGUAGE=zh_CN.UTF-8 >> /etc/default/locale
 echo "" && echo "======== 更新内核 ========" && echo ""
 # apt-get -y install linux-generic-lts-wily
 cd $basepath
-mkdir kernel && cd kernel
+mkdir kernel && cd $basepath/kernel
 wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v4.15.1/linux-headers-4.15.1-041501_4.15.1-041501.201802031831_all.deb
 wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v4.15.1/linux-headers-4.15.1-041501-generic_4.15.1-041501.201802031831_amd64.deb
 wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v4.15.1/linux-image-4.15.1-041501-generic_4.15.1-041501.201802031831_amd64.deb
@@ -80,7 +80,7 @@ wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v4.15.1/linux-image-4.15.1-04
 
 echo "" && echo "======== install python ========" && echo ""
 cd $basepath
-mkdir python && cd python
+mkdir python && cd $basepath/python
 apt-get -y install python python-dev
 wget https://bootstrap.pypa.io/get-pip.py
 python get-pip.py
@@ -88,7 +88,7 @@ pip install --upgrade pip
 
 echo "" && echo "======== 安装 shadowsocks ========" && echo ""
 cd $basepath
-mkdir ss && cd ss
+mkdir ss && cd $basepath/ss
 wget --no-check-certificate https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-libev-debian.sh
 chmod +x shadowsocks-libev-debian.sh
 # ./shadowsocks-libev-debian.sh 2>&1 | tee shadowsocks-libev-debian.log
@@ -127,7 +127,7 @@ service shadowsocks restart
 
 echo "" && echo "======== make Certs and install IKEv2 VPN ========" && echo ""
 cd $basepath
-mkdir vpn && cd vpn
+mkdir vpn && cd $basepath/vpn
 wget --no-check-certificate https://raw.githubusercontent.com/6tu/code/master/certs/certs-init.sh
 wget --no-check-certificate https://raw.githubusercontent.com/6tu/code/master/certs/makecert.sh
 # wget --no-check-certificate https://raw.githubusercontent.com/quericy/one-key-ikev2-vpn/master/one-key-ikev2.sh
@@ -143,7 +143,7 @@ cp ~/certs/demoCA/cacert.pem ./ca.cert.pem
 echo "" && echo "======== install web tools ========" && echo ""
 apt-get autoremove apache2
 cd $basepath
-mkdir soft && cd soft
+mkdir soft && cd $basepath/soft
 wget --no-check-certificate https://raw.githubusercontent.com/6tu/code/master/linux/xampp/xampp-dir.sh
 wget --content-disposition http://yisuo.asia/xampp.php?os=linux
 wget http://soft.vpser.net/lnmp/lnmp1.4-full.tar.gz
