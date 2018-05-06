@@ -3,7 +3,7 @@
 cd
 basepath=$(cd `dirname $0`; pwd)
 webroot=/var/www
-github=--no-check-certificate https://raw.githubusercontent.com
+github="--no-check-certificate https://raw.githubusercontent.com"
 freemem=`free -m|awk 'NR==3 {print $NF}'`
 time=`date +%Y%m%d%H%M%S`
 
@@ -112,8 +112,3 @@ function check(){
 }
 
 check httpd
-
-
-
-
-
