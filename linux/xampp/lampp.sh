@@ -16,7 +16,7 @@ apt-get install -y gcc rename
 cd $basepath
 mkdir soft && cd $basepath/soft
 
-wget http://soft.vpser.net/lnmp/lnmp1.4-full.tar.gz
+# wget http://soft.vpser.net/lnmp/lnmp1.4-full.tar.gz
 wget --content-disposition http://yisuo.asia/xampp.php?os=linux
 # rename "s/\?from_af=t//" *
 # rename "s/runrue/run/" *
