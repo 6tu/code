@@ -1,0 +1,38 @@
+
+# mtu 
+
+cat /proc/sys/net/ipv4/ip_forward
+
+ufw disable
+iptables -P INPUT ACCEPT
+iptables -P FORWARD ACCEPT
+iptables -F
+iptables -Z
+iptables -t nat --delete-chain
+
+iptables -A INPUT -i lo -j ACCEPT
+iptables -A INPUT -p esp -j ACCEPT
+iptables -A INPUT -p udp --dport 500 -j ACCEPT
+iptables -A INPUT -p udp --dport 4500 -j ACCEPT
+
+iptables -A FORWARD -s 10.31.2.0/24 -j ACCEPT
+iptables -A FORWARD --match policy --pol ipsec --dir in  --proto esp -s 10.31.2.0/24 -j ACCEPT
+iptables -A FORWARD --match policy --pol ipsec --dir out --proto esp -d 10.31.2.0/24 -j ACCEPT
+
+# iptables -t nat -A POSTROUTING -s 10.31.2.0/24 -j SNAT --to 10.140.0.3
+iptables -t nat -A POSTROUTING -s 10.31.2.0/24 -o ens4 -m policy --pol ipsec --dir out -j ACCEPT
+iptables -t nat -A POSTROUTING -s 10.31.2.0/24 -o ens4 -j MASQUERADE
+iptables -t mangle -A FORWARD --match policy --pol ipsec --dir in -s 10.31.2.0/24 -o ens4 -p tcp -m tcp --tcp-flags SYN,RST SYN -m tcpmss --mss 1361:1536 -j TCPMSS --set-mss 1360
+
+netfilter-persistent save
+netfilter-persistent reload
+
+iptables-save > /etc/iptables.rules
+
+vim /etc/resolv.conf
+nameserver 8.8.8.8
+
+vim /etc/sysctl.d/99-gce.conf
+vim /etc/sysctl.d/99-sysctl.conf
+vim /etc/sysctl.d/11-gce-network-security.conf
+

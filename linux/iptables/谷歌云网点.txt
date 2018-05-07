@@ -1,0 +1,27 @@
+﻿https://sourceforge.net/projects/dos2unix
+
+https://medium.com/@earlg3/setting-up-an-ipsec-vpn-to-google-cloud-with-libreswan-ubiquiti-edgerouter-39f064559fcb
+https://cloud.google.com/free/
+
+谷歌云网点
+https://cloud.google.com/about/locations/?hl=zh-cn#network-tab
+
+美洲
+    俄勒冈州(us-west1)
+    爱荷华州(us-central1)
+    南卡罗来纳州(us-east1)
+    北弗吉尼亚(us-east4)
+    圣保罗(southamerica-east1)
+欧洲
+    伦敦(europe-west2)
+    比利时(europe-west1)
+    法兰克福(europe-west3)
+亚太地区
+    新加坡(asia-southeast1)
+    台湾(asia-east1)
+    东京(asia-northeast1)
+    悉尼(australia-southeast1)
+
+
+
+
