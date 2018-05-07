@@ -11,7 +11,7 @@ echo "" && echo "======== install web Server ========" && echo ""
 echo 运行环境: 64位操作系统，内存不小于1G && echo ""
 apt-get -y autoremove apache2
 apt-get -y autoremove nginx
-apt-get install -y gcc rename
+apt-get install -y git wget zip unzip ca-certificates gcc rename
 
 cd $basepath
 mkdir soft && cd $basepath/soft
