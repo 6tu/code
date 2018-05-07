@@ -14,8 +14,8 @@ apt-get -y autoremove nginx
 apt-get install -y git wget zip unzip ca-certificates gcc rename
 
 cd $basepath
-mkdir soft && cd $basepath/soft
-
+test -d $basepath/soft || mkdir -p $basepath/soft
+cd $basepath/soft
 # wget http://soft.vpser.net/lnmp/lnmp1.4-full.tar.gz
 wget --content-disposition http://yisuo.asia/xampp.php?os=linux
 # rename "s/\?from_af=t//" *
@@ -29,7 +29,7 @@ sed -i "s/if egrep "9 "/if egrep "Red "/g" /opt/lampp/lampp
 # http://mpm-itk.sesse.net
 
 sed -i '1s/sh/bash/' /opt/lampp/build/libtool
-mkdir /opt/lampp/src
+test -d /opt/lampp/src || mkdir -p /opt/lampp/src
 cd /opt/lampp/src
 wget http://mpm-itk.sesse.net/mpm-itk-2.4.7-04.tar.gz
 tar xvf mpm-itk-2.4.7-04.tar.gz
@@ -45,7 +45,8 @@ mv /opt/lampp/etc/ssl.key/server.key /opt/lampp/etc/ssl.key/server.key.${time}
 
 if [ ! -f "$basepath/vpn/server.cert.pem"  ];then
     cd $basepath
-    mkdir vpn && cd $basepath/vpn
+    test -d $basepath/vpn || mkdir -p $basepath/vpn
+    cd $basepath/vpn
     wget ${github}/6tu/code/master/certs/certs-init.sh
     wget ${github}/6tu/code/master/certs/makecert.sh
     chmod +x *.sh
@@ -70,7 +71,7 @@ sed -i "s/\/opt\/lampp\/cgi-bin/\/var\/cgi-bin/g" /opt/lampp/etc/httpd.conf
 sed -i "s/\/opt\/lampp\/htdocs/\/var\/www/g" /opt/lampp/etc/extra/httpd-ssl.conf
 sed -i "s/\/opt\/lampp\/cgi-bin/\/var\/cgi-bin/g" /opt/lampp/etc/extra/httpd-ssl.conf
 
-mkdir -p ${webroot}/tz
+test -d ${webroot}/tz || mkdir -p ${webroot}/tz
 cd ${webroot}
 /bin/cp -rf /opt/lampp/cgi-bin /var
 mv ${webroot}/index.html ${webroot}/index.html.bak
@@ -86,7 +87,7 @@ git clone https://github.com/kalcaddle/KODExplorer.git
 chmod -Rf 777 ./KODExplorer/*
 mv KODExplorer files
 
-chmod -R 0755 ${webroot}
+chmod 0755 ${webroot}
 chmod -R 0755 /var/cgi-bin
 chown -R daemon:daemon ${webroot}
 chown -R daemon:daemon /var/cgi-bin
@@ -105,7 +106,7 @@ sed -i "s/\['auth_type'] = 'config';/\['auth_type'] = 'config';\n\n\$cfg['Server
 # 增加 FTP 分组
 groupadd ftp
 useradd -g ftp -d /dev/null -s /usr/sbin/nologin ftp
-mkdir /var/pub
+test -d /var/pub || mkdir -p /var/pub
 ftppub="/var/pub"
 chown ftp:ftp /var/pub
 chmod 0777 /var/pub
