@@ -9,9 +9,15 @@ time=`date +%Y%m%d%H%M%S`
 
 echo "" && echo "======== install web Server ========" && echo ""
 echo 运行环境: 64位操作系统，内存不小于0.5 G && echo ""
-apt-get -y autoremove apache2
-apt-get -y autoremove nginx
-apt-get install -y git wget zip unzip ca-certificates gcc rename
+
+if [ ! -f "/usr/bin/yum" ]; then
+  apt-get install -y git wget zip unzip ca-certificates gcc rename
+  apt-get -y autoremove apache2
+  apt-get -y autoremove nginx
+else
+  yum install -y git wget zip unzip ca-certificates gcc rename
+  yum -y remove apache2 nginx
+fi
 
 cd $basepath
 test -d $basepath/soft || mkdir -p $basepath/soft
@@ -112,12 +118,13 @@ chown ftp:ftp /var/pub
 chmod 0777 /var/pub
 useradd ftp -g ftp -m -d ${ftppub} -s /sbin/nologin
 
-# 32位系统或者内存小于1G时不能安装lampp，采用apt-get安装Apache+PHP5
+# 32位系统或者内存小于0.5G时不能安装lampp，采用从源安装Apache+PHP5
 function check(){
   count=`ps -ef |grep $1 |grep -v "grep" |wc -l`
   echo $count
   if [ 0 == $count ];then
     echo Apache and PHP5 is installing
+    yum install -y apache2 php5 libapache2-mod-php5
     apt-get install -y apache2 php5 libapache2-mod-php5
   else
     echo httpd has been started
