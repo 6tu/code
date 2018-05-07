@@ -78,9 +78,9 @@ echo 'hello world!'>${webroot}/index.html
 wget -O ${webroot}/tz/vpstz.php ${github}/6tu/code/master/php/vpstz/vpstz.php
 wget -O ${webroot}/tz/jquery.js ${github}/6tu/code/master/php/vpstz/yahei/jquery.js
 wget -O ${webroot}/tz/p.php     ${github}/6tu/code/master/php/vpstz/yahei/p.php
-wget -O ${webroot}              ${github}/6tu/code/raw/master/php/kodexplorer3.46.zip
-#wget https://github.com/kalcaddle/KODExplorer/archive/master.zip
-#unzip master.zip
+wget ${github}/6tu/code/raw/master/php/kodexplorer3.46.zip
+wget https://github.com/kalcaddle/KODExplorer/archive/master.zip
+unzip master.zip
 #chmod -Rf 777 ./*
 git clone https://github.com/kalcaddle/KODExplorer.git
 chmod -Rf 777 ./KODExplorer/*
