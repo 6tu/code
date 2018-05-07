@@ -71,12 +71,16 @@ sed -i "s/\/opt\/lampp\/htdocs/\/var\/www/g" /opt/lampp/etc/extra/httpd-ssl.conf
 sed -i "s/\/opt\/lampp\/cgi-bin/\/var\/cgi-bin/g" /opt/lampp/etc/extra/httpd-ssl.conf
 
 mkdir -p ${webroot}/tz
+cd ${webroot}
 /bin/cp -rf /opt/lampp/cgi-bin /var
 mv ${webroot}/index.html ${webroot}/index.html.bak
 echo 'hello world!'>${webroot}/index.html
 wget -O ${webroot}/tz/vpstz.php ${github}/6tu/code/master/php/vpstz/vpstz.php
 wget -O ${webroot}/tz/jquery.js ${github}/6tu/code/master/php/vpstz/yahei/jquery.js
 wget -O ${webroot}/tz/p.php     ${github}/6tu/code/master/php/vpstz/yahei/p.php
+wget -O ${webroot}              ${github}/6tu/code/raw/master/php/kodexplorer3.46.zip
+git clone https://github.com/kalcaddle/KodExplorer.git
+mv KodExplorer files
 
 chmod -R 0755 ${webroot}
 chmod -R 0755 /var/cgi-bin
