@@ -8,7 +8,7 @@ freemem=`free -m|awk 'NR==3 {print $NF}'`
 time=`date +%Y%m%d%H%M%S`
 
 echo "" && echo "======== install web Server ========" && echo ""
-echo 运行环境: 64位操作系统，内存不小于1G && echo ""
+echo 运行环境: 64位操作系统，内存不小于0.5 G && echo ""
 apt-get -y autoremove apache2
 apt-get -y autoremove nginx
 apt-get install -y git wget zip unzip ca-certificates gcc rename
