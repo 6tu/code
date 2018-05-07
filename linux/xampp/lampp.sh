@@ -23,7 +23,7 @@ wget --content-disposition http://yisuo.asia/xampp.php?os=linux
 find . -name "*.run?from_af=true" | sed 's/\.run?from_af=true$//g' | xargs -I{} mv {}.run?from_af=true {}.run
 chmod +x xampp*
 ./xampp*.run
-sed -i "s/if egrep "9 "/if egrep "Red "/g" /opt/lampp/lampp
+sed -i 's/if egrep "9 "/if egrep "Red "/g' /opt/lampp/lampp
 
 # 增加多用户模块 mpm-itk
 # http://mpm-itk.sesse.net
