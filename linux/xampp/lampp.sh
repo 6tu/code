@@ -6,6 +6,11 @@ webroot=/var/www
 github="--no-check-certificate https://raw.githubusercontent.com"
 freemem=`free -m|awk 'NR==3 {print $NF}'`
 time=`date +%Y%m%d%H%M%S`
+if [ ! -f "/usr/bin/yum" ]; then
+  aptyum=apt-get
+else
+  aptyum=yum
+fi
 
 echo "" && echo "======== install web Server ========" && echo ""
 echo 运行环境: 64位操作系统，内存不小于0.5 G && echo ""
@@ -125,8 +130,7 @@ function check(){
   echo $count
   if [ 0 == $count ];then
     echo Apache and PHP5 is installing
-    yum install -y apache2 php5 libapache2-mod-php5
-    apt-get install -y apache2 php5 libapache2-mod-php5
+    ${aptyum} install -y apache2 php5 libapache2-mod-php5
   else
     echo httpd has been started
   fi
