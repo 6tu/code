@@ -82,9 +82,9 @@ wget -O ${webroot}              ${github}/6tu/code/raw/master/php/kodexplorer3.4
 #wget https://github.com/kalcaddle/KODExplorer/archive/master.zip
 #unzip master.zip
 #chmod -Rf 777 ./*
-git clone https://github.com/kalcaddle/KodExplorer.git
-chmod -Rf 777 ./KodExplorer/*
-mv KodExplorer files
+git clone https://github.com/kalcaddle/KODExplorer.git
+chmod -Rf 777 ./KODExplorer/*
+mv KODExplorer files
 
 chmod -R 0755 ${webroot}
 chmod -R 0755 /var/cgi-bin
