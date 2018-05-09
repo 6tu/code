@@ -1,4 +1,6 @@
-# non-repeat
+#
+# delete duplicate files with php
+#
 用 MD5 对比的方法去掉指定目录中重复文件的一个 PHP 脚本
 
 -->特点
