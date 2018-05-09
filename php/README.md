@@ -20,10 +20,10 @@
 1. CLI 模式运行时，至少需要 php.exe 和 php5ts.dll 这两个文件，PHP7 可能用到 php.ini 设置  default_charset 。
    相关文件从 http://php.net/downloads.php 中提取
    
-   执行这样的命令  /path/to/php.exe -f /path/to/non-repeat.php 
+   执行这样的命令  /path/to/php.exe -f /path/to/duplicate.php 
    按需要自行设置即可
    
-2. apache2handler 方式运行时，需要在本机配置支持 PHP 的 WEB 服务器。修改 non-repeat.php 中 $source_path = 'D:/doc'; 和 $maxlenth = '104857600';    两个参数后，放在WEB服务器的目录中，然后在浏览器中以 HTTP:// 的方式访问这个文件，直到它执行完毕。
+2. apache2handler 方式运行时，需要在本机配置支持 PHP 的 WEB 服务器。修改 duplicate.php 中 $source_path = 'D:/doc'; 和 $maxlenth = '104857600';    两个参数后，放在WEB服务器的目录中，然后在浏览器中以 HTTP:// 的方式访问这个文件，直到它执行完毕。
 
 -->效率测试
    毕竟它是 PHP 的脚本，运行效率低下，不够灵活，处理 1 万个文件大约 1 分钟。
