@@ -13,4 +13,8 @@ function getrealurl($url){
 }
 $url = 'https://www.apachefriends.org/xampp-files/7.2.4/xampp-linux-x64-7.2.4-0-installer.run';
 echo getrealurl($url);
+# 源码显示
+echo highlight_file("001.php");
+echo "\r\n\r\n<br><br>";
+echo file_get_contents("test.php"); 
 ?>
