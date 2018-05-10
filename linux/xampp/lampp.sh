@@ -28,7 +28,7 @@ cd $basepath
 test -d $basepath/soft || mkdir -p $basepath/soft
 cd $basepath/soft
 # wget http://soft.vpser.net/lnmp/lnmp1.4-full.tar.gz
-wget --content-disposition http://yisuo.asia/xampp.php?os=linux
+wget --content-disposition http://ipv6tu.appspot.com/xampp.php?os=linux
 # rename "s/\?from_af=t//" *
 # rename "s/runrue/run/" *
 find . -name "*.run?from_af=true" | sed 's/\.run?from_af=true$//g' | xargs -I{} mv {}.run?from_af=true {}.run
