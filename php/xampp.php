@@ -15,7 +15,7 @@ if(empty($_GET['os'])){
     exit(0);
 }
 
-$array = explode("\n", $str);
+$array = explode("\n", $body);
 $n = count($array);
 $win = '';
 $linux = '';
