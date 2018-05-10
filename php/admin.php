@@ -1,14 +1,14 @@
 <?php
 
-/* =====================��Apache4All WEB������ �������� =================== */
+/* =====================《Apache4All WEB管理》 基本配置 =================== */
 
-	//--����ʹ�÷�ʽ��"0"Ϊ���õ�½����ʹ�ã�"1"ΪҪ�������Ա�������ʹ�á�
+	//--程序使用方式："0"为不用登陆即可使用；"1"为要输入管理员密码才能使用。
 	$set[mode]="1";
 
-	//--����Ա���룺�������õ������Ǿ���MD5���ܵ��ַ��������������롣
+	//--管理员密码：这里设置的密码是经过MD5加密的字符串，而不是明码。
 	$set[password]="2c17c6393771ee3048ae34d6b380c5ec";
 
-/* ============================  ���ý��� ================================ */
+/* ============================  配置结束 ================================ */
 
 
 if($_GET[dir]!=""){	 $dir=$_GET[dir];}
@@ -16,9 +16,9 @@ elseif($_POST[dir]!=""){ $dir=$_POST[dir];}
 else{	$dir="./";}
 
 $style_head="
-<HTML><վ��WEB����//-->
+<HTML><站长WEB管理//-->
 <HEAD>
-<TITLE>����վ��WEB������ {title}��</TITLE>
+<TITLE>→┆站长WEB管理┆ {title}←</TITLE>
 <META content='text/html; charset=gb2312' http-equiv=Content-Type>
 <META http-equiv=keyword content=Apache4All>
 
@@ -27,10 +27,10 @@ $style_head="
   A:active  {color:ff3333; text-decoration: underline}
   A:hover   {color:ffffff; text-decoration: underline; LEFT: 1px; POSITION: relative; TOP: 1px}
   A:visited {color:000000; text-decoration: underline}
-  body  {FONT-FAMILY:����; font-size=9pt; color:999999}
+  body  {FONT-FAMILY:宋体; font-size=9pt; color:999999}
   TD  {FONT-SIZE: 9pt; color:000000; line-height: 150%}
   INPUT  {FONT-SIZE: 9pt; HEIGHT: 20px; PADDING-BOTTOM: 1px; PADDING-LEFT: 1px; PADDING-RIGHT: 1px; PADDING-TOP: 0px}
-  textarea  {FONT-FAMILY:����}
+  textarea  {FONT-FAMILY:宋体}
  .menu TD A {COLOR:ffffff; TEXT-DECORATION: none; WIDTH:100%; padding-top:2px}
  .menu TD A:hover {COLOR: 000000; TEXT-DECORATION: none; BACKGROUND-COLOR: bbbbbb; LEFT: 0px; TOP: 0px}
  .menu A:active {COLOR: ffffff; TEXT-DECORATION: none}
@@ -41,47 +41,47 @@ $style_head="
 <BODY BGCOLOR=000000 leftMargin=5 rightMargin=5 topMargin=0>
 <DIV align=center>
 <table width=750 border=0 bgcolor=666666 cellpadding=0 cellspacing=1 class=menu>
- <tr bgcolor=888888><td title='�аס�http://shangbai.info
-������������������+��������
-�а� :)'><a href=http://shangbai.info>>>����<font color=ffffff face='Tahoma'>վ�� WEB����</font>����<<</a></td>
-<td width=80 align=center title='�ļ�Ŀ¼�б�������'><a href='?'>�ļ�����</a></td>
-<td width=80 align=center title='���ɴ�������������'><a href='?m=code'>��������</a></td>
-<td width=80 align=center title='����MD5���ܺ���ַ���'><a href='?m=md5'>MD5����</a></td>
-<td width=80 align=center title='Unixʱ�任���ͨ��ʱ��'><a href='?m=unixdate'>UNIXʱ��</a></td>
+ <tr bgcolor=888888><td title='尚白　http://shangbai.info
+—————————+————
+尚白 :)'><a href=http://shangbai.info>>>　　<font color=ffffff face='Tahoma'>站长 WEB管理</font>　　<<</a></td>
+<td width=80 align=center title='文件目录列表及管理'><a href='?'>文件管理</a></td>
+<td width=80 align=center title='生成大量的连续代码'><a href='?m=code'>代码生成</a></td>
+<td width=80 align=center title='生成MD5加密后的字符串'><a href='?m=md5'>MD5加密</a></td>
+<td width=80 align=center title='Unix时间换算成通用时间'><a href='?m=unixdate'>UNIX时间</a></td>
 </tr>
 </table>
 <table width=750 border=0 bgcolor=666666 cellpadding=3 cellspacing=1>
-<tr bgcolor=666666><td>����Ա������[<a href='?login=1'><u>��½</u></a>|<a href='?login=3'><u>�˳�</u></a>]<br>��ǰ��Ŀ¼��{$dir}</td><td><font size=3 color=ffffff><b>��ǰ������{title}</b></font></td></tr>
+<tr bgcolor=666666><td>管理员操作：[<a href='?login=1'><u>登陆</u></a>|<a href='?login=3'><u>退出</u></a>]<br>当前打开目录：{$dir}</td><td><font size=3 color=ffffff><b>当前操作：{title}</b></font></td></tr>
 </table>
 ";
 
 
 function getmicrotime()
-{ //----ִ��ʱ��
+{ //----执行时间
   list($usec, $sec) = explode(" ",microtime()); 
   return ($usec + $sec); 
 }
 
 function error_info($info,$url="javascript:history.back(1)")
-{ //----������ʾ
+{ //----错误提示
   echo"<meta http-equiv=refresh content=5;URL='$url'><center><br><br><font size=3 color=ff0000>$info</font></center></td></tr></table>";
   exit;
 }
 
 function skin_var($var1,$var2)
-{ //----�滻ҳ�����
+{ //----替换页面变量
  global $style_head;
   $style_head=eregi_replace("\{$var1\}",$var2,$style_head);
 }
 
-/* ========================== ������������ʼ���� ========================= */
+/* ========================== 函数结束，开始程序 ========================= */
 
 
 if($_GET[login]=="2"){
-/*------------------------ ������룬������Cookie ----------------------*/
+/*------------------------ 检测密码，并生成Cookie ----------------------*/
 	$password=md5($_POST[password]);
 	if ( $password != $set[password] ) {
-		error_info("������󣡵�½ʧ��</font>");
+		error_info("密码错误！登陆失败</font>");
 	}
 	$time=time();
 
@@ -93,31 +93,31 @@ if($_GET[login]=="2"){
 
 	setcookie ("boom_baby","$password","$cookie_time","$_SERVER[PHP_SELF]"); 
 
-	echo"<meta http-equiv=refresh content=5;URL='?'><center><br><br>����������ȷ | ��½�ɹ�</center>";
+	echo"<meta http-equiv=refresh content=5;URL='?'><center><br><br>输入密码正确 | 登陆成功</center>";
 	exit;
 }
 
 elseif($_GET[login]=="3"){
-/*------------------------------ �˳���½״̬ --------------------------*/
+/*------------------------------ 退出登陆状态 --------------------------*/
 	setcookie ("boom_baby","00","-9999","$_SERVER[PHP_SELF]"); 
-	error_info("�Ѿ��˳���½�������Cookie");
+	error_info("已经退出登陆，并清空Cookie");
 }
 
 elseif($_GET[login]=="1"){
-/*-------------------------------- ��½���� ----------------------------*/
+/*-------------------------------- 登陆界面 ----------------------------*/
 	echo"<body bgcolor=000000><center><br><br><br><br><br>
 <table width=400 border=0 bgcolor=666666 cellpadding=3 cellspacing=1>
- <tr bgcolor=666666><td align=center><font size=3 color=ffffff><b>�ǡ�½���ܡ���</b></font></td></tr>
+ <tr bgcolor=666666><td align=center><font size=3 color=ffffff><b>登　陆　管　理</b></font></td></tr>
  <tr bgcolor=eeeeee>
  <form action='?login=2' method=post>
-  <td align=center height=80>����Ա���룺<input type='password' name='password' size=19 maxlength=20>
-<br><font style='font-size:9pt'>Cookies���ã�</font><select name='yxtime' size=1>
-<option value='0'>������</option>
-<option value='3600'> 1Сʱ</option>
-<option value='10800'>3Сʱ</option>
-<option value='86400'>1��</option>
-<option value='2592000'>1����</option>
-</select><br><input type='submit' value='��½����'></td>
+  <td align=center height=80>管理员密码：<input type='password' name='password' size=19 maxlength=20>
+<br><font style='font-size:9pt'>Cookies设置：</font><select name='yxtime' size=1>
+<option value='0'>不保存</option>
+<option value='3600'> 1小时</option>
+<option value='10800'>3小时</option>
+<option value='86400'>1天</option>
+<option value='2592000'>1个月</option>
+</select><br><input type='submit' value='登陆管理'></td>
  </form>
  </tr>
 </table></center></body>";
@@ -127,8 +127,8 @@ elseif($_GET[login]=="1"){
 $time_start = getmicrotime();
 
 if (($set[mode]=="1") and ($_COOKIE[boom_baby] != $set[password])) {
-	echo"<center><br><br><br><font size=3 color=ff0000>��Ǹ����û�е�½���޷�ʹ�ñ�����</font><hr size=1>
-	     <a href='?login=1'>>>�������Ա�����½<<</a></center>";
+	echo"<center><br><br><br><font size=3 color=ff0000>抱歉，您没有登陆。无法使用本程序！</font><hr size=1>
+	     <a href='?login=1'>>>输入管理员密码登陆<<</a></center>";
 	exit;
 }
 
@@ -138,7 +138,7 @@ if (($set[mode]=="1") and ($_COOKIE[boom_baby] != $set[password])) {
 
 
 if($_GET[m]=="show"){
-//-------------------------------- �鿴���� --------------------------------
+//-------------------------------- 查看内容 --------------------------------
 	if($_GET[id] != ""){
 		if(file_exists("$_GET[id]")){
 			$fp=fopen($_GET[id],r);
@@ -153,25 +153,25 @@ if($_GET[m]=="show"){
 		}
 	}
 
-	skin_var(title,"�鿴�༭�ļ�");
+	skin_var(title,"查看编辑文件");
 	echo"{$style_head}
 <table width=750 border=0 bgcolor=666666 cellpadding=2 cellspacing=1>
  <tr bgcolor=eeeeee align=center>
 <form method=post action='?m=write&dir={$dir}'>
   <td height=100>
-�ļ�����<input type=text name=id value='{$_GET[id]}' size=30 maxlength=30><br>
+文件名：<input type=text name=id value='{$_GET[id]}' size=30 maxlength=30><br>
 <textarea name='data' cols=100 rows=20>{$data}</textarea>
-<input type=hidden name='dir' value='{$dir}'><input type='submit' value='ȷ���޸ı���'>
+<input type=hidden name='dir' value='{$dir}'><input type='submit' value='确定修改保存'>
 </td></tr></form>
 <tr bgcolor=888888 align=center><td>
 <table width=700 border=0  style='border: solid 1; border-color: 666666'><tr><td>
-<center>�ɱ༭txt/html/css/js/php/cgi/asp/jsp�������ı����ļ�</center>
-<font color=ff0000>ע�⣺</font>�����༭�ļ� < 9MB
-<br>���ڳ���ʹ�á�<font color=0000ff><textarea></textarea></font>����ǩ����ʾ�༭�ļ����ݣ�Ϊ�˱������ͻ��������
-<br>�������ʾ�༭���ļ����С�<font color=0000ff><textarea></textarea></font>����ǩ��
-<br>������Զ�����<font color=0000ff><textarea</font>��ת���ɡ�<font color=00ff00><textarea</font>������<font color=0000ff></textarea></font>��ת���ɡ�<font color=00ff00></textarea></font>����ʾ������
-<br>���ļ�����ʱ������Զ��ٽ���<font color=00ff00><textarea</font>����ԭ�ء�<font color=0000ff><textarea</font>������<font color=00ff00></textarea></font>����ԭ�ء�<font color=0000ff></textarea></font>����
-<br>-----�ش�����ʹ���ߣ�����
+<center>可编辑txt/html/css/js/php/cgi/asp/jsp等所有文本类文件</center>
+<font color=ff0000>注意：</font>　所编辑文件 < 9MB
+<br>由于程序使用“<font color=0000ff><textarea></textarea></font>”标签来显示编辑文件内容，为了避免因冲突产生错误，
+<br>如果所显示编辑的文件中有“<font color=0000ff><textarea></textarea></font>”标签，
+<br>程序会自动将“<font color=0000ff><textarea</font>”转换成“<font color=00ff00><textarea</font>”、“<font color=0000ff></textarea></font>”转换成“<font color=00ff00></textarea></font>”显示出来。
+<br>当文件保存时程序会自动再将“<font color=00ff00><textarea</font>”还原回“<font color=0000ff><textarea</font>”、“<font color=00ff00></textarea></font>”还原回“<font color=0000ff></textarea></font>”。
+<br>-----特此提醒使用者！！！
 </td></tr></table>
 </td></tr></table>";
 }
@@ -179,12 +179,12 @@ if($_GET[m]=="show"){
 
 
 elseif($_GET[m]=="write"){
-//-------------------------------- д�ļ� --------------------------------
+//-------------------------------- 写文件 --------------------------------
 	$data=stripslashes($_POST[data]);
 	$data=str_replace("</textarea>","</textarea>",$data);
 	$data=str_replace("<textarea","<textarea",$data);
 
-	skin_var(title,"д���ļ�");
+	skin_var(title,"写入文件");
 	echo"{$style_head}
 <table width=750 border=0 bgcolor=666666 cellpadding=2 cellspacing=1>
  <tr bgcolor=eeeeee align=center>
@@ -196,9 +196,9 @@ elseif($_GET[m]=="write"){
 		fputs($fp,$data);
 		fclose($fp);
 	
-		echo"<meta http-equiv=refresh content=5;URL='?dir={$dir}'><p><b>�ļ���<font size=3 color=ff0000>{$_POST[id]}</font>������ϣ�</b>";
+		echo"<meta http-equiv=refresh content=5;URL='?dir={$dir}'><p><b>文件：<font size=3 color=ff0000>{$_POST[id]}</font>保存完毕！</b>";
 	}
-	else{echo"<meta http-equiv=refresh content=5;URL='javascript:history.back(1);'><font size=3 color=ff0000>��������Ҫ�޸ĵ��ļ�����</font>";}
+	else{echo"<meta http-equiv=refresh content=5;URL='javascript:history.back(1);'><font size=3 color=ff0000>请输入需要修改的文件名称</font>";}
 	echo"</td></tr></table>";
 }
 
@@ -206,18 +206,18 @@ elseif($_GET[m]=="write"){
 
 
 elseif($_GET[m]=="mkdir"){
-//------------------------------ ������Ŀ¼ -------------------------------
-	skin_var(title,"������Ŀ¼");
+//------------------------------ 创建新目录 -------------------------------
+	skin_var(title,"创建新目录");
 	echo"{$style_head}
 <table width=750 border=0 bgcolor=666666 cellpadding=2 cellspacing=1>
  <tr bgcolor=eeeeee align=center>
   <td height=100>";
 
 	if($_GET[id] != ""){
-		if(!file_exists($_GET[id])){mkdir($_GET[id],0755);echo"<meta http-equiv=refresh content=5;URL='?dir={$dir}'>Ŀ¼��<font size=3 color=ff0000>{$_GET[id]}</font>�������ɹ�<br><br>����5���Ӻ��Զ����ز鿴";}
-		else{echo"<meta http-equiv=refresh content=5;URL='javascript:history.back(1);'>Ŀ¼��<font size=3 color=ff0000>{$_GET[id]}</font>���Ѿ�����";}
+		if(!file_exists($_GET[id])){mkdir($_GET[id],0755);echo"<meta http-equiv=refresh content=5;URL='?dir={$dir}'>目录“<font size=3 color=ff0000>{$_GET[id]}</font>”创建成功<br><br>程序5秒钟后自动返回查看";}
+		else{echo"<meta http-equiv=refresh content=5;URL='javascript:history.back(1);'>目录“<font size=3 color=ff0000>{$_GET[id]}</font>”已经存在";}
 	}
-	else{echo"<meta http-equiv=refresh content=5;URL='javascript:history.back(1);'><font size=3 color=ff0000>��������Ҫ�´�����Ŀ¼����</font>";}
+	else{echo"<meta http-equiv=refresh content=5;URL='javascript:history.back(1);'><font size=3 color=ff0000>请输入需要新创建的目录名称</font>";}
 	echo"</td></tr></table>";
 }
 
@@ -225,15 +225,15 @@ elseif($_GET[m]=="mkdir"){
 
 
 elseif($_GET[m]=="md5"){
-//-------------------------- ������MD5���ܵ��ַ� ---------------------------
-	skin_var(title,"��������ܵ��ַ�");
+//-------------------------- 输入需MD5加密的字符 ---------------------------
+	skin_var(title,"输入需加密的字符");
 	echo"{$style_head}
 <table width=750 border=0 bgcolor=666666 cellpadding=2 cellspacing=1>
 <form method='post' action='?m=showmd5'>
  <tr bgcolor=eeeeee align=center>
   <td height=100>
-��Ҫ���ܵ��ַ���<input type=text name=word size=30 maxlength=30>
-<input type='submit' value='ȷ��'>
+需要加密的字符：<input type=text name=word size=30 maxlength=30>
+<input type='submit' value='确定'>
   </td></tr></form></table>";
 }
 
@@ -241,14 +241,14 @@ elseif($_GET[m]=="md5"){
 
 
 elseif($_GET[m]=="showmd5"){
-//------------------------------ ��ʾMD5���ܺ� -----------------------------
+//------------------------------ 显示MD5加密后 -----------------------------
 	$word=md5($_POST[word]);
-	skin_var(title,"��ʾMD5���ܺ���ַ���");
+	skin_var(title,"显示MD5加密后的字符串");
 	echo"{$style_head}
 <table width=750 border=0 bgcolor=666666 cellpadding=2 cellspacing=1>
  <tr bgcolor=eeeeee align=center>
   <td height=100>
-<font color=ff0000>����MD5���ܺ����ɵ��ַ�����</font><input type=text name='word' value='$word' size=40 maxlength=50 readonly>
+<font color=ff0000>经过MD5加密后生成的字符串：</font><input type=text name='word' value='$word' size=40 maxlength=50 readonly>
   </td></tr></table>";
 }
 
@@ -257,31 +257,31 @@ elseif($_GET[m]=="showmd5"){
 
 
 elseif($_GET[m]=="code"){
-//-------------------------------- �������� --------------------------------
-	skin_var(title,"�������");
+//-------------------------------- 代码生成 --------------------------------
+	skin_var(title,"输入代码");
 	echo"{$style_head}
 <table width=750 border=0 bgcolor=eeeeee cellpadding=2 cellspacing=1>
 <tr><td align=center height=150>
 	<table width=500 border=0 bgcolor=bbbbbb cellpadding=3 cellspacing=1>
 	<tr><td bgcolor=eeeeee>
-������ܵ��ô��������ɴ���������������롣
-<br>�ٸ�������˵�ɣ�
-<br>���Ҫ����վ�����м��ϡ�http://qxbbs.org/����ַ�´ӡ�001.gif������100.gif����ͼƬ��
-���ѵ���Ҫ�ֹ�һ����������Ǳ�д���룿
-<br>�����ֹ���д�����������������ܡ��ó����Լ���������������������д�޸ġ�
-<br><br>��������Ҫ����ֻ�����ú���Ҫ���ַ���/Ҫ�仯���ֵ���Сֵ/���ֵ/��
-<br>�ȳ������ɺ������ٿ��������OK����
+这个功能的用处在于生成大量相近的连续代码。
+<br>举个例子来说吧：
+<br>如果要在网站资料中加上“http://qxbbs.org/”地址下从“001.gif”到“100.gif”的图片，
+我难道需要手工一个个插入或是编写代码？
+<br>曾经手工编写代码的我做了这个功能。让程序自己产生，而不是我们来编写修改。
+<br><br>我们所需要做的只是设置好需要的字符串/要变化部分的最小值/最大值/。
+<br>等程序生成后我们再拷贝代码就OK啦！
 	</td></tr></table>
 <hr size=1 color=cccccc>
  <form method='post' action='?m=showcode'>
-ǰ���ַ���<input type=text name='string_q' size=50 maxlength=80 value='http://qxbbs.org/'>
+前部字符：<input type=text name='string_q' size=50 maxlength=80 value='http://qxbbs.org/'>
 <br>
-��ʼ����<input type=text name='minimum' size=3 maxlength=3 value='1'>
-�������<input type=text name='max' size=3 maxlength=3 value='100'>
+初始数：<input type=text name='minimum' size=3 maxlength=3 value='1'>
+最大数：<input type=text name='max' size=3 maxlength=3 value='100'>
 <br>
-���ַ���<input type=text name='string_h' size=50 maxlength=80 value='.gif'>
+后部字符：<input type=text name='string_h' size=50 maxlength=80 value='.gif'>
 <br>
-<input type='submit' value='��ʼ����'>
+<input type='submit' value='开始生成'>
 </form>
 </td></tr></table>";
 }
@@ -290,13 +290,13 @@ elseif($_GET[m]=="code"){
 
 
 elseif($_GET[m]=="showcode"){
-//-------------------------------- ��ʾ�����ɴ��� --------------------------------
+//-------------------------------- 显示所生成代码 --------------------------------
 	$all=$_POST[max]-$_POST[minimum]+1;
-	skin_var(title,"��ʾ����");
+	skin_var(title,"显示代码");
 	echo"{$style_head}
 <table width=750 border=0 bgcolor=666666 cellpadding=2 cellspacing=1>
  <tr bgcolor=eeeeee align=center>
-  <td height=100><b>{$_POST[minimum]}</b> �� <b>{$_POST[max]}</b> �� <b>{$all}</b> ��<br>
+  <td height=100><b>{$_POST[minimum]}</b> 到 <b>{$_POST[max]}</b> 共 <b>{$all}</b> 项<br>
 <textarea name='data' cols=80 rows=19>";
 
 	$len=strlen($_POST[minimum]);
@@ -313,17 +313,17 @@ elseif($_GET[m]=="showcode"){
 
 
 elseif($_GET[m]=="unixdate"){
-//------------------------------- unixʱ�任�� --------------------------------
-	skin_var(title,"UNIXʱ�任��");
+//------------------------------- unix时间换算 --------------------------------
+	skin_var(title,"UNIX时间换算");
 	echo"{$style_head}
 <table width=750 border=0 bgcolor=666666 cellpadding=2 cellspacing=1>
  <tr bgcolor=eeeeee align=center>
   <td height=100>
-<br>�������UNIXʱ�����ת��Ϊͨ�ù�Ԫ������ʱ����
-<br>���磺1067762599 ����Ϊ 2003��11��02�� 16ʱ11��19��
+<br>将输入的UNIX时间戳记转换为通用公元年月日时分秒
+<br>比如：1067762599 计算为 2003年11月02日 16时11分19秒
 <hr size=1>
-<form method='post' action='?m=showdate'>����UNIXʱ����ǣ�<input type=text name=data size=20 maxlength=20><input type='submit' value='��ʼ����'></form>
-<hr size=1>ע��UNIXʱ���Ǵ� 1970��1��1��8ʱ1��0�� Ϊ��ʼ������Ϊ��λ��10������ֵ��
+<form method='post' action='?m=showdate'>输入UNIX时间戳记：<input type=text name=data size=20 maxlength=20><input type='submit' value='开始计算'></form>
+<hr size=1>注：UNIX时间是从 1970年1月1日8时1分0秒 为起始的以秒为单位的10进制数值。
 </td></tr>
 </table>";
 }
@@ -331,27 +331,27 @@ elseif($_GET[m]=="unixdate"){
 
 
 elseif($_GET[m]=="showdate"){
-//------------------------------ unixʱ��ת��ͨ��ʱ�� -----------------------------
-	$date=date("Y��m��d�� Hʱm��s��",$_POST[data]);
+//------------------------------ unix时间转换通常时间 -----------------------------
+	$date=date("Y年m月d日 H时m分s秒",$_POST[data]);
 
-	skin_var(title,"UNIXʱ��ת��ͨ��ʱ��");
+	skin_var(title,"UNIX时间转换通常时间");
 	echo"{$style_head}
 <table width=750 border=0 bgcolor=666666 cellpadding=2 cellspacing=1>
  <tr bgcolor=eeeeee align=center>
-  <td height=100>ʱ�䣺<font size=3>$date</font>
+  <td height=100>时间：<font size=3>$date</font>
   </td></tr></table>";
 }
 
 
 
-elseif($_POST[m]=="����"){
-//-------------------------------- �������� --------------------------------
-	skin_var(title,"��������ֵ");
+elseif($_POST[m]=="属性"){
+//-------------------------------- 输入属性 --------------------------------
+	skin_var(title,"输入属性值");
 	echo"{$style_head}
 <table width=750 border=0 bgcolor=666666 cellpadding=2 cellspacing=1>
     <tr bgcolor=eeeeee><td align=center height=100>";
 
-	if(!$_POST[id][0]){error_info("û��ѡ��Ҫ�޸����Ե���Ŀ");}
+	if(!$_POST[id][0]){error_info("没有选择要修改属性的项目");}
 
 	while ( list($key, $val) = each($_POST[id]) ) {
 		if($key=="0"){$items=$_POST[id][$key];}
@@ -359,10 +359,10 @@ elseif($_POST[m]=="����"){
 	}
 
 	echo"
-    <form action='?m=chmod&dir={$dir}' method=post><br>����ֵ��
+    <form action='?m=chmod&dir={$dir}' method=post><br>属性值：
 	<input type='text' name='val' value='0755' size=4 maxlength=4>
 	<input type='hidden' name='items' value='{$items}'>
-	<input type=submit value='ȷ���޸�'>
+	<input type=submit value='确定修改'>
     </td>
     </tr></form>
 </table>";
@@ -371,42 +371,42 @@ elseif($_POST[m]=="����"){
 
 
 elseif($_GET[m]=="chmod"){
-//-------------------------------- �޸����� --------------------------------
+//-------------------------------- 修改属性 --------------------------------
 
 #	$val=(integer)$_POST[val];
 #	echo"{$_POST[val]}|".gettype($_POST[val])."<br>{$val}|".gettype($val)."<br>";
 
-	skin_var(title,"�޸�����");
+	skin_var(title,"修改属性");
 	echo"{$style_head}
 <table width=750 border=0 bgcolor=666666 cellpadding=2 cellspacing=1>
  <tr bgcolor=eeeeee align=center>
   <td height=100>";
-	if(!$_POST[items]){error_info("!û��ѡ����Ҫ�޸����Ե�Ŀ��!");}
+	if(!$_POST[items]){error_info("!没有选择需要修改属性的目标!");}
 
 	$id = explode("|",$_POST[items]);
 	$val=base_convert($_POST[val],8,10);
 #	$val=base_convert($val,10,8);
 	for($i=0; $i<count($id); $i++){
-		if(chmod($id[$i],$val)){echo"�޸ġ�<font color=ff0000>{$id[$i]}</font>������Ϊ[<font color=ff0000>{$_POST[val]}</font>]�ɹ�<br>";}else{;echo"��<font color=ff0000>{$id[$i]}</font>���޸�����ʧ��<br>";}
+		if(chmod($id[$i],$val)){echo"修改『<font color=ff0000>{$id[$i]}</font>』属性为[<font color=ff0000>{$_POST[val]}</font>]成功<br>";}else{;echo"“<font color=ff0000>{$id[$i]}</font>”修改属性失败<br>";}
 	}
 	echo"</td></tr></table>";
 }
 
 
 
-elseif($_POST[m]=="����"){
-//-------------------------------- ����ȷ�� --------------------------------
-	if(!$_POST[id][0]){error_info("!û��ѡ����Ҫ������Ŀ��!");}
+elseif($_POST[m]=="改名"){
+//-------------------------------- 改名确认 --------------------------------
+	if(!$_POST[id][0]){error_info("!没有选择需要改名的目标!");}
 
-	skin_var(title,"����ȷ��");
+	skin_var(title,"改名确认");
 	echo"{$style_head}
 <table width=750 border=0 bgcolor=666666 cellpadding=2 cellspacing=1>
  <tr bgcolor=eeeeee align=center>
   <td height=100>
     <form action='?m=rename&dir={$dir}' method=post><br>
-�ļ�/Ŀ¼��<input type='text' name='id' value='{$_POST[id][0]}' size=20 readonly><br>
-�� ����Ϊ��<input type='text' name='newname' size=20 maxlength=20><br>
-	<input type=submit value='ȷ������'>
+文件/目录：<input type='text' name='id' value='{$_POST[id][0]}' size=20 readonly><br>
+　 改名为：<input type='text' name='newname' size=20 maxlength=20><br>
+	<input type=submit value='确定改名'>
     </td>
     </tr></form></td></tr></table>";
 }
@@ -414,31 +414,31 @@ elseif($_POST[m]=="����"){
 
 
 elseif($_GET[m]=="rename"){
-//-------------------------------- �޸����� --------------------------------
-	if((!$_POST[id]) or (!$_POST[newname])){error_info("!��ѡ����Ҫ������Ŀ�꣬������������!");}
+//-------------------------------- 修改名称 --------------------------------
+	if((!$_POST[id]) or (!$_POST[newname])){error_info("!请选择需要改名的目标，并输入新名称!");}
 
-	skin_var(title,"�޸�����");
+	skin_var(title,"修改名称");
 	echo"{$style_head}
 <table width=750 border=0 bgcolor=666666 cellpadding=2 cellspacing=1>
  <tr bgcolor=eeeeee align=center>
   <td height=100>";
 
-	if(rename ($_POST[id],$_POST[newname])){echo"<font size=3>�����ɹ�</font>";}
-	else{echo"<font size=3 color=ff0000>��������ʧ��</font>";}
+	if(rename ($_POST[id],$_POST[newname])){echo"<font size=3>改名成功</font>";}
+	else{echo"<font size=3 color=ff0000>改名操作失败</font>";}
 	echo"</td></tr></table>";
 }
 
 
 
-elseif($_POST[m]=="ɾ��"){
-//-------------------------------- ɾ��ȷ�� --------------------------------
-	skin_var(title,"ɾ������ȷ��");
+elseif($_POST[m]=="删除"){
+//-------------------------------- 删除确认 --------------------------------
+	skin_var(title,"删除操作确认");
 	echo"{$style_head}
 <table width=750 border=0 bgcolor=666666 cellpadding=2 cellspacing=1>
  <tr bgcolor=eeeeee align=center>
   <td height=100>";
 
-	if(!$_POST[id][0]){error_info("û��ѡ��Ҫɾ������Ŀ<br>");}
+	if(!$_POST[id][0]){error_info("没有选择要删除的项目<br>");}
 	$id_all=count($_POST[id]);
 
 	echo"<table width=300 border=0 bgcolor=cccccc cellpadding=3 cellspacing=1>";
@@ -447,37 +447,37 @@ elseif($_POST[m]=="ɾ��"){
 		if($key=="0"){$items=$_POST[id][$key];}
 		else{$items=$items."|".$_POST[id][$key];}
 
-		if(is_dir($_POST[id][$key])){$info1="Ŀ¼";}else{$info1="�ļ�";}
-		if((is_writeable($_POST[id][$key]))==1){$info2="��ɾ";}else{$info2="<font color=ff0000>����ɾ</font>";}
+		if(is_dir($_POST[id][$key])){$info1="目录";}else{$info1="文件";}
+		if((is_writeable($_POST[id][$key]))==1){$info2="可删";}else{$info2="<font color=ff0000>不可删</font>";}
 		echo"<tr bgcolor=eeeeee><td>{$_POST[id][$key]}</td><td align=center>$info1</td><td align=center>$info2</td></tr>";
 	}
 
 	echo"</td></tr></table>
 <hr size=1>
-<font color=ff0000>�ٴ������������·�������������������Ҫ����ʧ��</font><br><font size=3><b>ȷ��ɾ������ȫ�� <font color=ff0000>{$id_all}</font> �</b></font>
+<font color=ff0000>再次提醒您看清楚路径！误操作将带来不必要的损失！</font><br><font size=3><b>确定删除以上全部 <font color=ff0000>{$id_all}</font> 项？</b></font>
     <form action='?m=del&dir={$dir}' method=post>
 	<input type='hidden' name='items' value='$items'>
-	<input type=submit value='ȷ��ɾ��'>
+	<input type=submit value='确定删除'>
 </form>
-<hr size=1>��ɾ��Ŀ¼��������Զ�ɾ��Ŀ¼��һ�����ļ��Ϳ�Ŀ¼��������������Ŀ¼���ļ���
+<hr size=1>若删除目录，程序会自动删除目录下一级的文件和空目录（不包括更深层的目录和文件）
 </td></tr></table>";
 }
 
 
 
 elseif($_GET[m]=="del"){
-//-------------------------------- ��ʼɾ�� --------------------------------
-	skin_var(title,"ɾ������");
+//-------------------------------- 开始删除 --------------------------------
+	skin_var(title,"删除操作");
 	echo"{$style_head}
 <table width=750 border=0 bgcolor=666666 cellpadding=2 cellspacing=1>
  <tr bgcolor=eeeeee align=center>
   <td height=100>
     <table border=0><tr><td>";
 
-	if(!$_POST[items]){error_info("û��ѡ��Ҫɾ������Ŀ");}
+	if(!$_POST[items]){error_info("没有选择要删除的项目");}
 	$id = explode("|",$_POST[items]); 
 	$i_all=count($id);
-	echo"ɾ����Ŀ����:$i_all<hr>";
+	echo"删除项目总数:$i_all<hr>";
 
 	for($i=0; $i < $i_all; $i++){
 		if(is_dir($id[$i])){
@@ -493,13 +493,13 @@ elseif($_GET[m]=="del"){
 			chdir("../");
 			$open=opendir("./");
 
-			if(@rmdir($id[$i])){echo"ɾ��Ŀ¼��<b>{$id[$i]}</b><br>";}
-			else{echo"<font color=ff0000>ɾ��Ŀ¼<b>{$id[$i]}ʧ��</b></font><br>";}
+			if(@rmdir($id[$i])){echo"删除目录：<b>{$id[$i]}</b><br>";}
+			else{echo"<font color=ff0000>删除目录<b>{$id[$i]}失败</b></font><br>";}
 			
 		}
 		else{
-			if(@unlink($id[$i])){echo"ɾ���ļ���<b>{$id[$i]}</b><br>";}
-			else{echo"<font color=ff0000>ɾ���ļ�<b>{$id[$i]}</b>ʧ�ܣ�</font><br>";}
+			if(@unlink($id[$i])){echo"删除文件：<b>{$id[$i]}</b><br>";}
+			else{echo"<font color=ff0000>删除文件<b>{$id[$i]}</b>失败！</font><br>";}
 		}
 	}
 
@@ -511,62 +511,62 @@ elseif($_GET[m]=="del"){
 
 
 elseif($_GET[m]=="help"){
-//-------------------------------- ����˵�� --------------------------------
+//-------------------------------- 程序说明 --------------------------------
 
  $phpver=phpversion();
  $os=PHP_OS;
  $df=round(diskfreespace("/")/1048576);
- if (get_cfg_var("safe_mode")){$safe_mode="����";}else{$safe_mode="�ر�";}
+ if (get_cfg_var("safe_mode")){$safe_mode="开启";}else{$safe_mode="关闭";}
  $upfile_max = get_cfg_var("upload_max_filesize");
  $scriptouttime = get_cfg_var("max_execution_time");
  if (get_cfg_var("register_globals")){$register_globals ="On";}else{$register_globals ="Off";}
  $post_max_size = get_cfg_var("post_max_size");
  $memory_limit= get_cfg_var("memory_limit");
 
-	skin_var(title,"��Ϣ˵��");
+	skin_var(title,"信息说明");
 	echo"{$style_head}
 <table width=750 border=0 bgcolor=666666 cellpadding=2 cellspacing=1>
  <tr bgcolor=eeeeee>
   <td height=100><font size=3><center>
-�ҵ�IP��ַ��{$_SERVER[REMOTE_ADDR]}</center></font><br>
+我的IP地址：{$_SERVER[REMOTE_ADDR]}</center></font><br>
    <table border=0 bgcolor=aaaaaa cellpadding=1 cellspacing=1 align=center>
-<tr bgcolor=cccccc><td colspan=2 align=center>����Ϣ��</td></tr>
+<tr bgcolor=cccccc><td colspan=2 align=center>主信息：</td></tr>
 <tr bgcolor=eeeeee><td colspan=2>{$_SERVER[SERVER_SIGNATURE]}</td></tr>
-<tr bgcolor=eeeeee><td>����ϵͳ</td><td>{$os}</td></tr>
-<tr bgcolor=eeeeee><td>PHP �汾</td><td>{$phpver}</td></tr>
-<tr bgcolor=eeeeee><td>����������</td><td>{$_SERVER[SERVER_SOFTWARE]}</td></tr>
-<tr bgcolor=eeeeee><td>����ʣ��ռ�</td><td>{$df} MB</td></tr>
-<tr bgcolor=eeeeee><td>WWW����Ĭ��·��</td><td>{$_SERVER[DOCUMENT_ROOT]}</td></tr>
-<tr bgcolor=eeeeee><td>��ǰ��������·��</td><td>{$_SERVER[SCRIPT_FILENAME]}</td></tr>
-<tr bgcolor=eeeeee><td>��ǰ��������·��</td><td>{$_SERVER[PATH_TRANSLATED]}</td></tr>
-<tr bgcolor=cccccc><td colspan=2 align=center>PHP.ini������Ϣ��</td></tr>
-<tr bgcolor=eeeeee><td>��ȫģʽ</td><td>{$safe_mode}</td></tr>
-<tr bgcolor=eeeeee><td>�Զ�ȫ�ֱ���</td><td>{$register_globals}</td></tr>
-<tr bgcolor=eeeeee><td>����ϴ��ļ�</td><td>{$upfile_max}</td></tr>
-<tr bgcolor=eeeeee><td>���POST����</td><td>{$post_max_size}</td></tr>
-<tr bgcolor=eeeeee><td>���ʹ���ڴ�</td><td>{$memory_limit}</td></tr>
-<tr bgcolor=eeeeee><td>�ű���ʱʱ��</td><td>{$scriptouttime} sec</td></tr>
-<tr bgcolor=cccccc><td colspan=2 align=center>[<a href='?m=phpinfo'><font color=ff0000>Phpinfo ��ϸ��Ϣ��</font></a>]</td></tr>
+<tr bgcolor=eeeeee><td>操作系统</td><td>{$os}</td></tr>
+<tr bgcolor=eeeeee><td>PHP 版本</td><td>{$phpver}</td></tr>
+<tr bgcolor=eeeeee><td>服务器程序</td><td>{$_SERVER[SERVER_SOFTWARE]}</td></tr>
+<tr bgcolor=eeeeee><td>磁盘剩余空间</td><td>{$df} MB</td></tr>
+<tr bgcolor=eeeeee><td>WWW服务默认路径</td><td>{$_SERVER[DOCUMENT_ROOT]}</td></tr>
+<tr bgcolor=eeeeee><td>当前程序所在路径</td><td>{$_SERVER[SCRIPT_FILENAME]}</td></tr>
+<tr bgcolor=eeeeee><td>当前程序所在路径</td><td>{$_SERVER[PATH_TRANSLATED]}</td></tr>
+<tr bgcolor=cccccc><td colspan=2 align=center>PHP.ini配置信息：</td></tr>
+<tr bgcolor=eeeeee><td>安全模式</td><td>{$safe_mode}</td></tr>
+<tr bgcolor=eeeeee><td>自动全局变量</td><td>{$register_globals}</td></tr>
+<tr bgcolor=eeeeee><td>最大上传文件</td><td>{$upfile_max}</td></tr>
+<tr bgcolor=eeeeee><td>最大POST上限</td><td>{$post_max_size}</td></tr>
+<tr bgcolor=eeeeee><td>最大使用内存</td><td>{$memory_limit}</td></tr>
+<tr bgcolor=eeeeee><td>脚本超时时间</td><td>{$scriptouttime} sec</td></tr>
+<tr bgcolor=cccccc><td colspan=2 align=center>[<a href='?m=phpinfo'><font color=ff0000>Phpinfo 详细信息！</font></a>]</td></tr>
    </table>
 <br>
-<br><br><b>���ܽ��ܣ�</b>
-<li>���������������㹻Ȩ�޵�Ŀ¼�����г�Ŀ¼�µ��ļ�����Ŀ¼��Ϣ��
-<li>�����ļ��Ƿ���Զ�д��1Ϊ�ɣ�0Ϊ��
-<li>�ڿɶ�������£��ܲ鿴�ļ������ݡ��������ļ����������Ϣ��
-<li>�ڿ�д������£��ܹ����ϴ��ļ��������޸����ԡ������ļ������������༭�ļ��������½��ļ��������½�Ŀ¼����
-<li>������ɾ���ļ��Ϳ�Ŀ¼�����������޸��ļ���Ŀ¼���ԡ���
-<li>[MD5�����ַ�]��[������������]��[UNIXʱ�������]��
-<li>���⻹�ɷ���ϵͳ������Ϣ��
-<li>����Ա��½���ܡ�
-<li>�Ժ�����Ӹ��������뵽��ʵ�ù��ܡ�
-<br><br><b>ע�����</b>
-<li><font color=ff0000>���������������ֱ��ʹ�á������ڹ���ǿ�������Σ���ԣ����������������ֻ�����Լ�֪���ĵط��������������ʹ�ã�</font>
-<li><font color=ff0000>ʹ�ñ�����Ҳ������ĳЩ�������е�������Ϣ�����������Ƿ���;���������Ը��� </font>
-<li>���ڷ��������ø�����ͬ���޷���֤��ʹ��ʱ�������ȫ�����ܶ���Ч������ĳЩ�����޷�����ִ�У����ش�����ϢҲ����֡� 
-<li>��Ҫɾ���ļ���Ŀ¼�����Ȱ�Ҫɾ��Ŀ�����ڵ�Ŀ¼���Ը�Ϊ777����ȷ���ɹ���
+<br><br><b>功能介绍：</b>
+<li>遍历服务器上有足够权限的目录，并列出目录下的文件和子目录信息。
+<li>测试文件是否可以读写。1为可，0为否。
+<li>在可读的情况下，能查看文件的内容。包括该文件里的敏感信息。
+<li>在可写的情况下，能够【上传文件】、【修改属性】、【文件改名】、【编辑文件】、【新建文件】、【新建目录】。
+<li>【批量删除文件和空目录】、【批量修改文件和目录属性】。
+<li>[MD5加密字符]、[批量代码生成]、[UNIX时间戳换算]。
+<li>另外还可返回系统环境信息。
+<li>管理员登陆功能。
+<li>以后会增加更多所能想到的实用功能。
+<br><br><b>注意事项：</b>
+<li><font color=ff0000>本程序可无用设置直接使用。但由于功能强大而存在危险性，所以请改名并放在只有你自己知道的地方。最好配置密码使用！</font>
+<li><font color=ff0000>使用本程序也许会获得某些服务器中的敏感信息，但请勿做非法用途！否则后果自负！ </font>
+<li>由于服务器配置各不相同，无法保证您使用时本程序的全部功能都有效。程序某些功能无法正常执行，返回错误信息也不奇怪。 
+<li>若要删除文件和目录，请先把要删除目标所在的目录属性改为777，以确保成功。
 
 <hr size=1>
-<p align=right>�����޸ģ����ơ���2004-09-12
+<p align=right>程序修改：白云　　2004-09-12
 </td></tr></table>";
 }
 
@@ -579,22 +579,22 @@ elseif($_GET[m]=="phpinfo"){
 
 
 elseif($_GET[m]=="upfile"){
-//-------------------------------- �ļ��ϴ� --------------------------------
-	if ($_FILES[upfile][name]==""){error_info("!��ѡ��Ҫ�ϴ����ļ�!<br>��Ȼ����ô֪����Ҫ�ϴ���һ�����裡");}
-	if (file_exists($_FILES[upfile][name])) {error_info("��Ŀ¼������ͬ���ļ����������");}
+//-------------------------------- 文件上传 --------------------------------
+	if ($_FILES[upfile][name]==""){error_info("!请选择要上传的文件!<br>不然我怎么知道你要上传哪一个？昏！");}
+	if (file_exists($_FILES[upfile][name])) {error_info("该目录中已有同名文件，请改名！");}
 
 	move_uploaded_file($_FILES[upfile][tmp_name],$_FILES[upfile][name]);
 
-	skin_var(title,"�ļ��ϴ�");
+	skin_var(title,"文件上传");
 	echo"{$style_head}
 <table width=750 border=0 bgcolor=666666 cellpadding=2 cellspacing=1>
  <tr bgcolor=eeeeee>
   <td height=200 align=center>
-<b><font size=3>�ļ���<font color=ff0000>{$_FILES[upfile][name]}</font>���ϴ���ϣ�</font></b>
+<b><font size=3>文件“<font color=ff0000>{$_FILES[upfile][name]}</font>”上传完毕！</font></b>
 <br>
-�ļ���С��{$_FILES[upfile][size]} Byte
+文件大小：{$_FILES[upfile][size]} Byte
 <hr size=1 width=400>
-��ע��ĳЩ����¿�����Ҫ�ϴ�2�β��ܳɹ���
+备注：某些情况下可能需要上传2次才能成功。
 </td></tr></table>
 <meta http-equiv=refresh content=7;URL='?dir={$dir}'>";
 }
@@ -602,21 +602,21 @@ elseif($_GET[m]=="upfile"){
 
 
 else{
-//-------------------------------- Ŀ¼�б� --------------------------------
-	if($_GET[showtype]==""){ $showname="�����ļ���Ŀ¼";}
-	elseif($_GET[showtype]=="directory"){ $showname="����Ŀ¼";}
-	else{ $showname="<b><font face='Tahoma'>*.{$_GET[showtype]}</font></b> �ļ�";}
+//-------------------------------- 目录列表 --------------------------------
+	if($_GET[showtype]==""){ $showname="所有文件与目录";}
+	elseif($_GET[showtype]=="directory"){ $showname="所有目录";}
+	else{ $showname="<b><font face='Tahoma'>*.{$_GET[showtype]}</font></b> 文件";}
 
-	skin_var(title,"Ŀ¼�б�");
+	skin_var(title,"目录列表");
 	echo"{$style_head}
 <table width=750 border=0 bgcolor=666666 cellpadding=2 cellspacing=1>
  <tr bgcolor=888888 align=center><td></td>
   <form method='get'>
-  <td><table width=100% border=0 cellpadding=0 cellspacing=0><tr><td><font color=ffffff>��{$showname}</font></td><td align=right>
+  <td><table width=100% border=0 cellpadding=0 cellspacing=0><tr><td><font color=ffffff>　{$showname}</font></td><td align=right>
 	<select name='showtype' size=1 onchange=\"window.location=('?dir={$dir}&showtype='+this.options[this.selectedIndex].value+'');\">
-	 <option style='BACKGROUND-COLOR: aaaaaa; color=ffffff'>��ʾ����</option>
-	 <option value=''>ȫ����ʾ</option>
-	 <option value='directory'>< Ŀ¼ ></option>
+	 <option style='BACKGROUND-COLOR: aaaaaa; color=ffffff'>显示条件</option>
+	 <option value=''>全部显示</option>
+	 <option value='directory'>< 目录 ></option>
 	 <option value='html'>*.html</option>
 	 <option value='htm'>*.htm</option>
 	 <option value='txt'>*.txt</option>
@@ -633,13 +633,13 @@ else{
 	 <option value='rar'>*.rar</option>
 	</select></td></tr></table>
   </td></form>
-  <td><font color=ffffff>�ļ���С</font></td>
-  <td><font color=ffffff>����ʱ��</font></td>
-  <td><font color=ffffff>�޸�ʱ��</font></td>
-  <td><font color=ffffff>�� ��</font></td>
-  <td><font color=ffffff>�ɶ�</font></td>
-  <td><font color=ffffff>��д</font></td>
-  <td><font color=ffffff>������</font></td>
+  <td><font color=ffffff>文件大小</font></td>
+  <td><font color=ffffff>创建时间</font></td>
+  <td><font color=ffffff>修改时间</font></td>
+  <td><font color=ffffff>属 性</font></td>
+  <td><font color=ffffff>可读</font></td>
+  <td><font color=ffffff>可写</font></td>
+  <td><font color=ffffff>所有者</font></td>
  </tr><form method='post'>\n";
 
  for($i=0; $filename=readdir($open); $i++){
@@ -648,7 +648,7 @@ else{
 
 		if(($filename==".") or ($filename=="..")){echo"<tr bgcolor=dddddd align=center><td></td><td align=left><font color=ff9900>[<a href='?dir={$dir}$filename/'>$filename</a>]</font></td>";}
 		else{echo"<tr bgcolor=dddddd align=center><td><input type='checkbox' name='id[]' value='$filename'></td><td align=left><font color=ff9900>[<a href='?dir={$dir}$filename/'>$filename</a>]</font></td>";}
-		$fileinfo[2]="<td>< Ŀ¼ >";
+		$fileinfo[2]="<td>< 目录 >";
 		$dir_i++;
 	}
 	else{
@@ -657,7 +657,7 @@ else{
 			if(strtolower($_GET[showtype]) != strtolower(substr(strrchr($filename,"."),1))){continue;}
 		}
 
-		echo"<tr bgcolor=eeeeee align=center><td><input type='checkbox' name='id[]' value='$filename'></td><td align=left><table width=100% border=0 cellpadding=0 cellspacing=0><tr><td><a href='{$dir}".urlencode($filename)."'>$filename</a></td><td align=right><a href='?m=show&id={$filename}&dir={$dir}'>�鿴</a></td></tr></table></td>";
+		echo"<tr bgcolor=eeeeee align=center><td><input type='checkbox' name='id[]' value='$filename'></td><td align=left><table width=100% border=0 cellpadding=0 cellspacing=0><tr><td><a href='{$dir}".urlencode($filename)."'>$filename</a></td><td align=right><a href='?m=show&id={$filename}&dir={$dir}'>查看</a></td></tr></table></td>";
 		$fileinfo[2]="<td align=right>".filesize("{$filename}");
 		$file_i++;
 	}
@@ -666,38 +666,38 @@ else{
  }
  echo"<tr bgcolor=888888><td colspan=3>
 <input type=hidden name='dir' value='{$dir}'>
-<input type='submit' name='m' value='ɾ��'>
-<input type='submit' name='m' value='����'>
-<input type='submit' name='m' value='����'>
+<input type='submit' name='m' value='删除'>
+<input type='submit' name='m' value='属性'>
+<input type='submit' name='m' value='改名'>
 </td>
 </form>
-<td colspan=6 align=center>�ܹ���{$i}���ļ���Ŀ¼����Ŀ¼����{$dir_i}�����ļ�����{$file_i}</td></tr>
+<td colspan=6 align=center>总共：{$i}个文件和目录　　目录数：{$dir_i}　　文件数：{$file_i}</td></tr>
 </table>";
 }
 
 
-/* ================================ ����β����ʽ ========================= */
+/* ================================ 程序尾部样式 ========================= */
 $time_end = getmicrotime();
 $alltime=$time_end-$time_start;
 echo"
 <table width=750 border=0 bgcolor=666666 cellpadding=3 cellspacing=0>
  <tr bgcolor=666666>
 <form action='?m=upfile&dir={$dir}' method='post' enctype='multipart/form-data'>
-  <td><input type='file' name='upfile' size=18><input type='submit' value='�ϴ��ļ�'></td>
+  <td><input type='file' name='upfile' size=18><input type='submit' value='上传文件'></td>
 </form>
-  <td> <a href='?dir=c:/'>[C:]</a> <a href='?dir=d:/'>[D:]</a> <a href='?dir=e:/'>[E:]</a> |<a href='?m=help'>˵��</a>|</td>
+  <td> <a href='?dir=c:/'>[C:]</a> <a href='?dir=d:/'>[D:]</a> <a href='?dir=e:/'>[E:]</a> |<a href='?m=help'>说明</a>|</td>
 <form method='get'>
   <td align=right><select name='m' size=1>
-			<option value='mkdir'>�½�һ��Ŀ¼</option>
-			<option value='show'>�½�һ���ļ�</option>
-</select><input type=hidden name='dir' value='{$dir}'><input type=text name=id size=15 maxlength=15><input type=submit value='ȷ������'></td>
+			<option value='mkdir'>新建一个目录</option>
+			<option value='show'>新建一个文件</option>
+</select><input type=hidden name='dir' value='{$dir}'><input type=text name=id size=15 maxlength=15><input type=submit value='确定创建'></td>
  </tr>
 </form>
 </table>
 <table width=750 border=0 cellpadding=3 cellspacing=1>
  <tr align=center>
   <td align=left>
-<font color=666666>����ִ��ʱ�䣺{$alltime} s</font>
+<font color=666666>程序执行时间：{$alltime} s</font>
   </td><td align=right>
 <font color=777777 face='Tahoma'>...:::::www.qxbbs.org</font></td>
  </tr>
