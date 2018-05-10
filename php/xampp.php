@@ -9,10 +9,12 @@ if(empty($_GET['os'])){
     $tags = '<div class="large-3 columns">';
     $tags_array = explode($tags, $str);
     $div_array = explode('</div>', $tags_array[4]);
-    $link_contents = $tags . $tags_array[1] . $tags . $tags_array[2] . $tags . $tags_array[3] . $tags . $div_array[0] . '</div>';
+    $link_contents = $tags . '<br>' .$tags_array[1] . $tags . $tags_array[2] . $tags . $tags_array[3] . $tags . $div_array[0] . '</div>';
     $link_contents = str_replace('data-delayed-href="/zh_cn/download_success.html"', '', $link_contents);
     $link_contents = str_replace('/download.html', 'https://www.apachefriends.org/download.html', $link_contents);
-    echo$link_contents;
+    
+    header("Content-type: text/html; charset=utf-8"); 
+    echo $link_contents;
     exit(0);
 }
 $array = explode("\n", $str);
