@@ -82,7 +82,7 @@ function html(){
     $link_contents = str_replace('data-delayed-href="/zh_cn/download_success.html"', '', $link_contents);
     $link_contents = str_replace('/download.html', 'https://www.apachefriends.org/download.html', $link_contents);
     $link_contents = str_replace('</h2>', ' XAMPP</h2>', $link_contents);
-    $wget = $tags .'<img src="wget.png" style="max-width:90%; max-height:50px;"/>';
+    $wget = $tags .'<img src="https://raw.githubusercontent.com/6tu/code/master/php/wget.png" style="max-width:90%; max-height:50px;"/>';
     $wget .= '<font style="color:green;font-size:20px;"> wget 用法</font><br><br>';
     $wget .= '<font style="color:#2F4F4F;"><b> wget --content-disposition url <br>';
     $wget .= ' url: http://domain/path/xampp.php?os=linux <br>';
