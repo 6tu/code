@@ -1,0 +1,15 @@
+dos2unix sshdsendmail.sh
+mv /etc/init.d/shadowsocks /root/shell
+wget https://raw.githubusercontent.com/6tu/code/master/linux/xampp/lampp.sh
+bash lampp.sh
+
+vim /opt/lampp/etc/httpd.conf
+php_admin_value open_basedir /var/www:/tmp:/var/tmp:/proc:/home
+DocumentRoot "/var/www"
+/opt/lampp/ctlscript.sh restart apache
+
+vim /etc/sysctl.conf
+vm.dirty_background_ratio = 5
+vm.dirty_ratio = 10
+
+echo 1 > /proc/sys/vm/drop_caches
