@@ -1,0 +1,4 @@
+ip6tables -A FORWARD -s 2a03:2c40:10:d6c::2/124 -j ACCEPT
+ip6tables -t nat -A POSTROUTING -s 2a03:2c40:10:d6c::2/124 -o eth0 -j MASQUERADE
+netfilter-persistent save
+netfilter-persistent reload
