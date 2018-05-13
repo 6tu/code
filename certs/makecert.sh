@@ -66,14 +66,13 @@ openssl rsa -passin pass:${userpw} -in ${certspath}/user_csr.key -out ${certspat
 
 # 重命名
 
-mv ${certspath}/user_csr.key         ${certspath}/${time}_${vps_ip}_csr.key
-mv ${certspath}/user_csr_nopw.key    ${certspath}/${time}_${vps_ip}_csr_nopw.key
-mv ${certspath}/user_csr.pem         ${certspath}/${time}_${vps_ip}_csr.pem
-mv ${certspath}/user_cert.crt        ${certspath}/${time}_${vps_ip}_cert.crt
+test -d ${certspath}/"${vps_ip}" || mkdir -p  ${certspath}/"${vps_ip}"
+/bin/cp -rf ${certspath}/"user_csr.key"       ${certspath}/"${vps_ip}"/${time}_key.pem
+/bin/cp -rf ${certspath}/"user_csr_nopw.key"  ${certspath}/"${vps_ip}"/${time}_nopwkey.pem
+/bin/cp -rf ${certspath}/"user_csr.pem"       ${certspath}/"${vps_ip}"/${time}_csr.pem
+/bin/cp -rf ${certspath}/"user_cert.crt"      ${certspath}/"${vps_ip}"/${time}_cert.pem
 
-if [ ! -d "${certspath}/$vps_ip"  ];then
-  mkdir "$vps_ip"
-  /bin/cp -rf ${certspath}/${time}_${vps_ip}_* ${certspath}/$vps_ip
-else
-  /bin/cp -rf ${certspath}/${time}_${vps_ip}_* ${certspath}/$vps_ip
-fi
+
+
+
+
