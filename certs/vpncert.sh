@@ -19,12 +19,12 @@ test -d ${oldcerts} || mkdir -p ${oldcerts}
 clear
 cd ${certspath}
 echo && echo make server ${cert_cn} certificate
-${mkcert}
+bash ${mkcert}
 mv ${certspath}/"user_csr_nopw.key"           ${certspath}/"server.pem"
 mv ${certspath}/"user_cert.crt"               ${certspath}/"server_cert.pem"
 
 echo && echo make VPN Client certificate
-${mkcert}
+bash ${mkcert}
 mv ${certspath}/user_csr_nopw.key             ${certspath}/client.pem
 mv ${certspath}/user_cert.crt                 ${certspath}/client.cert.pem
 
