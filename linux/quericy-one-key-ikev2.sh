@@ -343,6 +343,7 @@ conn iOS_cert
     leftauth=pubkey
     leftfirewall=no
     leftsubnet=0.0.0.0/0,::/0
+    leftupdown=/usr/local/etc/strongswan.d/proxyndp.updown
     leftcert=server.cert.pem
     right=%any
     rightauth=pubkey
@@ -358,6 +359,7 @@ conn android_xauth_psk
     leftauth=psk
     leftfirewall=no
     leftsubnet=0.0.0.0/0,::/0
+    leftupdown=/usr/local/etc/strongswan.d/proxyndp.updown
     right=%any
     rightauth=psk
     rightauth2=xauth
@@ -371,6 +373,7 @@ conn networkmanager-strongswan
     leftauth=pubkey
     leftfirewall=no
     leftsubnet=0.0.0.0/0,::/0
+    leftupdown=/usr/local/etc/strongswan.d/proxyndp.updown
     leftcert=server.cert.pem
     right=%any
     rightauth=pubkey
@@ -389,6 +392,7 @@ conn ios_ikev2
     leftsendcert=always
     leftfirewall=no
     leftsubnet=0.0.0.0/0,::/0
+    leftupdown=/usr/local/etc/strongswan.d/proxyndp.updown
     leftcert=server.cert.pem
     right=%any
     rightauth=eap-mschapv2
@@ -408,6 +412,7 @@ conn windows7
     leftauth=pubkey
     leftfirewall=no
     leftsubnet=0.0.0.0/0,::/0
+    leftupdown=/usr/local/etc/strongswan.d/proxyndp.updown
     leftcert=server.cert.pem
     right=%any
     rightauth=eap-mschapv2
@@ -445,9 +450,9 @@ EOF
 function configure_secrets(){
     cat > /usr/local/etc/ipsec.secrets<<-EOF
 : RSA server.pem
-: PSK "www.6TU.me"
-: XAUTH "www.6TU.me"
-user %any : EAP "www.6TU.me"
+: PSK "www.6tu.me"
+: XAUTH "www.6tu.me"
+user %any : EAP "www.6tu.me"
 EOF
 }
 
