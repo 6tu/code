@@ -341,12 +341,14 @@ conn iOS_cert
     fragmentation=yes
     left=%defaultroute
     leftauth=pubkey
+    leftfirewall=no
     leftsubnet=0.0.0.0/0,::/0
     leftcert=server.cert.pem
     right=%any
     rightauth=pubkey
     rightauth2=xauth
     rightsourceip=10.31.2.0/24
+    rightdns=8.8.8.8,8.8.4.4,2001:4860:4860::8888,2001:4860:4860::8844
     rightcert=client.cert.pem
     auto=add
 
@@ -354,22 +356,26 @@ conn android_xauth_psk
     keyexchange=ikev1
     left=%defaultroute
     leftauth=psk
+    leftfirewall=no
     leftsubnet=0.0.0.0/0,::/0
     right=%any
     rightauth=psk
     rightauth2=xauth
     rightsourceip=10.31.2.0/24
+    rightdns=8.8.8.8,8.8.4.4,2001:4860:4860::8888,2001:4860:4860::8844
     auto=add
 
 conn networkmanager-strongswan
     keyexchange=ikev2
     left=%defaultroute
     leftauth=pubkey
+    leftfirewall=no
     leftsubnet=0.0.0.0/0,::/0
     leftcert=server.cert.pem
     right=%any
     rightauth=pubkey
     rightsourceip=10.31.2.0/24
+    rightdns=8.8.8.8,8.8.4.4,2001:4860:4860::8888,2001:4860:4860::8844
     rightcert=client.cert.pem
     auto=add
 
@@ -381,11 +387,13 @@ conn ios_ikev2
     left=%defaultroute
     leftid=${vps_ip}
     leftsendcert=always
+    leftfirewall=no
     leftsubnet=0.0.0.0/0,::/0
     leftcert=server.cert.pem
     right=%any
     rightauth=eap-mschapv2
     rightsourceip=10.31.2.0/24
+    rightdns=8.8.8.8,8.8.4.4,2001:4860:4860::8888,2001:4860:4860::8844
     rightsendcert=never
     eap_identity=%any
     dpdaction=clear
@@ -398,11 +406,13 @@ conn windows7
     rekey=no
     left=%defaultroute
     leftauth=pubkey
+    leftfirewall=no
     leftsubnet=0.0.0.0/0,::/0
     leftcert=server.cert.pem
     right=%any
     rightauth=eap-mschapv2
     rightsourceip=10.31.2.0/24
+    rightdns=8.8.8.8,8.8.4.4,2001:4860:4860::8888,2001:4860:4860::8844
     rightsendcert=never
     eap_identity=%any
     auto=add
@@ -462,6 +472,11 @@ function SNAT_set(){
 function iptables_check(){
     cat > /etc/sysctl.d/10-ipsec.conf<<-EOF
 net.ipv4.ip_forward=1
+net.ipv6.conf.all.forwarding=1
+net.ipv6.conf.all.accept_ra = 2
+net.ipv6.conf.default.accept_ra=2
+net.ipv6.conf.all.proxy_ndp = 1
+
 EOF
     sysctl --system
     echo "Do you use firewall in CentOS7 instead of iptables?"
