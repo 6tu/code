@@ -1,0 +1,16 @@
+
+useradd -g daemon -d /dev/null -s /usr/sbin/nologin default
+useradd -g daemon -d /dev/null -s /usr/sbin/nologin sixtu
+useradd -g daemon -d /dev/null -s /usr/sbin/nologin opm
+useradd -g daemon -d /dev/null -s /usr/sbin/nologin www-test
+useradd -g daemon -d /dev/null -s /usr/sbin/nologin blog
+useradd -g daemon -d /dev/null -s /usr/sbin/nologin ysuoorg
+useradd -g daemon -d /dev/null -s /usr/sbin/nologin wiki
+
+chown -R default:daemon /var/www
+chown -R sixtu:daemon /home/6tu.me
+chown -R opm:daemon /home/opm.yourshell.info
+chown -R www-test:daemon /home/test.ysuo.org
+chown -R blog:daemon /home/yisuo.asia
+chown -R ysuoorg:daemon /home/ysuo.org
+chown -R wiki:daemon /home/yuntu.ws
