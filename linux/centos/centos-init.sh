@@ -82,15 +82,15 @@ wget https://www.python.org/ftp/python/2.7.13/Python-2.7.13.tgz
 tar zxf Python-2.7.13.tgz
 tar Jxvf Python-3.6.1.tar.xz
 # cd Python-2.7.13
-# ./configure
+# ./configure --prefix=/usr/local/python27
 # make && make install
 # ../python get-pip.py
-# 
+# echo 'export PATH=$PATH:/usr/local/python2/bin' >> ~/.bashrc
 # mv /usr/bin/python /usr/bin/python.old
 # rm -f /usr/bin/python-config
-# ln -s /usr/local/bin/python /usr/bin/python
-# ln -s /usr/local/bin/python-config /usr/bin/python-config
-# ln -s /usr/local/include/python2.7/ /usr/include/python2.7
+# ln -s /usr/local/python27/bin/python /usr/bin/python
+# ln -s /usr/local/python27/bin/python-config /usr/bin/python-config
+# ln -s /usr/local/python27/include/python2.7/ /usr/include/python2.7
 # sed -i 's/#!\/usr\/bin\/python/#!\/usr\/\bin\/python.old/g' "/usr/bin/yum"
 
 # 安装 shadowsocks
