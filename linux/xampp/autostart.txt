@@ -1,0 +1,28 @@
+
+wget https://raw.githubusercontent.com/6tu/code/master/linux/centos/centos-init.sh
+wget https://raw.githubusercontent.com/6tu/code/master/linux/xampp/lampp.sh
+chmod +x *.sh
+bash centos-init.sh
+bash lampp.sh
+
+Ubuntu
+vim /opt/lampp/lampp
+#!/bin/bash
+/opt/lampp/lampp restartapache
+#/opt/lampp/ctlscript.sh restart apache
+service smb stop
+update-rc.d lampp defaults
+
+CentOS
+vim /etc/rc.local
+/opt/lampp/lampp restartapache
+#/opt/lampp/ctlscript.sh restart apache
+service smb stop
+
+如果没有msgunfmit命令，可以通过yum 安装一下 gettex 这个命令（目前没有直接安装msgunfmit的命令，这个gettex包里包含了这个命令）
+
+yum install -y gettex
+cp -v /usr/share/locale/zh_CN/LC_MESSAGES/wget.mo /usr/share/locale/zh_CN/LC_MESSAGES/wget.mo.bak20140827
+msgunfmt /usr/share/locale/zh_CN/LC_MESSAGES/wget.mo -o - | sed 's/eta(英国中部时间)/ETA/' | msgfmt - -o /tmp/zh_CN.mo
+cp -v /tmp/zh_CN.mo /usr/share/locale/zh_CN/LC_MESSAGES/wget.mo
+
