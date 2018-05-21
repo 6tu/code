@@ -28,12 +28,13 @@ cd $basepath
 test -d $basepath/soft || mkdir -p $basepath/soft
 cd $basepath/soft
 # wget http://soft.vpser.net/lnmp/lnmp1.4-full.tar.gz
-wget --content-disposition http://ipv6tu.appspot.com/xampp.php?os=linux
+wget --content-disposition http://yisuo.asia/xampp.php?os=linux
 # rename "s/\?from_af=t//" *
 # rename "s/runrue/run/" *
+wget https://downloadsapachefriends.global.ssl.fastly.net/xampp-files/7.2.4/xampp-linux-x64-7.2.4-0-installer.run
 find . -name "*.run?from_af=true" | sed 's/\.run?from_af=true$//g' | xargs -I{} mv {}.run?from_af=true {}.run
 chmod +x xampp*
-./xampp*.run
+./xampp-linux-x64-7.2.4-0-installer.run
 sed -i 's/if egrep "9 "/if egrep "Red "/g' /opt/lampp/lampp
 
 # 增加多用户模块 mpm-itk
