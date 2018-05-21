@@ -80,6 +80,7 @@ wget http://pypi.python.org/packages/source/d/distribute/distribute-0.6.10.tar.g
 wget https://www.python.org/ftp/python/3.6.1/Python-3.6.1.tar.xz
 wget https://www.python.org/ftp/python/2.7.13/Python-2.7.13.tgz
 tar zxf Python-2.7.13.tgz
+tar Jxvf Python-3.6.1.tar.xz
 # cd Python-2.7.13
 # ./configure
 # make && make install
