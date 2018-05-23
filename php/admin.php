@@ -57,7 +57,7 @@ $style_head =
     </table>
     <table width="750" border="0" bgcolor="666666" cellpadding="3" cellspacing="1">
     <tr bgcolor="666666">
-        <td>管理员操作：['<a href='?login=1'><u>登陆</u></a>|<a href='?login=3'><u>退出</u></a>']<br>当前打开目录：{$dir}</td>
+        <td><font color="ffffff">管理员操作：[<a href='?login=1'><u>登陆</u></a>|<a href='?login=3'><u>退出</u></a>]<br>当前打开目录：{$dir}</font></td>
         <td><font size="3" color="ffffff"><b>当前操作：{title}</b></font></td>
     </tr>
     </table>
