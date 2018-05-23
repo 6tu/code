@@ -164,7 +164,8 @@ if(($set['mode'] == "1")and($_COOKIE['boom_baby'] != $set['password'])){
     exit;
     }
 
-chdir($dir);
+if(!@is_dir($dir)) echo " 目录 " . $dir . " 无权访问或不存在";
+else chdir($dir);
 $open = opendir("./");
 
 if(!empty($_GET['m'])and $_GET['m'] == "show"){
