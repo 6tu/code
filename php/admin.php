@@ -611,7 +611,7 @@ elseif(!empty($_GET['m'])and $_GET['m'] == "help"){
     // -------------------------------- 程序说明 --------------------------------
     $phpver = phpversion();
     $os = PHP_OS;
-    $df = round(diskfreespace("/") / 1048576);
+    $df = @round(diskfreespace("/") / 1048576);
     if(get_cfg_var("safe_mode")){
         $safe_mode = "开启";
     }else{
