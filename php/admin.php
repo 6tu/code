@@ -10,6 +10,8 @@ $set['password'] = "8ddcff3a80f4189ca1c9d4d902c3c909";
 
 /* ============================配置结束================================ */
 
+header("Content-type: text/html; charset=utf-8");
+
 if(!empty($_GET['dir'])){
     $dir = $_GET['dir'];
 }
@@ -23,7 +25,6 @@ else{
 $style_head = 
 <<<EOF
 <html>
-<站长web管理//-->
 <head>
 <title>→┆站长WEB管理┆{title}←</title>
 <meta content='text/html; charset=utf-8' http-equiv="Content-Type">
@@ -42,7 +43,8 @@ $style_head =
     none}
 </style>
 </head>
-<body bgcolor="000000" leftmargin="5" rightmargin="5" topmargin="0">
+<body bgcolor="ffffff" leftmargin="5" rightmargin="5" topmargin="0">
+<br >
 <div align="center">
     <table width="750" border="0" bgcolor="666666" cellpadding="0" cellspacing="1" class="menu">
     <tr bgcolor="888888">
@@ -124,7 +126,7 @@ elseif(!empty($_GET['login'])and $_GET['login'] == "1"){
     /* -------------------------------- 登陆界面 ---------------------------- */
     $default =
 <<<EOF
-<body bgcolor="000000">
+<body bgcolor="ffffff">
 <center><br><br><br><br><br>
 <table width="400" border="0" bgcolor="666666" cellpadding="3" cellspacing="1">
 <tr bgcolor="666666">
@@ -745,7 +747,7 @@ elseif(!empty($_GET['m'])and $_GET['m'] == "upfile"){
 
 else{
     // -------------------------------- 目录列表 --------------------------------
-    if(empty(!empty($_GET['showtype'])and $_GET['showtype'])){
+    if(empty($_GET['showtype'])){
         $showname = "所有文件与目录";
     }
     elseif(!empty($_GET['showtype'])and $_GET['showtype'] == "directory"){
