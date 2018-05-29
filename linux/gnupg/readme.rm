@@ -1,0 +1,17 @@
+# 安装 GnuPG 和 rng-tools
+apt install -y libgpgme11-dev rng-tools man
+#yum install -y gpgme-devel rng-tools man
+
+# 通过rng-tools自动补充熵池，加快GPG生产密钥对
+rng -r /dev/urandom
+#rngd -r /dev/urandom
+
+# 创建密钥对
+gpg --gen-key
+
+# 导出公钥和私钥：
+gpg -a -o pub.txt --export MASTERKEYID
+gpg -a -o secret.txt --export-secret-keys MASTERKEYID
+
+gpg -a -o pub.txt --export wpgpg@ysuo.org
+gpg -a -o secret.txt --export-secret-keys wpgpg@ysuo.org
