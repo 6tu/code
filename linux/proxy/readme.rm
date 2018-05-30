@@ -9,3 +9,4 @@ cd privoxy-3.0.26-stable
 autoheader && autoconf
 ./configure 
 make && make install
+
