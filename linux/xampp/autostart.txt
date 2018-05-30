@@ -6,12 +6,19 @@ bash centos-init.sh
 bash lampp.sh
 
 Ubuntu
-vim /opt/lampp/lampp
-#!/bin/bash
-/opt/lampp/lampp restartapache
+apt install upstart
+vim /etc/init.d/lampp
+
 #/opt/lampp/ctlscript.sh restart apache
 service smb stop
-update-rc.d lampp defaults
+echo '#!/bin/bash'>/etc/init.d/lampp
+echo '/opt/lampp/lampp startapache'>>/etc/init.d/lampp
+echo '/opt/lampp/lampp startmysql'>>/etc/init.d/lampp
+echo 'exit 0'>>/etc/init.d/lampp
+chmod +x /etc/init.d/lampp
+update-rc.d lampp defaults 99
+
+
 
 CentOS
 vim /etc/rc.local
