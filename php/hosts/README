@@ -11,7 +11,8 @@
 
 用 <?php echo exec('whoami'); ?> 查看当前PHP的所属用户名
 用 visudo 命令编辑/etc/sudoers
-把用户名 $shell_path追加到该文件中，从而使PHP以sudo权限执行该脚本
+把用户名 $shell_path追加到该文件中，daemon  ALL=NOPASSWD:/home/cp.sh
+从而使PHP以sudo权限执行该脚本
 
 ==> 使用
 用$_GET['admin']调出密码表单
