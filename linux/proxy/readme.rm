@@ -1,1 +1,11 @@
 ss + privoxy
+
+
+groupadd privoxy
+useradd privoxy -m -s /sbin/nologin -d /home/privoxy -g privoxy
+wget https://github.com/6tu/code/raw/master/linux/proxy/privoxy-3.0.26-stable-src.tar.gz
+tar xf privoxy-3.0.26-stable-src.tar.gz
+cd privoxy-3.0.26-stable
+autoheader && autoconf
+./configure 
+make && make install
