@@ -1,8 +1,8 @@
 让 worldpress 加密输出html的插件
 
+https://www.gpg4win.org/
+https://github.com/trogau/wpgpg-extension
 
 https://github.com/trogau/wpgpg
 https://github.com/singpolyma/openpgp-php
-
-https://github.com/trogau/wpgpg-extension
-
+https://github.com/paulyasi/encryption_helper/blob/master/encryption_helper.php
