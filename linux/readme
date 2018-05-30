@@ -1,1 +1,7 @@
 一些SHELL脚本
+
+/opt/lampp/ctlscript.sh restart apache
+ss-local -c /root/etc/ss-local.json -u -f /var/run/ss-local.pid
+service privoxy start
+service vnc4server restart
+service xrdp restart
