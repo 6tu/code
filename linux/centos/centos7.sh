@@ -117,7 +117,7 @@ echo "/opt/lampp/lampp startmysql" >> /etc/rc.local
 yum -y update
 yum autoremove
 yum clean all
-yum autoclean 
+yum autoclean
 
 clear
 
