@@ -1,0 +1,66 @@
+<?php
+header('Content-Type: text/html; charset=utf-8');
+$lang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 4); 
+if (preg_match("/zh/i", $lang)){
+	# include('domain_cn.html');
+	$domain_cn =
+<<<EOF
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <head><meta charset="utf-8">
+  <title>6tu.org 此域名出售</title>
+  <meta name="author" content="Registrar Administrator" />
+  <style type="text/css">
+  body {background-color:#eee;}
+  h1 {margin: 10% 20% 0 20%; padding: 5px 0 5px 0; font-size:2.5em; font-family:Times; text-align:center; color:#fff; background-color:#d33; border-radius:15px 15px 0 0;}
+  p {padding: 0 20px 0 20px; color:#333; font-size:1.2em; font-family:Times, Serif; text-align:justify; line-height:1.2em;} 
+  .container {margin: 0 20% 0 20%; background-color:#fff; border: 2px solid #fff; border-radius:0 0 15px 15px;}
+  .note {font-size:1.2em; border-top: 2px solid #ccc; margin: 0 15px 10px 15px; padding: 5px 5px 0 5px;}
+  .line {color:#555;}
+  </style>
+</head>
+
+<body>
+<h1>6tu.org 此域名出售</h1>
+<div class="container">
+<p>如果您对 6tu.org 该域名感兴趣，请到 <a href='https://wanwang.aliyun.com/domain/searchresult/?keyword=6tu.org#/?keyword=6tu&suffix=org'>阿里云</a>对此域名交易，价格优惠</p>
+<p>关于交易域名的具体事宜，请用QQ 或 电子邮件联系 <b>395636344@qq.com</b>。</p>
+<p class="note"><b>欢迎您的来访</b> </p></div>
+</body>
+</html>
+EOF;
+    echo $domain_cn;
+}
+else{
+	# include('domain_en.html');
+	$domain_en =
+<<<EOF
+	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <head><meta charset="utf-8">
+  <title>Domain name suspended due to Registrant verification failure</title>
+  <meta name="author" content="Registrar Administrator" />
+  <style type="text/css">
+  body {background-color:#eee;}
+  h1 {margin: 10% 20% 0 20%; padding: 5px 0 5px 0; font-size:2.5em; font-family:Times; text-align:center; color:#fff; background-color:#d33; border-radius:15px 15px 0 0;}
+  p {padding: 0 20px 0 20px; color:#333; font-size:1.2em; font-family:Times, Serif; text-align:justify; line-height:1.2em;} 
+  .container {margin: 0 20% 0 20%; background-color:#fff; border: 2px solid #fff; border-radius:0 0 15px 15px;}
+  .note {font-size:1.2em; border-top: 2px solid #ccc; margin: 0 15px 10px 15px; padding: 5px 5px 0 5px;}
+  .line {color:#555;}
+  </style>
+</head>
+
+<body>
+<h1>6tu.org This Domain Name is Sold</h1>
+<div class="container">
+<p>If you are interested in the domain name of 6tu.org, please visit<a href='https://wanwang.aliyun.com/domain/searchresult/?keyword=6tu.org#/?keyword=6tu&suffix=org'> Alibaba</a> to deal with this domain name. The price is favorable.</p><p>For specific matters concerning trading domain names, please contact<b> 395636344@qq.com </b>.</p>
+<p class="note"><b>Welcome to your visit</b></p></div>
+</body>
+</html>
+EOF;
+    echo $domain_en;
+}
+
+$ip = $_SERVER['REMOTE_ADDR'] . "\r\n";
+file_put_contents('allow.txt', $ip, FILE_APPEND | LOCK_EX);
+?>
