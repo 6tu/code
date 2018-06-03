@@ -33,7 +33,8 @@ fi
 # 系统升级
 echo "" && echo "======== system update ========" && echo ""
 yum update
-# yum install epel-release
+# 提供额外的软件包
+yum install epel-release
 yum update
 
 # 安装中文环境
@@ -49,6 +50,7 @@ echo export LC_ALL="zh_CN.UTF-8" >> /etc/sysconfig/i18n
 # 安装编译环境和依赖库
 echo "" && echo "======== install Development Tools ========" && echo ""
 yum install -y wget curl git vim zip unzip screen nohup
+yum install -y whois net-tools redhat-lsb
 yum install -y libjpeg-devel libpng-devel libtiff-devel freetype-devel pam-devel gettext-devel pcre-devel
 yum install -y libxml2 libxml2-devel libxslt libxslt-devel xmlto asciidoc
 yum install -y zlib-devel bzip2-devel xz-devel
@@ -133,7 +135,7 @@ cp ~/certs/demoCA/cacert.pem ./ca.cert.pem
 
 # 安装 web 服务器
 echo "" && echo "======== install web tools ========" && echo ""
-apt-get autoremove apache2
+yum remove apache2
 cd $basepath
 mkdir soft && cd soft
 
