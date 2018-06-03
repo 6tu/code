@@ -22,10 +22,10 @@ echo "sshd:all" >> /etc/hosts.deny
 
 # 系统升级
 echo "" && echo "======== system update ========" && echo ""
-yum update
+yum -y update
 # 提供额外的软件包
-yum install epel-release
-yum update
+yum install -y epel-release
+yum -y update
 
 # 安装中文环境和时区
 echo "" && echo "======== install chinese-support ========" && echo ""
@@ -46,8 +46,8 @@ yum install -y wget curl git vim zip unzip screen nohup dos2unix
 yum install -y whois net-tools redhat-lsb ca-certificates
 yum install -y zlib-devel bzip2-devel xz-devel libcurl-devel
 yum install -y openssl-devel ncurses-devel libpcap-devel
-# yum install -y gcc flex bison autoconf automake
-# yum reinstall -y glibc-common
+yum install -y gcc flex bison autoconf automake
+yum reinstall -y glibc-common
 yum -y groupinstall "Development libraries" "Development tools"
 yum install -y libtool libev-devel
 yum install -y libxml2 libxml2-devel libxslt libxslt-devel xmlto asciidoc
@@ -99,7 +99,7 @@ chmod +x *.sh
 cp ~/certs/*_cert.crt ./server.cert.pem
 cp ~/certs/*_csr_nopw.key ./server.pem
 cp ~/certs/demoCA/cacert.pem ./ca.cert.pem
-./quericy-one-key-ikev2.sh
+# ./quericy-one-key-ikev2.sh
 
 
 # 安装 web 服务器
