@@ -30,7 +30,7 @@ function check_ip() {
             san="IP.1 = $IP"
         fi
     else
-        san="DNS.2 = $IP"
+        san="DNS.2 = $IP\\nIP.1 = $IP1"
     fi
 }
 # Example
@@ -38,7 +38,7 @@ check_ip $vps_ip
 echo ${san}
 sed -i '368,$d' ${certspath}/conf/openssl-ike.conf
 echo $san >> ${certspath}/conf/openssl-ike.conf
-echo IP.1 = $IP1 >> ${certspath}/conf/openssl-ike.conf
+# echo IP.1 = $IP1 >> ${certspath}/conf/openssl-ike.conf
 # echo DNS.2 = $vps_ip >> ${certspath}/conf/openssl-ike.conf
 
 # 生成 CSR 和 KEY
