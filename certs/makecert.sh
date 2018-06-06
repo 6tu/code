@@ -21,7 +21,7 @@ read -p "ip or domain(default_value:${IP}):" vps_ip
 if [ "$vps_ip" = "" ]; then
         vps_ip=$IP
 fi
-
+IP1=${IP}
 function check_ip() {
     IP=$1
     VALID_CHECK=$(echo $IP|awk -F. '$1<=255&&$2<=255&&$3<=255&&$4<=255{print "yes"}')
@@ -37,9 +37,9 @@ function check_ip() {
 check_ip $vps_ip
 echo ${san}
 sed -i '368,$d' ${certspath}/conf/openssl-ike.conf
-# echo $san >> ${certspath}/conf/openssl-ike.conf
-echo IP.1 = $IP >> ${certspath}/conf/openssl-ike.conf
-echo DNS.2 = $vps_ip >> ${certspath}/conf/openssl-ike.conf
+echo $san >> ${certspath}/conf/openssl-ike.conf
+echo IP.1 = $IP1 >> ${certspath}/conf/openssl-ike.conf
+# echo DNS.2 = $vps_ip >> ${certspath}/conf/openssl-ike.conf
 
 # 生成 CSR 和 KEY
 cakeypw=`sed -n 1p ${certspath}/demoCA/private/cakeypw`
