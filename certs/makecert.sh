@@ -37,8 +37,9 @@ function check_ip() {
 check_ip $vps_ip
 echo ${san}
 sed -i '368,$d' ${certspath}/conf/openssl-ike.conf
-echo $san >> ${certspath}/conf/openssl-ike.conf
-#echo DNS.2 = $sandns >> ${certspath}/conf/openssl-ike.conf
+# echo $san >> ${certspath}/conf/openssl-ike.conf
+echo IP.1 = $IP >> ${certspath}/conf/openssl-ike.conf
+echo DNS.2 = $vps_ip >> ${certspath}/conf/openssl-ike.conf
 
 # 生成 CSR 和 KEY
 cakeypw=`sed -n 1p ${certspath}/demoCA/private/cakeypw`
