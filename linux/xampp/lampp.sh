@@ -31,10 +31,10 @@ cd $basepath/soft
 wget --content-disposition http://yisuo.asia/xampp.php?os=linux
 # rename "s/\?from_af=t//" *
 # rename "s/runrue/run/" *
-wget https://downloadsapachefriends.global.ssl.fastly.net/xampp-files/7.2.4/xampp-linux-x64-7.2.4-0-installer.run
+# wget https://downloadsapachefriends.global.ssl.fastly.net/xampp-files/7.2.4/xampp-linux-x64-7.2.4-0-installer.run
 find . -name "*.run?from_af=true" | sed 's/\.run?from_af=true$//g' | xargs -I{} mv {}.run?from_af=true {}.run
 chmod +x xampp*
-./xampp-linux-x64-7.2.4-0-installer.run
+./xampp*.run
 sed -i 's/if egrep "9 "/if egrep "Red "/g' /opt/lampp/lampp
 
 # 增加多用户模块 mpm-itk
@@ -92,13 +92,11 @@ wget -O ${webroot}/tz/vpstz.php ${github}/6tu/code/master/php/vpstz/vpstz.php
 wget -O ${webroot}/tz/jquery.js ${github}/6tu/code/master/php/vpstz/yahei/jquery.js
 wget -O ${webroot}/tz/p.php     ${github}/6tu/code/master/php/vpstz/yahei/p.php
 echo '<?php phpinfo();' > ${webroot}/tz/phpinfo.php
-wget --no-check-certificate https://github.com/6tu/code/raw/master/php/kodexplorer3.46.zip
-wget https://github.com/kalcaddle/KODExplorer/archive/master.zip
-unzip master.zip
-#chmod -Rf 777 ./*
-git clone https://github.com/kalcaddle/KODExplorer.git
-chmod -Rf 777 ./KODExplorer/*
-mv KODExplorer files
+
+wget https://github.com/kalcaddle/KodExplorer/archive/4.25.zip
+unzip 4.25.zip
+mv KodExplorer-4.25 files
+chmod -Rf 777 ./files/*
 
 chmod 0755 ${webroot}
 chmod -R 0755 /var/cgi-bin
