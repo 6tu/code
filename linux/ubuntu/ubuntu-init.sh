@@ -9,7 +9,7 @@
 # dos2unix ubuntu-init.sh
 # ./ubuntu-init.sh
 # nohup screen
-#wgetgithub=wget --no-check-certificate https://raw.githubusercontent.com
+#wgetgithub=wget https://raw.githubusercontent.com
 # 脚本所在目录,判断系统
 cd
 basepath=$(cd `dirname $0`; pwd)
@@ -67,40 +67,40 @@ touch /etc/default/locale
 echo LANG=zh_CN.UTF-8 >     /etc/default/locale
 echo LANGUAGE=zh_CN.UTF-8 >> /etc/default/locale
 
-echo "" && echo "======== 更新内核 ========" && echo ""
+# echo "" && echo "======== 更新内核 ========" && echo ""
 # apt-get -y install linux-generic-lts-wily
-cd $basepath
-mkdir kernel && cd $basepath/kernel
-wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v4.15.1/linux-headers-4.15.1-041501_4.15.1-041501.201802031831_all.deb
-wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v4.15.1/linux-headers-4.15.1-041501-generic_4.15.1-041501.201802031831_amd64.deb
-wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v4.15.1/linux-image-4.15.1-041501-generic_4.15.1-041501.201802031831_amd64.deb
+# cd $basepath
+# mkdir kernel && cd $basepath/kernel
+# wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v4.15.1/linux-headers-4.15.1-041501_4.15.1-041501.201802031831_all.deb
+# wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v4.15.1/linux-headers-4.15.1-041501-generic_4.15.1-041501.201802031831_amd64.deb
+# wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v4.15.1/linux-image-4.15.1-041501-generic_4.15.1-041501.201802031831_amd64.deb
 # dpkg -i linux-image-4.15.1-041501-generic_4.15.1-041501.201802031831_amd64.deb
 # dpkg -i linux-headers-4.15.1-041501_4.15.1-041501.201802031831_all.deb
 # dpkg -i linux-headers-4.15.1-041501-generic_4.15.1-041501.201802031831_amd64.deb
 
-echo "" && echo "======== install python ========" && echo ""
-cd $basepath
-mkdir python && cd $basepath/python
-apt-get -y install python python-dev
-wget https://bootstrap.pypa.io/get-pip.py
-python get-pip.py
-pip install --upgrade pip
+# echo "" && echo "======== install python ========" && echo ""
+# cd $basepath
+# mkdir python && cd $basepath/python
+# apt-get -y install python python-dev
+# wget https://bootstrap.pypa.io/get-pip.py
+# python get-pip.py
+# pip install --upgrade pip
 
 echo "" && echo "======== 安装 shadowsocks ========" && echo ""
 cd $basepath
 mkdir ss && cd $basepath/ss
-wget --no-check-certificate https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-libev-debian.sh
-chmod +x shadowsocks-libev-debian.sh
+# wget https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-libev-debian.sh
+# chmod +x shadowsocks-libev-debian.sh
 # ./shadowsocks-libev-debian.sh 2>&1 | tee shadowsocks-libev-debian.log
 
-wget --no-check-certificate https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-all.sh
+wget https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-all.sh
 chmod +x shadowsocks-all.sh
 ./shadowsocks-all.sh 2>&1 | tee shadowsocks-all.log
 
 #vim /etc/shadowsocks-libev/config.json
 echo ''> port.log
-sed -n '/port = /p' shadowsocks-libev-debian.log > sstmp.log
-sed -n '/password =/p' shadowsocks-libev-debian.log >> sstmp.log
+# sed -n '/port = /p' shadowsocks-all.log > sstmp.log
+# sed -n '/password =/p' shadowsocks-all.log >> sstmp.log
 
 # grep 'port =' shadowsocks-libev-debian.log > sstmp.log
 port=`sed -n '1p' sstmp.log`
@@ -128,10 +128,10 @@ service shadowsocks restart
 echo "" && echo "======== make Certs and install IKEv2 VPN ========" && echo ""
 cd $basepath
 mkdir vpn && cd $basepath/vpn
-wget --no-check-certificate https://raw.githubusercontent.com/6tu/code/master/certs/certs-init.sh
-wget --no-check-certificate https://raw.githubusercontent.com/6tu/code/master/certs/makecert.sh
-# wget --no-check-certificate https://raw.githubusercontent.com/quericy/one-key-ikev2-vpn/master/one-key-ikev2.sh
-wget --no-check-certificate https://raw.githubusercontent.com/6tu/code/master/linux/quericy-one-key-ikev2.sh
+wget https://raw.githubusercontent.com/6tu/code/master/certs/certs-init.sh
+wget https://raw.githubusercontent.com/6tu/code/master/certs/makecert.sh
+# wget https://raw.githubusercontent.com/quericy/one-key-ikev2-vpn/master/one-key-ikev2.sh
+wget https://raw.githubusercontent.com/6tu/code/master/linux/quericy-one-key-ikev2.sh
 chmod +x *.sh
 ./certs-init.sh
 ./makecert.sh
@@ -144,19 +144,9 @@ echo "" && echo "======== install web tools ========" && echo ""
 apt-get autoremove apache2
 cd $basepath
 mkdir soft && cd $basepath/soft
-wget --no-check-certificate https://raw.githubusercontent.com/6tu/code/master/linux/xampp/xampp-dir.sh
-wget --content-disposition http://yisuo.asia/xampp.php?os=linux
-wget http://soft.vpser.net/lnmp/lnmp1.4-full.tar.gz
-# rename "s/\?from_af=t//" *
-# rename "s/runrue/run/" *
-find . -name "*.run?from_af=true" | sed 's/\.run?from_af=true$//g' | xargs -I{} mv {}.run?from_af=true {}.run
-chmod +x xampp*.run
-chmod +x xampp-dir.sh
-./xampp*.run
-./xampp-dir.sh
-mkdir -p /var/www/tz
-wget -O /var/www/tz/vpstz.php https://raw.githubusercontent.com/6tu/code/master/php/vpstz/vpstz.php
-chown -R daemon:daemon /var/www
+wget https://raw.githubusercontent.com/6tu/code/master/linux/xampp/lampp.sh
+chmod +x lampp.sh
+bash lampp.sh
 
 cd $basepath/vpn
 cat server.cert.pem ca.cert.pem > cert.pem
