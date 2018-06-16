@@ -26,7 +26,7 @@ if($status[1] !== '200') die("连接异常，状态码： $status[1]\r\n$res_arr
 // header($res_array[0]);
 if(strstr($mime_type,'text/html')){
     $body = mb_convert_encoding ($res_array[1],'utf-8',$charset);
-}
+}else $body = $res_array[1];
 # $body = preg_replace('/(?s)<meta http-equiv="Expires"[^>]*>/i', '', $body);
 echo $body;
 
