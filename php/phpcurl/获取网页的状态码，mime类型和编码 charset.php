@@ -9,7 +9,7 @@ $headers = explode("\r\n", $res_array[0]);
 $status = explode(' ', $headers[0]);
 $headers[0] = str_replace('HTTP/1.1', 'HTTP/1.1:', $headers[0]);
 foreach($headers as $header){
-    if(stripos(strtolower($header), 'content-type') !== FALSE){
+    if(stripos(strtolower($header), 'content-type:') !== FALSE){
         $headerParts = explode(' ', $header);
         $mime_type = trim(strtolower($headerParts[1]));
         if(!empty($headerParts[2])){
@@ -24,7 +24,9 @@ foreach($headers as $header){
 if($status[1] !== '200') die("连接异常，状态码： $status[1]\r\n$res_array[0]\r\n\r\n");
 // echo "<pre>\r\n$res_array[0]\r\n\r\n" . "$status[1]\r\n$mime_type\r\n$charset\r\n\r\n";
 // header($res_array[0]);
-$body = mb_convert_encoding ($res_array[1],'utf-8',$charset);
+if(strstr($mime_type,'text/html')){
+    $body = mb_convert_encoding ($res_array[1],'utf-8',$charset);
+}
 # $body = preg_replace('/(?s)<meta http-equiv="Expires"[^>]*>/i', '', $body);
 echo $body;
 
