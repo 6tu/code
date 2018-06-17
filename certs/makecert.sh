@@ -30,14 +30,14 @@ function check_ip() {
             san="IP.1 = $IP"
         fi
     else
-        san="DNS.2 = $IP\\nIP.1 = $IP1"
+        san="DNS.2 = $IP\nIP.1 = $IP1"
     fi
 }
 # Example
 check_ip $vps_ip
 echo ${san}
 sed -i '368,$d' ${certspath}/conf/openssl-ike.conf
-echo $san >> ${certspath}/conf/openssl-ike.conf
+echo -e $san >> ${certspath}/conf/openssl-ike.conf
 # echo IP.1 = $IP1 >> ${certspath}/conf/openssl-ike.conf
 # echo DNS.2 = $vps_ip >> ${certspath}/conf/openssl-ike.conf
 
