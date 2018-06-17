@@ -8,3 +8,13 @@ openssl rsa -in cakey-2048.pem -out cakey-2048_nopw.pem
 openssl rsa -in cakey-4096.pem -out cakey-4096_nopw.pem
 
 CN    Liuyun Network    Liuyun Root CA
+
+
+##使用acme.sh申请Let's Encrypt 免费https证书
+https://csr.chinassl.net/generator-csr.html
+
+curl  https://get.acme.sh | sh
+acme.sh=~/.acme.sh/acme.sh
+source ~/.bashrc
+~/.acme.sh/acme.sh --issue --dns dns_google --dnssleep 900 -d *.6tu.me
+~/.acme.sh/acme.sh  --issue  -d mmh.6tu.me -d www.mmh.6tu.me --webroot /home/mmh.6tu.me/
