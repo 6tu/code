@@ -13,6 +13,7 @@ cat >> /opt/lampp/etc/vhosts/${domain}.conf <<EOF
     <Directory /home/${domain}>
         SetOutputFilter DEFLATE
         Options Indexes FollowSymLinks
+        IndexOptions Charset=UTF-8
         AllowOverride All
         Order Deny,Allow
         Require all granted
@@ -36,6 +37,7 @@ cat >> /opt/lampp/etc/vhosts/${domain}.conf <<EOF
     <Directory /home/${domain}>
         SetOutputFilter DEFLATE
         Options Indexes FollowSymLinks
+        IndexOptions Charset=UTF-8
         AllowOverride All
         Order Deny,Allow
         Require all granted
