@@ -14,6 +14,7 @@
 
 456 $PROXY_DIR= 'cgiproxy' ;    # 脚本初始化时代码存储目录
 505 $SECRET_PATH= '' ;          # CGIPROXY 的自我保护目录
+520 $LOCAL_LIB_DIR= 'perl5' ;   # 指定perl5 默认在 /root/perl5
 536 $RUNNING_ON_SSL_SERVER= 1 ; # 当前服务器是否能 HTTPS
 613 $USER_FACING_PORT= 443 ;    # 服务器对外的端口
 
