@@ -1,0 +1,122 @@
+perl模块 Compress::Raw::Lzma 的安装
+
+用 cpan 安装任意perl模块总是提示 
+
+Couldn't untar Compress-Raw-Lzma-2.070.tar: 'Cannot allocate memory'
+
+可能是内存小，无奈之下 使用 cpanm ，CPANMinus 的安装，默认安装到 /usr/local/bin/cpanm
+
+sudo curl -L http://cpanmin.us | perl - --sudo App::cpanminus
+
+然后用 cpanm 安装  Compress::Raw::Lzma
+
+cpanm Compress::Raw::Lzma
+
+提示错误，无法安装，百度一圈，可能是系统中缺少 liblzma 库，
+
+sudo apt-get install liblzma-dev 
+
+然后编译 Compress::Raw::Lzma 模块，居然成功 了，随后 cpanm IO::Compress::Lzma 一切正常
+
+ tar zxvf Compress-Raw-Lzma-2.070.tar.gz
+ cd Compress-Raw-Lzma-2.070
+ perl Makefile.PL
+ make
+ make test
+ make install
+ 
+此外据说是 perl-modules 和 libwww-perl也有用。
+
+sudo aptitude install perl-modules
+apt-get install libwww-perl
+
+
+卸载perl模块  cpanm -U Compress::Raw::Lzma
+
+
+//////////////////////////////////////////////////////////////////
+
+tar zxvf cgiproxy.latest.tar.gz
+数据库名留空则不用数据库
+Examples:
+  ./nph-proxy.cgi init
+  ./nph-proxy.cgi install-modules
+  ./nph-proxy.cgi purge-db
+  ./nph-proxy.cgi start-fcgi -n 1000
+  ./nph-proxy.cgi start-server -n 1000
+
+//////////////////////////////////////////////////////////////////
+
+wget http://www.jmarshall.com/tools/cgiproxy/releases/cgiproxy.latest.tar.gz
+tar zxvf cgiproxy.latest.tar.gz
+./nph-proxy.cgi init
+ 
+  需要安装的 Perl 模块
+
+## 
+## install: [Net::SSLeay JSON IO::Compress::Lzma DBI DBD::SQLite]
+## 
+## http://cpan.llarian.net/authors/id/M/MI/MIKEM/Net-SSLeay-1.80.tar.gz
+## http://cpan.llarian.net/authors/id/M/MA/MAKAMAKA/JSON-2.90.tar.gz
+## http://cpan.llarian.net/authors/id/P/PM/PMQS/IO-Compress-Lzma-2.070.tar.gz
+## http://cpan.llarian.net/authors/id/T/TI/TIMB/DBI-1.636.tar.gz
+## http://cpan.llarian.net/authors/id/I/IS/ISHIGAKI/DBD-SQLite-1.54.tar.gz
+## 
+## Ubuntu 中安装必要的系统库
+## 
+## Net-SSLeay       需要的库  sudo apt-get install openssl libssl-dev libssl0.9.8 libgtk2.0-dev
+## 					 
+## JSON             需要的库  apt-get install libjson0-dev libjson0
+## 
+## IO-Compress-Lzma 需要的库  sudo aptitude install libcompress-raw-lzma-perl
+##                            sudo apt-get install liblzma-dev xzdec xz-utils zlib1g zlib1g.dev bzip2
+##                  依赖模块  IO::Uncompress::Base, IO::Compress::Base, Compress::Raw::Lzma
+##   Compress::Base 依赖模块  Compress::Raw::Zlib, Compress::Raw::Bzip2     
+## 
+## DBI              需要的库  sudo aptitude install libdbi-perl
+## 
+## DBD-SQLite       需要的库  sudo apt-get install sqlite3 libdbd-sqlite3-perl
+## 
+
+cpan 安装报错  Couldn't untar IO-Compress-Lzma-2.070.tar: 'Cannot allocate memory'  '
+
+则使用 cpanm ,默认安装到 /usr/local/bin/cpanm ，安装 cpanm
+
+sudo curl -L http://cpanmin.us | perl - --sudo App::cpanminus
+
+用 cpanm 安装
+
+cpanm Net::SSLeay
+cpanm JSON
+cpanm IO::Compress::Lzma
+cpanm DBI
+cpanm DBD::SQLite
+
+在安装 cpanm Compress::Raw::Lzma 时报错，使用编译方法成功，再次 cpanm IO::Compress::Lzma 安装成功
+
+wget http://www.cpan.org/authors/id/P/PM/PMQS/Compress-Raw-Lzma-2.070.tar.gz
+tar zxvf Compress-Raw-Lzma-2.070.tar.gz
+cd Compress-Raw-Lzma-2.070
+perl Makefile.PL
+make
+make test
+make install
+
+
+不相关的记录
+sudo aptitude install perl-modules
+apt-get install libwww-perl  命令列文字浏览器 Lynx http://invisible-island.net/lynx/
+
+
+运行
+
+sudo apt-get install libfcgi-dev
+cpanm FCGI
+cpanm FCGI::ProcManager
+./nph-proxy.cgi start-fcgi -n 1000 -p 8000
+./nph-proxy.cgi start-server -n 1000 -p 8000
+
+
+https://ubuntu-512mb-sfo2-01:8000/secret/
+
+
