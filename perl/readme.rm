@@ -25,6 +25,8 @@
 
 1487 $OVERRIDE_SECURITY= 1 ;    # 是否允许通过 HTTP 访问 HTTPS 的网站
 
-1567 sub cookie_encode {        # URL 编码
-1575 sub cookie_decode {        # URL 解码
+1531 sub proxy_encode {         # URL 编码
+1540 sub proxy_decode {         # URL 解码
+1567 sub cookie_encode {        # cookie 解码
+1575 sub cookie_decode {        # cookie 解码
 
