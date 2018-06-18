@@ -21,6 +21,9 @@ update-rc.d lampp defaults 99
 
 
 CentOS
+chmod +x /etc/rc.local
+echo /etc/rc.local >>/etc/profile &&  source /etc/profile
+echo /etc/rc.local >>~/.bash_profile &&  source /etc/profile
 vim /etc/rc.local
 /opt/lampp/lampp restartapache
 #/opt/lampp/ctlscript.sh restart apache
