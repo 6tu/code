@@ -1,0 +1,30 @@
+
+# 安装模块 ./nph-proxy.cgi install-modules
+
+# We couldn't install these modules:
+/opt/lampp/bin/cpan Net::SSLeay
+/opt/lampp/bin/cpan JSON
+/opt/lampp/bin/cpan IO::Compress::Gzip
+/opt/lampp/bin/cpan IO::Compress::Deflate
+/opt/lampp/bin/cpan IO::Compress::Lzma
+/opt/lampp/bin/cpan FCGI
+/opt/lampp/bin/cpan FCGI::ProcManager
+
+# 简单的设置
+
+456 $PROXY_DIR= 'cgiproxy' ;    # 脚本初始化时代码存储目录
+505 $SECRET_PATH= '' ;          # CGIPROXY 的自我保护目录
+536 $RUNNING_ON_SSL_SERVER= 1 ; # 当前服务器是否能 HTTPS
+613 $USER_FACING_PORT= 443 ;    # 服务器对外的端口
+
+741 $DB_DRIVER= 'SQLite' ;      # 数据库驱动，可选的使用项
+771 $USE_DB_FOR_COOKIES= 1 ;
+
+778 $DEFAULT_LANG= &#39;zh&#39; # 首页语言
+794 $REMOVE_COOKIES= 0 ;        # 是否接受 COOKIES
+
+1487 $OVERRIDE_SECURITY= 1 ;    # 是否允许通过 HTTP 访问 HTTPS 的网站
+
+1567 sub cookie_encode {        # URL 编码
+1575 sub cookie_decode {        # URL 解码
+
