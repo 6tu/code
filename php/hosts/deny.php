@@ -3,7 +3,7 @@ echo '<pre>';
 system('cat /etc/hosts.deny');
 system('/bin/cp -rf /etc/hosts.deny ./hosts.deny.bak');
 system("sed -i 's/^sshd:all*//g' /etc/hosts.deny"); # 把 sshd:all 开头的行替换为空行
-#system('echo "sshd:all"> /etc/hosts.deny');
+#system('echo "sshd:all">>/etc/hosts.deny');
 
 $deny = file_get_contents('hosts.deny.bak');
 $deny = str_replace("'","\'",$deny);
