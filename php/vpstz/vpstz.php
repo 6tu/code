@@ -602,6 +602,7 @@ if('/'==DIRECTORY_SEPARATOR){
     $ipinfo = @gethostbyname($_SERVER['SERVER_NAME']) . ' - ';
 }
 
+// 这里需要自行设定/etc/issue
 if(PHP_OS == 'Linux'){
     $kernel = substr(php_uname('r'), 0, stripos(php_uname('r'), '-'));
     //$os = file_get_contents('/etc/issue');
