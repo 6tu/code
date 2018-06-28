@@ -50,11 +50,13 @@ function access($ALLOWED_IP){
 	if(getenv("HTTP_CLIENT_IP"))$ip = getenv("HTTP_CLIENT_IP");
 	elseif(getenv("HTTP_X_FORWARDED_FOR"))$ip = getenv("HTTP_X_FORWARDED_FOR");
 	elseif(getenv("REMOTE_ADDR"))$ip = getenv("REMOTE_ADDR");
-	else$ip = "Unknow";
-	$ALLOWED_IP = array('10.104.149.47',
-						'119.29.23.116',
-						'211.94.*.*',
-						); # 允许访问的ip
+	else $ip = "Unknow";
+	if(empty($ALLOWED_IP)){
+	    $ALLOWED_IP = array('10.104.149.47',
+				'119.29.23.116',
+				'211.94.*.*',
+				); # 允许访问的ip
+	}
 	$check_ip_arr = explode('.', $ip);
 	# ip参数拆分成数组
 	if(!in_array($ip, $ALLOWED_IP)){
