@@ -1,0 +1,28 @@
+https://wangheng.org/html/mldonkey_optimization.html
+
+https://sourceforge.net/projects/mldonkey/files/
+apt install -y mldonkey-server
+mlnet -allowed_ips 0.0.0.0/0 >/dev/null 2>&1 &
+mlnet
+mldonkey
+
+chown -R mldonkey:mldonkey /root/.mldonkey
+chmod 0644 /root/.mldonkey/mlsubmit.reg
+vim /var/lib/mldonkey/downloads.ini
+vim /root/.mldonkey/downloads.ini 0.0.0.0/0
+/etc/init.d/mldonkey-server restart
+/root/.mldonkey/incomming/
+useradd admin password
+user admin passwd
+
+把4080端口映射到本地
+
+
+http://shortypower.org/server.met
+http://atomurl.net/donkey/server/server.met
+http://www.server-list.info/server.met
+http://youfiles.net/donkey/server/list/server.met
+http://upd.emule-security.org/server.met
+http://ed2k.2x4u.de/v1s4vbaf/max/server.met
+http://edk.peerates.net/servers.met
+
