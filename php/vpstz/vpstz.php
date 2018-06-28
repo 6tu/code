@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /* ----------------------------------------------------
  * 程序名称: PHP探针-Yahei
  * 程序功能: 探测系统的Web服务器运行环境
@@ -613,7 +613,9 @@ if(PHP_OS == 'Linux'){
 }else{
     $os = php_uname('s') . ' ' . php_uname('r');
 }
-$apache =  substr($_SERVER['SERVER_SOFTWARE'], 0, stripos($_SERVER['SERVER_SOFTWARE'], ' '));
+$apache =  trim($_SERVER['SERVER_SOFTWARE']) . ' ';
+$apache =  substr($apache, 0, stripos($apache, ' '));
+
 $os_info = $company . $ipinfo . $os . ' - ' . $apache . ' PHP/'. phpversion();
 //echo  $os_info;
 //ajax调用实时刷新
