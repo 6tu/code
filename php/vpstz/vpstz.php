@@ -577,21 +577,18 @@ for ($i = 2; $i < count($strs); $i++ ){
 $key = '';
 $value = '';
 foreach($strs as $k => $v){
-/*
-    if(strstr($v, 'eth0', true)){
-        $value .= $v;
-        $key .= $k;
-        $nic = 'eth0';
-    }elseif(strstr($v, 'venet0', true)){
-        $value .= $v;
-        $key .= $k;
-        $nic = 'venet0';
-    }
-*/
     $value .= $v;
-    $key .= $k;
-    $v_arr = explode(':', $v);
-    $nic = $v_arr[0];
+    $key .= $k; 
+    if(strstr($v, 'eth0')){
+        $nic = 'eth0';
+        break;
+    }elseif(strstr($v, 'venet')){
+        $nic = 'venet0';
+        break;
+    }else{
+        $v_arr = explode(':', $v);
+        $nic = $v_arr[0];
+    }
 }
 //echo $key ."\n" . $nic;
 
