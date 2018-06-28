@@ -577,6 +577,7 @@ for ($i = 2; $i < count($strs); $i++ ){
 $key = '';
 $value = '';
 foreach($strs as $k => $v){
+/*
     if(strstr($v, 'eth0', true)){
         $value .= $v;
         $key .= $k;
@@ -586,13 +587,26 @@ foreach($strs as $k => $v){
         $key .= $k;
         $nic = 'venet0';
     }
+*/
+    $value .= $v;
+    $key .= $k;
+    $v_arr = explode(':', $v);
+    $nic = $v_arr[0];
 }
 //echo $key ."\n" . $nic;
 
 $ipinfo = @$_SERVER['SERVER_NAME'] . ' - ';
+if('/'==DIRECTORY_SEPARATOR){
+    $ipinfo = @$_SERVER['SERVER_ADDR'] . ' - ';
+}else{
+    $ipinfo = @gethostbyname($_SERVER['SERVER_NAME']) . ' - ';
+}
+
 if(PHP_OS == 'Linux'){
     $kernel = substr(php_uname('r'), 0, stripos(php_uname('r'), '-'));
-    $os = file_get_contents('/etc/issue');
+    //$os = file_get_contents('/etc/issue');
+    $lastline = exec('cat /etc/issue', $res, $rc);
+    $os = $res[0];
     $os = str_replace(array("\r\n", "\n", '\n', '\l'), '', $os);
     $os = trim($os) . ' - ' . $kernel;
 }else{
