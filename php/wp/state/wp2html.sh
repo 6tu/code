@@ -2,7 +2,7 @@
 
 
 # 这里需要设定本地网站根目录
-wwwroot="/home/wwwroot/default"
+wwwroot="/var/www"
 
 # 脚本所在目录
 basepath=$(cd `dirname $0`; pwd)
@@ -78,7 +78,7 @@ echo "======================== 抓取站点: $url  ========================="
 echo ""
 echo ""
 
-wget -r -p -np -k --no-check-certificate --reject-regex '[\?]' -X /soft/,/wp-json/,feed/ "$url"
+wget -r -p -np -k --no-check-certificate --restrict-file-names=nocontrol --reject-regex='[\?]' -X /soft/,/wp-json/,feed/ "$url"
 
 clear
 echo "======================= $url 下载成功  =========================="
