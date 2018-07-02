@@ -224,7 +224,7 @@ EOF;
 function html_footer(){
     $html_footer = "    </div><br><br><br></body>\r\n
                     <center>
-                        Copyright © 2018. <a href='http://6tu.me'> 6tu.me </a> | 
+                        Copyright © 2018 <a href='http://6tu.me'> 6tu.me </a>.  | 
                         Powered by <font size=5>big foot </font> | 
                         源码由 <a href='http://www.yahei.net'>雅黑PHP探针</a> 改写而来
                     </center>
