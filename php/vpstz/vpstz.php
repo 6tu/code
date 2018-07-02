@@ -1,20 +1,9 @@
 <?php
 /* ----------------------------------------------------
- * 程序名称: PHP探针-Yahei
- * 程序功能: 探测系统的Web服务器运行环境
- * 程序开发: Yahei.Net
- * 联系方式: info@Yahei.net
- * Date: 1970-01-01 / 2012-07-08
- * ----------------------------------------------------
- * 使用条款:
- * 1.该软件免费使用.
- * 2.禁止任何衍生版本.
- * ----------------------------------------------------
- * 感谢以下朋友为探针做出的贡献:
- * zyypp,酷を龙卷风,龙智超,菊花肿了,闲人,Clare Lou,hotsnow
- * 二戒,yexinzhu,wangyu1314,Kokgog,gibyasus,黃子珅,A大,huli
- * 小松,charwin,华景网络
- * 您可能是下一个?
+ * 在 kn007.net 修改的在雅黑探针v0.4.7版本的基础上，
+ * 增加了 限制IP访问,修改了部分代码，适合远程调用
+ * 不涉及版权
+ *
  * ----------------------------------------------------
  * 在雅黑探针v0.4.7版本的基础上，修正了废弃函数及错误语法。使之兼容PHP7。
  * 资料来源: https://kn007.net/topics/yahei-php-probe-for-php7/
@@ -52,9 +41,7 @@ function access($ALLOWED_IP){
 	elseif(getenv("REMOTE_ADDR"))$ip = getenv("REMOTE_ADDR");
 	else $ip = "Unknow";
 	if(empty($ALLOWED_IP)){
-	    $ALLOWED_IP = array('10.104.149.47',
-				'119.29.23.116',
-				'211.94.*.*',
+	    $ALLOWED_IP = array('10.*.*.*',
 				); # 允许访问的ip
 	}
 	$check_ip_arr = explode('.', $ip);
