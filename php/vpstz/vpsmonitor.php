@@ -1,12 +1,10 @@
 <?php
 
 /**
- * 多台VPS上线监测工具
+ * VPS 云探针客户端
  * 
- * 服务端用 雅黑探针，客户端基本是雅黑探针的 HTML 部分
  * vpstz.php 是服务端，修改 $company 为VPS提供商的英文代号，如 aliyun
  * vps-monitor.php 算是客户端，修改服务器端探针所在的路径。$query_string可以留空
- * eth0表示VPS是KVM/VMware，VENET0则是Openvz
  * 
  * 系小白业余练习，请勿拍砖
  */
