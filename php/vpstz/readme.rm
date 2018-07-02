@@ -28,8 +28,8 @@ vpsmonitor.php 客户端基本上是雅黑探针的 HTML 部分,只是用PHP脚�
 --> $query_string 是服务器上 vpstz.php 文件的路径,后面的那个 "?" 不能少;
 --> $sites 这是服务器的IP或者域名.由于是数组,数组中各元素的键名不能重复,比如不能有两个'qcloud' 出现;
 --> $sites 中可以是完整的网址,如 http://qcloud.qq.com/tz/vpstz.php?act=rt&callback=? ,但$query_string必须留空;
---> jquery 沿用 http://lib.sinaapp.com/js/jquery/1.7/jquery.min.js ,如果想更改,这里个网站供参考:
-       http://www.jq22.com/jquery-info122
+--> jquery 沿用 http://lib.sinaapp.com/js/jquery/1.7/jquery.min.js ,如果想更改,大概在350行左右，修改链接 为 jquery-1.11.3.min.js
+           这里个网站供参考: http://www.jq22.com/jquery-info122
 
 
 大概就这些.怎么样,小白也算是抄袭狂人吧
