@@ -13,7 +13,7 @@
 
  
 # 服务器端探针指向 vpstz.php
-$query_string = '/tz/vpstz.php?act=rt&callback=?';
+$query_string = '/ytz/vpstz.php?act=rt&callback=?';
 
 # 服务器地址和商家名称，不支持中文名称
 $sites = array(
@@ -37,7 +37,7 @@ $color_array = array(
     '#dedede;color:#626262;'
     );
 
-$title = 'VPS 在线监测';
+$title = 'VPS 云探针';
 
 $json_all = '';
 $ajax_add_1 = '';
@@ -81,7 +81,7 @@ if(isset($_GET['act']) && $_GET['act'] == "rt"){
 
 $js = js_static_1() . $ajax_add_1 . js_static_2($sites_json) . $ajax_add_2 . js_static_3();
 $css = css_add($color_array);
-$body = "</head>\r\n<body><h4>VPS 上线监控</h4>\r\n" . "<a name=\"w_top\"></a>\r\n<div id=\"page\">\r\n<!--服务器相关参数-->" ;
+$body = "</head>\r\n<body><h4>VPS 云探针  低价小鸡，尽在失落中</h4>\r\n" . "<a name=\"w_top\"></a>\r\n<div id=\"page\">\r\n<!--服务器相关参数-->" ;
 $html = html_head($title) . $css . $js . $body. $span_add . html_footer();
 
 ob_end_clean();
@@ -222,7 +222,13 @@ EOF;
     }
 
 function html_footer(){
-    $html_footer = "    </div><br><br><br></body>\r\n<center><font size=5>big foot</font></center><p><br>\r\n</html>\r\n\r\n";
+    $html_footer = "    </div><br><br><br></body>\r\n
+                    <center>
+                        Copyright © 2018. 6tu.me | 
+                        Powered by <font size=5>big foot </font> | 
+                        源码由 <a href='http://www.yahei.net'>雅黑PHP探针</a> 改写而来
+                    </center>
+                        <p><br>\r\n</html>\r\n\r\n";
     return $html_footer;
     }
 
