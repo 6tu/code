@@ -19,10 +19,10 @@ vpsmonitor.php 客户端基本上是雅黑探针的 HTML 部分,只是用PHP脚�
 服务端vpstz.php
 --> 务必修改vpstz.php文件开头的 $company 和 $ALLOWED_IP 两变量;
 --> 如果网卡流量显示有误，则修改以下四行的[3]为[2] 或[4],或许它可能是[5]
-    第615行 'NetOut2'=>"$NetOut[3]"
-    第617行 'NetInput2'=>"$NetInput[3]",
-    第619行 'NetOutSpeed2'=>"$NetOutSpeed[3]",
-    第620行 'NetInputSpeed2'=>"$NetInputSpeed[3]",
+    第617行 'NetOut2'=>"$NetOut[3]"
+    第620行 'NetInput2'=>"$NetInput[3]",
+    第623行 'NetOutSpeed2'=>"$NetOutSpeed[3]",
+    第624行 'NetInputSpeed2'=>"$NetInputSpeed[3]",
 
 客户端 vpsmonitor.php 需修改文件开头的 $query_string 和 $sites 参数的值
 --> $query_string 是服务器上 vpstz.php 文件的路径,后面的那个 "?" 不能少;
