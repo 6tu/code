@@ -25,9 +25,15 @@ chmod +x /etc/rc.local
 echo /etc/rc.local >>/etc/profile &&  source /etc/profile
 echo /etc/rc.local >>~/.bash_profile &&  source /etc/profile
 vim /etc/rc.local
-/opt/lampp/lampp restartapache
+#chkconfig:  2345 81 96
+#description: lampp
+
+/opt/lampp/lampp startapache
 #/opt/lampp/ctlscript.sh restart apache
 service smb stop
+
+chkconfig --add lampp
+chkconfig lampp on
 
 如果没有msgunfmit命令，可以通过yum 安装一下 gettex 这个命令（目前没有直接安装msgunfmit的命令，这个gettex包里包含了这个命令）
 
