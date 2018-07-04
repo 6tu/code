@@ -43,6 +43,7 @@ ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 # 安装编译环境和依赖库
 echo "" && echo "======== install Development Tools ========" && echo ""
 yum install -y wget curl git vim zip unzip screen nohup dos2unix
+yum install -y dmidecode deltarpm redhat-lsb ntpdate ntp vixie-cron crontabs
 yum install -y whois net-tools redhat-lsb ca-certificates
 yum install -y zlib-devel bzip2-devel xz-devel libcurl-devel
 yum install -y openssl-devel ncurses-devel libpcap-devel
