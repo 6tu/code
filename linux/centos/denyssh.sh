@@ -1,4 +1,6 @@
 #!/bin/bash
+PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
+export PATH
 
 cat > /usr/local/cron/sshdeny.sh << "EOF"
 #!/bin/bash
@@ -22,7 +24,7 @@ rm -rf /tmp/sshDenyTemp.txt
 #echo sshd>> /root/ssh.log
 EOF
 
-Install_cron()
+function Install_cron()
 {
     if [ "$PM" = "yum" ]; then
         yum -y install  vixie-cron crontabs
@@ -42,7 +44,14 @@ Install_cron()
         chmod 600 /var/spool/cron/crontabs/root
     fi
 }
-Install_cron
+
+if [ ! -f "/usr/bin/yum" ]; then
+    PM=apt
+else
+    PM=yum
+fi
+
+Install_cron;
 chmod +x /usr/local/cron/sshdeny.sh
 
 echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
