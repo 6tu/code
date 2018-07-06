@@ -2,6 +2,7 @@
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
 
+test -d /usr/local/cron || mkdir -p /usr/local/cron
 cat > /usr/local/cron/sshdeny.sh << "EOF"
 #!/bin/bash
 DEFINE="3"
@@ -29,7 +30,7 @@ function Install_cron()
     if [ "$PM" = "yum" ]; then
         yum -y install  vixie-cron crontabs
         log=/var/log/secure
-        mkdir -p /usr/local/cron
+        test -d /var/spool/cron || mkdir -p /var/spool/cron
         echo '*/10 * * * * /bin/bash /usr/local/cron/sshdeny.sh > /dev/null 2>&1' >> /var/spool/cron/root
         crontab /var/spool/cron/root
         chmod 600 /var/spool/cron/root
@@ -38,7 +39,7 @@ function Install_cron()
         apt install -y cron
         log=/var/log/auth.log
         sed -i 's/secure/auth.log/g' /usr/local/cron/sshdeny.sh
-        mkdir -p /usr/local/cron/crontabs
+        test -d /var/spool/cron/crontabs || mkdir -p /var/spool/cron/crontabs
         echo '*/10 * * * * /bin/bash /usr/local/cron/sshdeny.sh > /dev/null 2>&1' >> /var/spool/cron/crontabs/root
         crontab /var/spool/cron/crontabs/root
         chmod 600 /var/spool/cron/crontabs/root
