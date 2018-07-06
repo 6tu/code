@@ -31,7 +31,7 @@ function Install_cron()
         yum -y install  vixie-cron crontabs
         log=/var/log/secure
         test -d /var/spool/cron || mkdir -p /var/spool/cron
-        echo '*/10 * * * * /bin/bash /usr/local/cron/sshdeny.sh > /dev/null 2>&1' >> /var/spool/cron/root
+        echo '*/10 * * * * /usr/local/cron/sshdeny.sh > /dev/null 2>&1' >> /var/spool/cron/root
         crontab /var/spool/cron/root
         chmod 600 /var/spool/cron/root
     elif [ "$PM" = "apt" ]; then
@@ -40,7 +40,7 @@ function Install_cron()
         log=/var/log/auth.log
         sed -i 's/secure/auth.log/g' /usr/local/cron/sshdeny.sh
         test -d /var/spool/cron/crontabs || mkdir -p /var/spool/cron/crontabs
-        echo '*/10 * * * * /bin/bash /usr/local/cron/sshdeny.sh > /dev/null 2>&1' >> /var/spool/cron/crontabs/root
+        echo '*/10 * * * * /usr/local/cron/sshdeny.sh > /dev/null 2>&1' >> /var/spool/cron/crontabs/root
         crontab /var/spool/cron/crontabs/root
         chmod 600 /var/spool/cron/crontabs/root
     fi
