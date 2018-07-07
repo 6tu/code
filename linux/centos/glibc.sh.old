@@ -1,0 +1,18 @@
+#! /bin/sh
+
+# update glibc to 2.17 for CentOS 6
+
+# https://gist.github.com/harv/f86690fcad94f655906ee9e37c85b174
+# https://cbs.centos.org/koji/buildinfo?buildID=7893
+# https://rpmfind.net/linux/dag/
+# https://getfedora.org/keys/
+# https://getfedora.org/keys/obsolete.html
+
+
+Download the latest elrepo-release rpm from
+http://elrepo.org/linux/elrepo/el6/x86_64/RPMS/
+# rpm -Uvh elrepo-release*rpm
+# yum install elrepo-release
+
+rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
+rpm -
