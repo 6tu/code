@@ -1,0 +1,86 @@
+#!/bin/bash
+
+domain=nl.6tu.me
+webroot=/var/www/html
+
+echo "" && echo "======== update system ========" && echo ""
+yum install -y epel-release
+yum -y update
+#yum makecache
+yum install -y vim dos2unix zip unzip tree bash-completion
+yum install -y wget curl git lrzsz nmap nc telnet time ntp ntpdate net-tools iproute bind-utils whois
+yum install -y redhat-lsb dmidecode deltarpm vixie-cron crontabs lsof rng-tools psmisc screen nohup
+#ntpdate pool.ntp.org
+rngd -r /dev/urandom
+
+echo "" && echo "======== install webserver ========" && echo ""
+cd ~
+yum install -y httpd mod_ssl mod_perl php php-devel php-gd php-pecl-memcache php-snmp php-xmlrpc php-xml php-mbstring
+curl https://get.acme.sh | sh
+source ~/.bashrc
+acme.sh --issue -d ${domain} -w ${webroot}/
+/bin/cp -rf /root/.acme.sh/${domain}/fullchain.cer /etc/pki/tls/certs/localhost.crt
+/bin/cp -rf /root/.acme.sh/${domain}/${domain}.key /etc/pki/tls/private/localhost.key
+chkconfig --add httpd
+chkconfig httpd on
+service httpd restart
+
+test -d ${webroot}/tz || mkdir -p ${webroot}/tz
+cd ${webroot}/tz
+github="--no-check-certificate https://raw.githubusercontent.com"
+wget -O ${webroot}/tz/vpstz.php https://raw.githubusercontent.com/6tu/code/master/php/vpstz/vpstz.php
+wget -O ${webroot}/tz/jquery.js https://raw.githubusercontent.com/6tu/code/master/php/vpstz/yahei/jquery.js
+wget -O ${webroot}/tz/p.php     https://raw.githubusercontent.com/6tu/code/master/php/vpstz/yahei/p.php
+echo '<?php phpinfo();' > ${webroot}/tz/phpinfo.php
+
+wget https://github.com/kalcaddle/KodExplorer/archive/4.25.zip
+unzip 4.25.zip
+mv KodExplorer-4.25 kod
+find ${webroot} -type f -exec chmod 644 {} \;
+find ${webroot} -type d -exec chmod 755 {} \;
+chown -R apache:apache ${webroot}
+
+echo "" && echo "======== update glibc to 2.22 ========" && echo ""
+cd ~
+test -d glibc || mkdir -p glibc
+cd glibc
+wget http://cbs.centos.org/kojifiles/packages/glibc/2.22.90/21.el7/x86_64/glibc-2.22.90-21.el7.x86_64.rpm
+wget http://cbs.centos.org/kojifiles/packages/glibc/2.22.90/21.el7/x86_64/glibc-common-2.22.90-21.el7.x86_64.rpm
+wget http://cbs.centos.org/kojifiles/packages/glibc/2.22.90/21.el7/x86_64/glibc-devel-2.22.90-21.el7.x86_64.rpm
+wget http://cbs.centos.org/kojifiles/packages/glibc/2.22.90/21.el7/x86_64/glibc-headers-2.22.90-21.el7.x86_64.rpm
+rpm -Uvh glibc-2.22.90-21.el7.x86_64.rpm \
+         glibc-common-2.22.90-21.el7.x86_64.rpm \
+         glibc-devel-2.22.90-21.el7.x86_64.rpm \
+         glibc-headers-2.22.90-21.el7.x86_64.rpm \
+         --force --nodeps
+
+echo "" && echo "======== install ikev2 vpn ========" && echo ""
+cd ~
+test -d vpn || mkdir vpn
+cd vpn
+wget --no-check-certificate https://raw.githubusercontent.com/6tu/code/master/certs/certs-init.sh
+wget --no-check-certificate https://raw.githubusercontent.com/6tu/code/master/certs/makecert.sh
+#wget --no-check-certificate https://raw.githubusercontent.com/quericy/one-key-ikev2-vpn/master/one-key-ikev2.sh
+wget --no-check-certificate https://raw.githubusercontent.com/6tu/code/master/linux/quericy-one-key-ikev2.sh
+wget --no-check-certificate https://raw.githubusercontent.com/6tu/code/master/linux/proxyndp.updown
+chmod +x proxyndp.updown
+chmod +x *.sh
+./certs-init.sh
+./makecert.sh
+cp ~/certs/*_cert.crt ./server.cert.pem
+cp ~/certs/*_csr_nopw.key ./server.pem
+cp ~/certs/demoCA/cacert.pem ./ca.cert.pem
+bash ./quericy-one-key-ikev2.sh
+cp proxyndp.updown /usr/local/etc/strongswan.d/
+sed -i 's/IFACE=eth0/IFACE=venet0/g' /usr/local/etc/strongswan.d/proxyndp.updown
+
+echo "" && echo "======== 安装 shadowsocks-all ========" && echo ""
+cd ~
+test -d ss || mkdir ss
+cd ss
+wget --no-check-certificate https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-all.sh
+chmod +x shadowsocks-all.sh
+./shadowsocks-all.sh 2>&1 | tee shadowsocks-all.log
+
+
+
