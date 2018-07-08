@@ -56,20 +56,21 @@ bash ./dependencies.sh
 
 # 安装 shadowsocks
 /bin/cp -rf $basepath/shell/shadowsocks-all.sh $basepath/ss/shadowsocks-all.sh
-$basepath/ss/shadowsocks-all.sh 2>&1 | tee shadowsocks-all.log
+cd $basepath/ss
+./shadowsocks-all.sh 2>&1 | tee shadowsocks-all.log
 
 # 制作 证书 和安装 VPN
 /bin/cp -rf $basepath/shell/ikev2vpn.sh $basepath/vpn/ikev2vpn.sh
-bash $basepath/vpn/ikev2vpn.sh
+cd $basepath/vpn && bash ./ikev2vpn.sh
 
 # 升级 glibc
 /bin/cp -rf $basepath/shell/glibc.sh $basepath/glibc/glibc.sh
-bash $basepath/glibc/glibc.sh
+cd $basepath/glibc && bash ./glibc.sh
 
 # 安装 web 服务器
 yum remove apache2 httpd
 /bin/cp -rf $basepath/shell/lampp.sh $basepath/soft/lampp.sh
-bash $basepath/soft/lampp.sh
+cd $basepath/soft && bash ./lampp.sh
 
 # 许可登录 SSHD 服务 IP
 bash $basepath/shell/denyssh.sh
