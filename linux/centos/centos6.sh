@@ -21,38 +21,28 @@ echo "" && echo "======== system update ========" && echo ""
 # 提供额外的软件包
 yum install -y epel-release
 yum -y update
-yum makecache
+# yum makecache
 yum install -y wget dos2unix yum-utils
-
-# 安装中文环境
-echo "" && echo "======== install chinese-support ========" && echo ""
-yum -y groupinstall chinese-support
-touch /etc/sysconfig/i18n
-echo LANG="zh_CN.UTF-8" > /etc/sysconfig/i18n
-echo LANGUAGE="zh_CN.UTF-8:zh_CN.GB18030:zh_CN.GB2312:zh_CN" >> /etc/sysconfig/i18n
-echo SUPPORTED="zh_CN.UTF-8:zh_CN.GB18030:zh_CN.GB2312:zh_CN:zh:en_US.UTF-8:en_US:en" >> /etc/sysconfig/i18n
-echo SYSFONT="lat0-sun16" >> /etc/sysconfig/i18n
-echo export LC_ALL="zh_CN.UTF-8" >> /etc/sysconfig/i18n
 
 # 建立所需目录
 test -d $basepath/shell || mkdir -p $basepath/shell
-test -d $basepath/ss || mkdir -p $basepath/ss
-test -d $basepath/vpn || mkdir -p $basepath/vpn
+test -d $basepath/ss    || mkdir -p $basepath/ss
+test -d $basepath/vpn   || mkdir -p $basepath/vpn
 test -d $basepath/glibc || mkdir -p $basepath/glibc
-test -d $basepath/soft || mkdir -p $basepath/soft
+test -d $basepath/soft  || mkdir -p $basepath/soft
 
 # 下载所需 shell 文件
 cd $basepath/shell
-wget --no-check-certificate https://raw.githubusercontent.com/6tu/code/master/linux/centos/dependencies.sh
-wget --no-check-certificate https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-all.sh
-wget --no-check-certificate https://raw.githubusercontent.com/6tu/code/master/linux/vpn/ikev2vpn.sh
-wget --no-check-certificate https://raw.githubusercontent.com/6tu/code/master/linux/centos/glibc.sh
-wget --no-check-certificate https://raw.githubusercontent.com/6tu/code/master/linux/xampp/lampp.sh
-wget --no-check-certificate https://raw.githubusercontent.com/6tu/code/master/linux/centos/denyssh.sh
+wget -q --no-check-certificate https://raw.githubusercontent.com/6tu/code/master/linux/centos/dependencies.sh
+wget -q --no-check-certificate https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-all.sh
+wget -q --no-check-certificate https://raw.githubusercontent.com/6tu/code/master/linux/vpn/ikev2vpn.sh
+wget -q --no-check-certificate https://raw.githubusercontent.com/6tu/code/master/linux/centos/glibc.sh
+wget -q --no-check-certificate https://raw.githubusercontent.com/6tu/code/master/linux/xampp/lampp.sh
+wget -q --no-check-certificate https://raw.githubusercontent.com/6tu/code/master/linux/centos/denyssh.sh
 chmod +x *.sh && dos2unix *.sh
 
 # 安装编译环境和依赖库
-#bash ./dependencies.sh
+bash ./dependencies.sh
 
 # 安装 shadowsocks
 clear && echo "" && echo "======== install shadowsocks========" && echo ""
@@ -75,6 +65,22 @@ clear && echo "" && echo "======== install xampp========" && echo ""
 yum remove apache2 httpd
 /bin/cp -rf $basepath/shell/lampp.sh $basepath/soft/lampp.sh
 cd $basepath/soft && bash ./lampp.sh
+
+# 更新内核
+clear && echo "" && echo "======== update kernel to latest ========" && echo ""
+rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
+rpm -Uvh http://www.elrepo.org/elrepo-release-6-8.el6.elrepo.noarch.rpm
+yum --enablerepo=elrepo-kernel install -y kernel-ml kernel-ml-devel kernel-ml-headers
+
+# 安装中文环境
+clear && echo "" && echo "======== install chinese-support ========" && echo ""
+yum -y groupinstall chinese-support
+touch /etc/sysconfig/i18n
+echo LANG="zh_CN.UTF-8" > /etc/sysconfig/i18n
+echo LANGUAGE="zh_CN.UTF-8:zh_CN.GB18030:zh_CN.GB2312:zh_CN" >> /etc/sysconfig/i18n
+echo SUPPORTED="zh_CN.UTF-8:zh_CN.GB18030:zh_CN.GB2312:zh_CN:zh:en_US.UTF-8:en_US:en" >> /etc/sysconfig/i18n
+echo SYSFONT="lat0-sun16" >> /etc/sysconfig/i18n
+echo export LC_ALL="zh_CN.UTF-8" >> /etc/sysconfig/i18n
 
 # 许可登录 SSHD 服务 IP
 clear && echo "" && echo "======== set sshd firewall========" && echo ""
