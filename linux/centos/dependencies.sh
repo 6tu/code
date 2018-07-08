@@ -15,3 +15,12 @@ yum -y groupinstall "Development libraries" "Development tools"
 # yum install -y httpd mod_ssl mod_perl php php-devel php-gd php-pecl-memcache php-snmp php-xmlrpc php-xml php-mbstring
 
 rngd -r /dev/urandom
+
+rpm -e --nodeps autoconf-2.63
+mkdir ~/autoconf && cd ~/autoconf
+wget http://ftp.gnu.org/gnu/autoconf/autoconf-2.69.tar.gz
+tar -xzf autoconf-2.69.tar.gz 
+cd autoconf-2.69
+./configure 
+make && make install
+
