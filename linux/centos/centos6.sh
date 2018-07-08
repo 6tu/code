@@ -55,24 +55,29 @@ chmod +x *.sh && dos2unix *.sh
 bash ./dependencies.sh
 
 # 安装 shadowsocks
+clear && echo "" && echo "======== install shadowsocks========" && echo ""
 /bin/cp -rf $basepath/shell/shadowsocks-all.sh $basepath/ss/shadowsocks-all.sh
 cd $basepath/ss
 ./shadowsocks-all.sh 2>&1 | tee shadowsocks-all.log
 
 # 制作 证书 和安装 VPN
+clear && echo "" && echo "======== install strongswan========" && echo ""
 /bin/cp -rf $basepath/shell/ikev2vpn.sh $basepath/vpn/ikev2vpn.sh
 cd $basepath/vpn && bash ./ikev2vpn.sh
 
 # 升级 glibc
+clear && echo "" && echo "======== update glibc========" && echo ""
 /bin/cp -rf $basepath/shell/glibc.sh $basepath/glibc/glibc.sh
 cd $basepath/glibc && bash ./glibc.sh
 
 # 安装 web 服务器
+clear && echo "" && echo "======== install xampp========" && echo ""
 yum remove apache2 httpd
 /bin/cp -rf $basepath/shell/lampp.sh $basepath/soft/lampp.sh
 cd $basepath/soft && bash ./lampp.sh
 
 # 许可登录 SSHD 服务 IP
+clear && echo "" && echo "======== set sshd firewall========" && echo ""
 bash $basepath/shell/denyssh.sh
 allowip1=`who am i | awk '{print $5}' | sed 's/(//g' | sed 's/)//g'`
 allowip2=`echo $SSH_CLIENT| awk '{print $1}'`
