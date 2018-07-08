@@ -1,3 +1,5 @@
+#!/bin/bash
+
 yum install -y vim dos2unix zip unzip tree bash-completion time
 yum install -y wget curl git lrzsz nmap nc telnet ntp ntpdate net-tools iproute bind-utils whois
 yum install -y yum-utils redhat-lsb dmidecode deltarpm vixie-cron crontabs lsof psmisc screen virt-what nohup
