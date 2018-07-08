@@ -14,7 +14,11 @@ yum install -y --skip-broken libtool udns-devel libev-devel
 
 # yum install -y httpd mod_ssl mod_perl php php-devel php-gd php-pecl-memcache php-snmp php-xmlrpc php-xml php-mbstring
 
+chkconfig --add rngd
+chkconfig rngd on
 rngd -r /dev/urandom
+service rngd start
+cat /proc/sys/kernel/random/entropy_avail
 
 rpm -e --nodeps autoconf-2.63
 test -d ~/autoconf || mkdir ~/autoconf
