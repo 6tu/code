@@ -6,7 +6,7 @@ yum install -y --skip-broken yum-utils redhat-lsb dmidecode deltarpm vixie-cron 
 yum install -y --skip-broken zlib-devel* bzip2-devel xz-devel libcurl-devel
 yum install -y --skip-broken libxml2 libxml2-devel libxslt libxslt-devel xmlto asciidoc man
 yum install -y --skip-broken libjpeg-devel libpng-devel libtiff-devel freetype-devel pam-devel gettext-devel pcre-devel
-yum install -y --skip-broken openssl openssl-devel ncurses-devel libpcap-devel ca-certificates gpgme-devel rng-tools
+yum install -y --skip-broken openssl-devel ncurses-devel libpcap-devel ca-certificates gpgme-devel rng-tools
 yum install -y --skip-broken libtool udns-devel libev-devel
 # yum install -y --skip-broken gcc flex bison autoconf automake
 # yum -y groupinstall "Development libraries" "Development tools"
