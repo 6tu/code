@@ -112,6 +112,17 @@ echo ${mysqlpw} > /opt/lampp/mysqlpw
 sed -i "s/Require local/# Require local \n    Require all granted/g" /opt/lampp/etc/extra/httpd-xampp.conf
 sed -i "s/\['auth_type'] = 'config';/\['auth_type'] = 'config';\n\n\$cfg['Servers'][\$i]['auth_type'] = 'cookie';\n#/g" /opt/lampp/phpmyadmin/config.inc.php
 
+echo '#!/bin/bash'>/etc/init.d/lampp
+echo '# chkconfig: 2345 90 10'>>/etc/init.d/lampp
+echo '# description: lampp'>>/etc/init.d/lampp
+echo '/opt/lampp/lampp startapache'>>/etc/init.d/lampp
+echo '/opt/lampp/lampp startmysql'>>/etc/init.d/lampp
+echo 'exit 0'>>/etc/init.d/lampp
+chmod +x /etc/init.d/lampp
+update-rc.d lampp defaults
+chkconfig --add lampp
+chkconfig lampp on
+
 /opt/lampp/ctlscript.sh restart apache
 
 # 增加 FTP 分组
