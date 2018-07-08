@@ -1,6 +1,6 @@
 yum install -y vim dos2unix zip unzip tree bash-completion time
 yum install -y wget curl git lrzsz nmap nc telnet ntp ntpdate net-tools iproute bind-utils whois
-yum install -y redhat-lsb dmidecode deltarpm vixie-cron crontabs lsof psmisc screen virt-what nohup
+yum install -y yum-utils redhat-lsb dmidecode deltarpm vixie-cron crontabs lsof psmisc screen virt-what nohup
 yum install -y zlib-devel* bzip2-devel xz-devel libcurl-devel
 yum install -y libxml2 libxml2-devel libxslt libxslt-devel xmlto asciidoc man
 yum install -y libjpeg-devel libpng-devel libtiff-devel freetype-devel pam-devel gettext-devel pcre-devel
