@@ -22,7 +22,7 @@ echo "" && echo "======== system update ========" && echo ""
 yum install -y epel-release
 yum -y update
 yum makecache
-yum install -y wget dos2unix
+yum install -y wget dos2unix yum-utils
 
 # 安装中文环境
 echo "" && echo "======== install chinese-support ========" && echo ""
@@ -53,7 +53,6 @@ chmod +x *.sh && dos2unix *.sh
 
 # 安装编译环境和依赖库
 bash ./dependencies.sh
-
 
 # 安装 shadowsocks
 /bin/cp -rf $basepath/shell/shadowsocks-all.sh $basepath/ss/shadowsocks-all.sh
