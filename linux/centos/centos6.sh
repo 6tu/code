@@ -59,7 +59,7 @@ yum install -y libtool udns-devel libev-devel
 yum install -y gcc flex bison autoconf automake
 yum -y groupinstall "Development libraries" "Development tools"
 yum reinstall -y glibc-common
-# yum install -y httpd mod_ssl php php-devel php-gd php-pecl-memcache php-snmp php-xmlrpc php-xml php-mbstring
+# yum install -y httpd mod_ssl mod_perl php php-devel php-gd php-pecl-memcache php-snmp php-xmlrpc php-xml php-mbstring
 
 rngd -r /dev/urandom
 
@@ -138,18 +138,33 @@ cp ~/certs/*_csr_nopw.key ./server.pem
 cp ~/certs/demoCA/cacert.pem ./ca.cert.pem
 ./quericy-one-key-ikev2.sh
 
+# 升级 glibc
+echo "" && echo "======== update glibc to 2.22 ========" && echo ""
+cd $basepath
+test -d glibc || mkdir -p glibc
+cd glibc
+wget http://cbs.centos.org/kojifiles/packages/glibc/2.22.90/21.el7/x86_64/glibc-2.22.90-21.el7.x86_64.rpm
+wget http://cbs.centos.org/kojifiles/packages/glibc/2.22.90/21.el7/x86_64/glibc-common-2.22.90-21.el7.x86_64.rpm
+wget http://cbs.centos.org/kojifiles/packages/glibc/2.22.90/21.el7/x86_64/glibc-devel-2.22.90-21.el7.x86_64.rpm
+wget http://cbs.centos.org/kojifiles/packages/glibc/2.22.90/21.el7/x86_64/glibc-headers-2.22.90-21.el7.x86_64.rpm
+rpm -Uvh glibc-2.22.90-21.el7.x86_64.rpm \
+         glibc-common-2.22.90-21.el7.x86_64.rpm \
+         glibc-devel-2.22.90-21.el7.x86_64.rpm \
+         glibc-headers-2.22.90-21.el7.x86_64.rpm \
+         --force --nodeps
+
 # 安装 web 服务器
 echo "" && echo "======== install web tools ========" && echo ""
 yum remove apache2
 cd $basepath
 mkdir soft && cd soft
 
-wget http://www.ispconfig.org/downloads/ISPConfig-3.1.5.tar.gz
-git clone https://github.com/yourshell/ispconfig_setup.git
+# wget http://www.ispconfig.org/downloads/ISPConfig-3.1.5.tar.gz
+# git clone https://github.com/yourshell/ispconfig_setup.git
 # https://github.com/dclardy64/
 ## 
-wget http://soft.vpser.net/lnmp/lnmp1.4-full.tar.gz
-wget --no-check-certificate https://raw.githubusercontent.com/6tu/code/master/linux/xampp-dir.sh
+# wget http://soft.vpser.net/lnmp/lnmp1.4-full.tar.gz
+# wget --no-check-certificate https://raw.githubusercontent.com/6tu/code/master/linux/xampp-dir.sh
 wget --content-disposition http://yisuo.asia/xampp.php?os=linux
 # rename "s/\?from_af=t//" *
 # rename "s/runrue/run/" *
