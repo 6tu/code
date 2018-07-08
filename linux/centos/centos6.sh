@@ -52,7 +52,7 @@ wget --no-check-certificate https://raw.githubusercontent.com/6tu/code/master/li
 chmod +x *.sh && dos2unix *.sh
 
 # 安装编译环境和依赖库
-bash ./dependencies.sh
+#bash ./dependencies.sh
 
 # 安装 shadowsocks
 clear && echo "" && echo "======== install shadowsocks========" && echo ""
