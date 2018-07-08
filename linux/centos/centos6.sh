@@ -55,6 +55,12 @@ clear && echo "" && echo "======== install strongswan========" && echo ""
 /bin/cp -rf $basepath/shell/ikev2vpn.sh $basepath/vpn/ikev2vpn.sh
 cd $basepath/vpn && bash ./ikev2vpn.sh
 
+# 更新内核
+clear && echo "" && echo "======== update kernel to latest ========" && echo ""
+rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
+rpm -Uvh http://www.elrepo.org/elrepo-release-6-8.el6.elrepo.noarch.rpm
+yum --enablerepo=elrepo-kernel install -y kernel-ml kernel-ml-devel kernel-ml-headers
+
 # 升级 glibc
 clear && echo "" && echo "======== update glibc========" && echo ""
 /bin/cp -rf $basepath/shell/glibc.sh $basepath/glibc/glibc.sh
@@ -65,12 +71,6 @@ clear && echo "" && echo "======== install xampp========" && echo ""
 yum remove apache2 httpd
 /bin/cp -rf $basepath/shell/lampp.sh $basepath/soft/lampp.sh
 cd $basepath/soft && bash ./lampp.sh
-
-# 更新内核
-clear && echo "" && echo "======== update kernel to latest ========" && echo ""
-rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
-rpm -Uvh http://www.elrepo.org/elrepo-release-6-8.el6.elrepo.noarch.rpm
-yum --enablerepo=elrepo-kernel install -y kernel-ml kernel-ml-devel kernel-ml-headers
 
 # 安装中文环境
 clear && echo "" && echo "======== install chinese-support ========" && echo ""
