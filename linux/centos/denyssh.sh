@@ -16,12 +16,15 @@ do
         grep $IP /etc/hosts.deny > /dev/null
         if [ $? -gt 0 ];
         then
+            echo $IP>/tmp/ip.txt
+            IP=`sed 's/\.[0-9]\.[0-9]*$/\.0\.0\/16/' /tmp/ip.txt`
             echo "sshd:$IP" >> /etc/hosts.deny
         fi
     fi
 done
 echo > /var/log/secure
 rm -rf /tmp/sshDenyTemp.txt
+rm -rf /tmp/ip.txt
 #echo sshd>> /root/ssh.log
 EOF
 
