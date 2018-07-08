@@ -89,15 +89,16 @@ echo "sshd:${allowip1}" >> /etc/hosts.allow
 echo "sshd:${allowip2}" >> /etc/hosts.allow
 echo "sshd:211.94.*.*" >> /etc/hosts.allow
 echo "sshd:all" >> /etc/hosts.deny
-service ssh restart
+service sshd restart
 
+# 设置SSH名单
+clear && echo "" && echo "======== set sshd firewall========" && echo ""
 yum -y update
 yum autoremove
 yum clean all
 yum autoclean
 
-clear
-echo "" && echo "======== reboot VPS ========" && echo ""
+clear && echo "" && echo "======== reboot VPS ========" && echo ""
 read -s -n1 -p "This command will reboot the system.  Continue?"
 echo "Please enter 'yes' or 'no': $REPLY"
 if [[ ! $REPLY =~ "yes" ]] ;then
