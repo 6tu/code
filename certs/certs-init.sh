@@ -2,10 +2,10 @@
 # 认定已存在密码用 passin
 
 certspath=~/certs
-mkdir -p ${certspath}/conf
-mkdir -p ${certspath}/demoCA
+test -d ${certspath}/conf || mkdir -p ${certspath}/conf
+test -d ${certspath}/demoCA || mkdir -p ${certspath}/demoCA
 cd ${certspath}/demoCA
-mkdir certs crl newcerts private
+test -d certs crl newcerts private || mkdir certs crl newcerts private
 touch serial
 echo 00000000 > serial
 touch index.txt
