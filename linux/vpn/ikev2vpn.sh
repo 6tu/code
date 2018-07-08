@@ -8,12 +8,12 @@ fi
 
 test -d ~/vpn || mkdir ~/vpn
 cd ~/vpn
-wget --no-check-certificate https://raw.githubusercontent.com/6tu/code/master/certs/certs-init.sh
-wget --no-check-certificate https://raw.githubusercontent.com/6tu/code/master/certs/makecert.sh
-#wget --no-check-certificate https://raw.githubusercontent.com/quericy/one-key-ikev2-vpn/master/one-key-ikev2.sh
-wget --no-check-certificate https://raw.githubusercontent.com/6tu/code/master/linux/vpn/quericy-one-key-ikev2.sh
-wget --no-check-certificate https://raw.githubusercontent.com/6tu/code/master/linux/vpn/proxyndp.updown
-wget --no-check-certificate https://raw.githubusercontent.com/6tu/code/master/linux/vpn/strongswan
+wget -q --no-check-certificate https://raw.githubusercontent.com/6tu/code/master/certs/certs-init.sh
+wget -q --no-check-certificate https://raw.githubusercontent.com/6tu/code/master/certs/makecert.sh
+#wget -q --no-check-certificate https://raw.githubusercontent.com/quericy/one-key-ikev2-vpn/master/one-key-ikev2.sh
+wget -q --no-check-certificate https://raw.githubusercontent.com/6tu/code/master/linux/vpn/quericy-one-key-ikev2.sh
+wget -q --no-check-certificate https://raw.githubusercontent.com/6tu/code/master/linux/vpn/proxyndp.updown
+wget -q --no-check-certificate https://raw.githubusercontent.com/6tu/code/master/linux/vpn/strongswan
 
 chmod +x strongswan proxyndp.updown *.sh
 dos2unix strongswan proxyndp.updown *.sh
