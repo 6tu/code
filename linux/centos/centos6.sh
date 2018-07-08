@@ -97,7 +97,7 @@ echo "sshd:211.94.*.*" >> /etc/hosts.allow
 echo "sshd:all" >> /etc/hosts.deny
 service sshd restart
 
-# 设置SSH名单
+# 清理垃圾
 clear && echo "" && echo "======== set sshd firewall========" && echo ""
 yum -y update
 yum autoremove
