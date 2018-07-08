@@ -25,20 +25,20 @@ bash ./makecert.sh
 /bin/cp -rf  ~/certs/demoCA/cacert.pem ./ca.cert.pem
 bash ./quericy-one-key-ikev2.sh
 
+/bin/cp -rf strongswan /etc/init.d/strongswan
+update-rc.d strongswan defaults
+chkconfig --add strongswan
+chkconfig strongswan on
+
 ifc=`ls /sys/class/net`
 echo $ifc>~/vpn/ifc.log
 /bin/cp -rf  proxyndp.updown /usr/local/etc/strongswan.d/
 if egrep "venet0" ~/vpn/ifc.log > /dev/null
 then
     sed -i 's/IFACE=eth0/IFACE=venet0/g' /usr/local/etc/strongswan.d/proxyndp.updown
-else if egrep "ens3" ~/vpn/ifc.log > /dev/null
+elseif egrep "ens3" ~/vpn/ifc.log > /dev/null
     sed -i 's/IFACE=eth0/IFACE=ens3/g' /usr/local/etc/strongswan.d/proxyndp.updown
 else
     sed -i 's/IFACE=eth0/IFACE=eth0/g' /usr/local/etc/strongswan.d/proxyndp.updown
 fi
-
-/bin/cp -rf strongswan /etc/init.d/strongswan
-update-rc.d strongswan defaults
-chkconfig --add strongswan
-chkconfig strongswan on
 
