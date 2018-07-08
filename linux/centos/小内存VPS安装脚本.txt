@@ -15,7 +15,20 @@ rngd -r /dev/urandom
 
 echo "" && echo "======== install webserver ========" && echo ""
 cd ~
-yum install -y httpd mod_ssl mod_perl php php-devel php-gd php-pecl-memcache php-snmp php-xmlrpc php-xml php-mbstring
+# yum install -y httpd mod_ssl mod_perl php php-devel php-gd php-pecl-memcache php-snmp php-xmlrpc php-xml php-mbstring
+
+rpm -Uvh http://dev.mysql.com/get/mysql-community-release-el7-5.noarch.rpm
+# wget http://dev.mysql.com/get/mysql-community-release-el7-5.noarch.rpm
+# rpm -ivh mysql-community-release-el7-5.noarch.rpm
+yum install -y --skip-broken mysql-community-server
+yum install -y --skip-broken httpd mod_ssl mod_perl php php-devel php-gd php-pecl-memcache php-snmp php-xmlrpc php-xml php-mbstring
+yum install -y --skip-broken httpd mod_ssl mod_perl mod_http2 mysql mysql-server mysql-libs
+yum install -y --skip-broken php php-mysql php-mysqlnd php-devel php-gd php-pear php-pecl-memcache php-snmp php-xmlrpc php-xml php-mbstring php-soap php-json
+yum install -y --skip-broken php-bcmath php-mhash libmcrypt php-mcrypt openssl-devel curl curl-devel
+
+
+
+
 curl https://get.acme.sh | sh
 source ~/.bashrc
 acme.sh --issue -d ${domain} -w ${webroot}/
