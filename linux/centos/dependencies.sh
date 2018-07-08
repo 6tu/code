@@ -8,8 +8,8 @@ yum install -y --skip-broken libxml2 libxml2-devel libxslt libxslt-devel xmlto a
 yum install -y --skip-broken libjpeg-devel libpng-devel libtiff-devel freetype-devel pam-devel gettext-devel pcre-devel
 yum install -y --skip-broken openssl-devel ncurses-devel libpcap-devel ca-certificates gpgme-devel rng-tools
 yum install -y --skip-broken libtool udns-devel libev-devel
-# yum install -y --skip-broken gcc flex bison autoconf automake
-# yum -y groupinstall "Development libraries" "Development tools"
+yum install -y --skip-broken gcc flex bison autoconf automake
+yum -y groupinstall "Development libraries" "Development tools"
 # yum reinstall -y glibc-common
 
 # yum install -y httpd mod_ssl mod_perl php php-devel php-gd php-pecl-memcache php-snmp php-xmlrpc php-xml php-mbstring
@@ -18,6 +18,8 @@ chkconfig --add rngd
 chkconfig rngd on
 rngd -r /dev/urandom
 service rngd start
+systemctl enable rngd.service
+systemctl start rngd.service
 cat /proc/sys/kernel/random/entropy_avail
 
 rpm -e --nodeps autoconf-2.63
