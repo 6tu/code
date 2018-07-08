@@ -17,7 +17,8 @@ yum -y groupinstall "Development libraries" "Development tools"
 rngd -r /dev/urandom
 
 rpm -e --nodeps autoconf-2.63
-mkdir ~/autoconf && cd ~/autoconf
+test -d ~/autoconf || mkdir ~/autoconf
+cd ~/autoconf
 wget http://ftp.gnu.org/gnu/autoconf/autoconf-2.69.tar.gz
 tar -xzf autoconf-2.69.tar.gz 
 cd autoconf-2.69
