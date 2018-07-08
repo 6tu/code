@@ -8,7 +8,8 @@ yum install -y openssl openssl-devel ncurses-devel libpcap-devel ca-certificates
 yum install -y libtool udns-devel libev-devel
 yum install -y gcc flex bison autoconf automake
 yum -y groupinstall "Development libraries" "Development tools"
-yum reinstall -y glibc-common
+#yum reinstall -y glibc-common
+
 # yum install -y httpd mod_ssl mod_perl php php-devel php-gd php-pecl-memcache php-snmp php-xmlrpc php-xml php-mbstring
 
 rngd -r /dev/urandom
