@@ -38,4 +38,8 @@ yum --enablerepo=elrepo-kernel install -y kernel-ml kernel-ml-devel kernel-ml-he
 # cat /boot/grub2/grub.cfg |grep menuentry
 #修改开机时默认使用的内核
 # grub2-set-default 'CentOS Linux (3.10.0-327.el7.x86_64) 7 (Core)'
+# 或者  grub2-set-default 0
 
+
+
+https://teddysun.com/489.html
