@@ -1,0 +1,13 @@
+
+systemctl stop firewalld
+systemctl mask firewalld
+yum install -y iptables-services
+service iptables save
+service iptables restart
+
+vi /etc/ssh/sshd_config
+
+yum provides semanage
+yum -y install policycoreutils-python
+semanage port -a -t ssh_port_t -p tcp 22622
+
