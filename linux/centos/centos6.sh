@@ -5,7 +5,7 @@
 # 脚本工作目录
 basepath=$(cd `dirname $0`; pwd)
 basepath=~/
-cd ${basepath}
+cd ~
 
 # 判断系统
 if egrep "CentOS release 6" /etc/redhat-release > /dev/null
@@ -25,14 +25,14 @@ yum -y update
 yum install -y wget dos2unix yum-utils
 
 # 建立所需目录
-test -d $basepath/shell || mkdir -p $basepath/shell
-test -d $basepath/ss    || mkdir -p $basepath/ss
-test -d $basepath/vpn   || mkdir -p $basepath/vpn
-test -d $basepath/glibc || mkdir -p $basepath/glibc
-test -d $basepath/soft  || mkdir -p $basepath/soft
+test -d ~/shell || mkdir -p ~/shell
+test -d ~/ss    || mkdir -p ~/ss
+test -d ~/vpn   || mkdir -p ~/vpn
+test -d ~/glibc || mkdir -p ~/glibc
+test -d ~/soft  || mkdir -p ~/soft
 
 # 下载所需 shell 文件
-cd $basepath/shell
+cd ~/shell
 wget -q --no-check-certificate https://raw.githubusercontent.com/6tu/code/master/linux/centos/dependencies.sh
 wget -q --no-check-certificate https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-all.sh
 wget -q --no-check-certificate https://raw.githubusercontent.com/6tu/code/master/linux/vpn/ikev2vpn.sh
@@ -46,14 +46,14 @@ bash ./dependencies.sh
 
 # 安装 shadowsocks
 clear && echo "" && echo "======== install shadowsocks========" && echo ""
-/bin/cp -rf $basepath/shell/shadowsocks-all.sh $basepath/ss/shadowsocks-all.sh
-cd $basepath/ss
+/bin/cp -rf ~/shell/shadowsocks-all.sh ~/ss/shadowsocks-all.sh
+cd ~/ss
 ./shadowsocks-all.sh 2>&1 | tee shadowsocks-all.log
 
 # 制作 证书 和安装 VPN
 clear && echo "" && echo "======== install strongswan========" && echo ""
-/bin/cp -rf $basepath/shell/ikev2vpn.sh $basepath/vpn/ikev2vpn.sh
-cd $basepath/vpn && bash ./ikev2vpn.sh
+/bin/cp -rf ~/shell/ikev2vpn.sh ~/vpn/ikev2vpn.sh
+cd ~/vpn && bash ./ikev2vpn.sh
 
 # 更新内核
 clear && echo "" && echo "======== update kernel to latest ========" && echo ""
@@ -63,14 +63,14 @@ yum --enablerepo=elrepo-kernel install -y kernel-ml kernel-ml-devel kernel-ml-he
 
 # 升级 glibc
 clear && echo "" && echo "======== update glibc========" && echo ""
-/bin/cp -rf $basepath/shell/glibc.sh $basepath/glibc/glibc.sh
-cd $basepath/glibc && bash ./glibc.sh
+/bin/cp -rf ~/shell/glibc.sh ~/glibc/glibc.sh
+cd ~/glibc && bash ./glibc.sh
 
 # 安装 web 服务器
 clear && echo "" && echo "======== install xampp========" && echo ""
 yum remove apache2 httpd
-/bin/cp -rf $basepath/shell/lampp.sh $basepath/soft/lampp.sh
-cd $basepath/soft && bash ./lampp.sh
+/bin/cp -rf ~/shell/lampp.sh ~/soft/lampp.sh
+cd ~/soft && bash ./lampp.sh
 
 # 安装中文环境
 clear && echo "" && echo "======== install chinese-support ========" && echo ""
@@ -84,7 +84,7 @@ echo export LC_ALL="zh_CN.UTF-8" >> /etc/sysconfig/i18n
 
 # 许可登录 SSHD 服务 IP
 clear && echo "" && echo "======== set sshd firewall========" && echo ""
-bash $basepath/shell/denyssh.sh
+bash ~/shell/denyssh.sh
 allowip1=`who am i | awk '{print $5}' | sed 's/(//g' | sed 's/)//g'`
 allowip2=`echo $SSH_CLIENT| awk '{print $1}'`
 
@@ -112,4 +112,3 @@ if [[ ! $REPLY =~ "yes" ]] ;then
 fi
 
 reboot
-
