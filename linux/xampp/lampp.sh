@@ -40,16 +40,16 @@ sed -i 's/if egrep "9 "/if egrep "Red "/g' /opt/lampp/lampp
 # 增加多用户模块 mpm-itk
 # http://mpm-itk.sesse.net
 
-sed -i '1s/sh/bash/' /opt/lampp/build/libtool
-test -d /opt/lampp/src || mkdir -p /opt/lampp/src
-cd /opt/lampp/src
-wget http://mpm-itk.sesse.net/mpm-itk-2.4.7-04.tar.gz
-tar xvf mpm-itk-2.4.7-04.tar.gz
-cd mpm-itk-2.4.7-04
-./configure --with-apxs=/opt/lampp/bin/apxs
-make && make install
+#sed -i '1s/sh/bash/' /opt/lampp/build/libtool
+#test -d /opt/lampp/src || mkdir -p /opt/lampp/src
+#cd /opt/lampp/src
+#wget http://mpm-itk.sesse.net/mpm-itk-2.4.7-04.tar.gz
+#tar xvf mpm-itk-2.4.7-04.tar.gz
+#cd mpm-itk-2.4.7-04
+#./configure --with-apxs=/opt/lampp/bin/apxs
+#make && make install
 # vim /opt/lampp/etc/httpd.conf
-sed '158 LoadModule mpm_itk_module modules/mpm_itk.so' -i /opt/lampp/etc/httpd.conf
+#sed '158 LoadModule mpm_itk_module modules/mpm_itk.so' -i /opt/lampp/etc/httpd.conf
 
 # 修改证书
 mv /opt/lampp/etc/ssl.crt/server.crt /opt/lampp/etc/ssl.crt/server.crt.${time}
