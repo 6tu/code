@@ -1,0 +1,56 @@
+Index: src/wp-includes/post-template.php
+===================================================================
+--- src/wp-includes/post-template.php	(revision 42341)
++++ src/wp-includes/post-template.php	(working copy)
+@@ -281,8 +281,14 @@
+ 	if ( post_password_required( $post ) )
+ 		return get_the_password_form( $post );
+ 
+-	if ( $page > count( $pages ) ) // if the requested page doesn't exist
+-		$page = count( $pages ); // give them the highest numbered page that DOES exist
++	if(is_array($pages) ) {
++		$pages_count = count( $pages );
++	} else {
++		$pages_count = 0;
++	}
++	
++	if ( $page > $pages_count ) // if the requested page doesn't exist
++		$page = $pages_count; // give them the highest numbered page that DOES exist
+ 
+ 	$content = $pages[$page - 1];
+ 	if ( preg_match( '/<!--more(.*?)?-->/', $content, $matches ) ) {
+@@ -304,8 +310,14 @@
+ 		$teaser = '';
+ 
+ 	$output .= $teaser;
++	
++	if(is_array($content)) {
++		$content_count = count($content);
++	} else {
++		$content_count = 0;
++	}
+ 
+-	if ( count( $content ) > 1 ) {
++	if ( $content_count > 1 ) {
+ 		if ( $more ) {
+ 			$output .= '<span id="more-' . $post->ID . '"></span>' . $content[1];
+ 		} else {
+@@ -997,10 +1009,16 @@
+  */
+ function post_custom( $key = '' ) {
+ 	$custom = get_post_custom();
+-
++	
++	if(is_array($custom[$key])) {
++		$custom_count = count($custom[$key]);
++	} else {
++		$custom_count = 0;
++	}
++	
+ 	if ( !isset( $custom[$key] ) )
+ 		return false;
+-	elseif ( 1 == count($custom[$key]) )
++	elseif ( 1 == $custom_count )
+ 		return $custom[$key][0];
+ 	else
+ 		return $custom[$key];
