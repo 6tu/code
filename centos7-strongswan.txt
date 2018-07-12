@@ -1,0 +1,64 @@
+
+# -------- 更新系统，改变时区和系统语言
+yum install -y epel-release
+yum -y update
+yum install -y wget curl dos2unix zip unzip
+# yum install -y kde-l10n-Chinese
+timedatectl set-timezone "Asia/Shanghai"
+localectl  set-locale LANG=zh_CN.UTF8
+cat /etc/redhat-release /etc/issue > /etc/issue.tmp
+/bin/cp -rf /etc/issue.tmp /etc/issue
+/bin/cp -rf /etc/issue.tmp /etc/issue.net
+rm -rf /etc/issue.tmp
+
+# 建立所需目录
+test -d ~/shell || mkdir -p ~/shell
+test -d ~/ss    || mkdir -p ~/ss
+test -d ~/vpn   || mkdir -p ~/vpn
+test -d ~/glibc || mkdir -p ~/glibc
+test -d ~/soft  || mkdir -p ~/soft
+# 下载所需 shell 文件
+cd ~/shell
+wget -q --no-check-certificate https://raw.githubusercontent.com/6tu/code/master/linux/centos/dependencies.sh
+wget -q --no-check-certificate https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-all.sh
+wget -q --no-check-certificate https://raw.githubusercontent.com/6tu/code/master/linux/vpn/ikev2vpn.sh
+wget -q --no-check-certificate https://raw.githubusercontent.com/6tu/code/master/linux/centos/glibc.sh
+wget -q --no-check-certificate https://raw.githubusercontent.com/6tu/code/master/linux/xampp/lampp.sh
+wget -q --no-check-certificate https://raw.githubusercontent.com/6tu/code/master/linux/centos/denyssh.sh
+chmod +x *.sh && dos2unix *.sh
+
+# -------- 安装 strongswan
+# https://pkgs.org/download/strongswan
+# https://wiki.strongswan.org/projects/strongswan/wiki/UserDocumentation
+# http://wiki.seanmadden.net/networking/configure_strongswan_as_an_ipsec_vpn
+# https://centos.pkgs.org/7/epel-x86_64/strongswan-5.6.3-1.el7.x86_64.rpm.html
+# https://www.tecmint.com/how-to-enable-epel-repository-for-rhel-centos-6-5/
+
+yum install -y gmp-devel openssl-devel zlib-devel bzip2-devel xz-devel libcurl-devel
+# yum install -y strongswan-tnc-imcvs strongswan-libipsec strongswan-charon-nm strongswan
+test -d ~/vpn || mkdir ~/vpn && cd ~/vpn
+
+wget http://dl.fedoraproject.org/pub/epel/7/x86_64/Packages/s/strongswan-5.6.3-1.el7.x86_64.rpm
+wget http://dl.fedoraproject.org/pub/epel/7/x86_64/Packages/s/strongswan-charon-nm-5.6.3-1.el7.x86_64.rpm
+wget http://dl.fedoraproject.org/pub/epel/7/x86_64/Packages/s/strongswan-libipsec-5.6.3-1.el7.x86_64.rpm
+wget http://dl.fedoraproject.org/pub/epel/7/x86_64/Packages/s/strongswan-tnc-imcvs-5.6.3-1.el7.x86_64.rpm
+wget http://dl.fedoraproject.org/pub/epel/7/SRPMS/Packages/s/strongswan-5.6.3-1.el7.src.rpm
+rpm -Uvh strongswan*rpm
+
+# wget http://dl.fedoraproject.org/pub/epel/7/x86_64/Packages/e/epel-release-7-11.noarch.rpm
+wget http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+rpm -Uvh epel-release*rpm
+yum install strongswan
+strongswan version
+systemctl enable strongswan
+systemctl enable strongswan
+systemctl start strongswan
+
+/bin/cp -rf ~/vpn/ca.cert.pem     /etc/strongswan/ipsec.d/cacerts/chain.pem
+/bin/cp -rf ~/vpn/server.cert.pem /etc/strongswan/ipsec.d/certs/cert.pem
+/bin/cp -rf ~/vpn/server.pem      /etc/strongswan/ipsec.d/private/privkey.pem
+
+systemctl stop firewalld
+systemctl mask firewalld
+yum install -y iptables-services
+
