@@ -1,13 +1,16 @@
 <?php
-# 获取网页内容，报头，状态码，mime类型和编码 charset
+# 使用CURL获取网页内容，报头，状态码，mime类型和编码 charset
+# CURLOPT_CONNECTTIMEOUT 请求连接超时
+# CURLOPT_TIMEOUT 响应数据传输时允许时间
 
 $url = 'http://ysuo.org';
 $res_array = GetPage($url);
+echo '<pre>';
+# print_r($res_array);
 echo $res_array['body'];
 
-
 # 返回值网页内容，报头，状态码，mime类型和编码 charset
-function get_contents($url){
+function GetPage($url){
     
     if(!empty($_SERVER['HTTP_ACCEPT_LANGUAGE'])) $lang = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
     else $lang = 'zh-CN,zh;q=0.9';
