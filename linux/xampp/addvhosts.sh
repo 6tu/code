@@ -1,8 +1,10 @@
-read -p "Hostname for VPN (e.g. vpn.example.com): " domain
+clear && echo
+read -p "Hostname (e.g. www.example.com): " domain
 
-read -p "username (default: Europe/London): " username
+read -p "username (default: daemon): " username
 username=${username:-'daemon'}
 
+test -d /opt/lampp/etc/vhosts || mkdir /opt/lampp/etc/vhosts
 cat >> /opt/lampp/etc/vhosts/${domain}.conf <<EOF
 
 ##--- ${domain} ---##
@@ -67,7 +69,7 @@ cat >> /opt/lampp/etc/vhosts/${domain}.conf <<EOF
 EOF
 
 useradd -g daemon -d /dev/null -s /usr/sbin/nologin ${username}
-mkdir /home/${domain}
+test -d  /home/${domain} || mkdir /home/${domain}
 echo "hello world! welcome to ${domain}" > /home/${domain}/index.html
 chown -R ${username}:daemon /home/${domain}
 chmod -R +x /home/${domain}
