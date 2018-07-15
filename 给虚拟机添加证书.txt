@@ -1,0 +1,32 @@
+
+domain=test.ysuo.org
+
+if [ ! -f "/root/vcerts/makecert.sh"  ];then
+    test -d ~/vcerts || mkdir -p ~/vcerts && cd ~/vcerts
+    wget https://raw.githubusercontent.com/6tu/code/master/certs/certs-init.sh
+    wget https://raw.githubusercontent.com/6tu/code/master/certs/makecert.sh
+    chmod +x *.sh && dos2unix *.sh
+        rm -rf ~/certs
+        rm -rf ~/vcerts/*pem
+    bash ./certs-init.sh
+    bash ./makecert.sh
+    rm -rf ~/vcerts/*pem
+else
+    cd ~/vcerts
+    bash ./makecert.sh
+    rm -rf ~/vcerts/*pem
+fi
+
+rm -rf ~/vcerts/*pem
+cat ~/certs/${domain}/*_cert.pem ~/certs/demoCA/cacert.pem > /opt/lampp/etc/ssl.crt/${domain}.crt
+/bin/cp -rf  ~/certs/${domain}/*_nopwkey.pem                 /opt/lampp/etc/ssl.key/${domain}.key
+
+
+iptables -D INPUT 1
+iptables -I INPUT 3 -p tcp --dport 80 -j ACCEPT
+iptables -I INPUT 3 -p tcp --dport 443 -j ACCEPT
+
+iptables-save > /etc/iptables/rules.v4
+netfilter-persistent save
+netfilter-persistent reload
+iptables -L
