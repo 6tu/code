@@ -1,12 +1,14 @@
-domain=6tu.me
-username=sixtu
+read -p "Hostname for VPN (e.g. vpn.example.com): " domain
+
+read -p "username (default: Europe/London): " username
+username=${username:-'daemon'}
 
 cat >> /opt/lampp/etc/vhosts/${domain}.conf <<EOF
 
 ##--- ${domain} ---##
 <VirtualHost ${domain}:80>
     ServerAdmin webmaster@${domain}
-    php_admin_value open_basedir /home/${domain}:/tmp:/var/tmp:/proc:/var/www/phpmyadmin
+    php_admin_value open_basedir /var/www:/home/${domain}:/opt/lampp/phpmyadmin:/opt/lampp/temp:/tmp:/var/tmp:/proc
     ServerName ${domain}
     ServerAlias www.${domain}
     DocumentRoot "/home/${domain}"
@@ -30,7 +32,7 @@ cat >> /opt/lampp/etc/vhosts/${domain}.conf <<EOF
 ##----ssl ${domain} ---##
 <VirtualHost ${domain}:443>
     ServerAdmin webmaster@${domain}
-    php_admin_value open_basedir /home/${domain}:/tmp:/var/tmp:/proc:/var/www/phpmyadmin
+    php_admin_value open_basedir /var/www:/home/${domain}:/opt/lampp/phpmyadmin:/opt/lampp/temp:/tmp:/var/tmp:/proc
     ServerName ${domain}
     ServerAlias www.${domain}
     DocumentRoot "/home/${domain}"
