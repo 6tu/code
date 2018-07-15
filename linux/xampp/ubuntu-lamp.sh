@@ -1,3 +1,5 @@
+domain=pub.6tu.me
+
 
 # ------ 从源安装WEB服务器 ------ 
 clear && echo "" && echo "======== install web server ========" && echo ""
