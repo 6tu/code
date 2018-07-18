@@ -4,7 +4,7 @@
 
 
 swapoff /home/swap
-dd if=/dev/zero of=/home/swap bs=512 count=262144
+dd if=/dev/zero of=/home/swap bs=512 count=1048576
 /sbin/mkswap -f /home/swap
 /sbin/swapon -f /home/swap
 swapon -s
