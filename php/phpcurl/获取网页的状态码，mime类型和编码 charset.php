@@ -65,16 +65,26 @@ function GetPage($url){
         if(stripos(strtolower($header), 'content-type:') !== FALSE){
             $headerParts = explode(' ', $header);
             $mime_type = trim(strtolower($headerParts[1]));
-            if(!empty($headerParts[2])){
-                $charset_array = explode('=', $headerParts[2]);
-                $charset = trim(strtolower($charset_array[1]));
-            }else{
-                $charset = preg_match("/<meta.+?charset=[^\w]?([-\w]+)/i", $res_array[1], $temp) ? strtolower($temp[1]):"";
-            }
+            //if(!empty($headerParts[2])){
+            //    $charset_array = explode('=', $headerParts[2]);
+            //    $charset = trim(strtolower($charset_array[1]));
+            //}
+        }
+        if(stripos(strtolower($header), 'charset') !== FALSE){
+            $charset_array = explode('charset=', $header);
+            $charset = trim(strtolower($charset_array[1]));
+        }else{
+            $charset = preg_match("/<meta.+?charset=[^\w]?([-\w]+)/i", $res_array[1], $temp) ? strtolower($temp[1]):"";
         }
     }
-
-    if(strstr($mime_type, 'text/html')){
+    if(empty($charset)) $charset = 'utf-8';
+    if(strstr($charset, ';')){
+        $charset_array = '';
+        $charset_array = explode(';', $charset);
+        $charset = trim($charset_array[0]);
+        //$charset = str_replace(';', '', $charset);
+    }
+    if(strstr($mime_type, 'text/html') and $charset !== 'utf-8'){
         $body = mb_convert_encoding ($body, 'utf-8', $charset);
     }
     # $body = preg_replace('/(?s)<meta http-equiv="Expires"[^>]*>/i', '', $body);    
