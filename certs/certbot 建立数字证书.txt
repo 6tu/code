@@ -1,0 +1,37 @@
+certbot 建立数字证书 
+
+参考资料  https://certbot.eff.org/lets-encrypt/ubuntuxenial-other.html
+          https://certbot.eff.org/docs/using.html
+
+apt -y update
+apt -y install software-properties-common
+add-apt-repository ppa:certbot/certbot
+apt -y update
+apt -y install certbot python3-pyasn1
+
+mkdir -p /etc/letsencrypt
+echo 'rsa-key-size = 4096
+renew-hook = /usr/local/sbin/ipsec reload && /usr/local/sbin/ipsec secrets
+' > /etc/letsencrypt/cli.ini
+
+# 建议使用 --webroot 插件，--agree-tos 和 --email搭配使用
+certbot certonly --non-interactive --agree-tos --rsa-key-size 4096 --email info@6tu.me --webroot -w /var/www -d pub.6tu.me
+
+# certbot certonly -a manual --rsa-key-size 4096 --email info@6tu.me -d pub.6tu.me
+# 
+# certbot certonly --non-interactive --agree-tos --standalone --preferred-challenges http --email info@6tu.me -d pub.6tu.me
+# standalone 相当于临时的web服务器，占用80 或443 端口
+# --standalone --preferred-challenges http  # 指临时建立HTTP WEB服务器,占用80端口
+# --standalone --preferred-challenges tls-sni # 指临时建立HTTPS WEB服务器，占用443端口
+# 不建议使用 --apache 或者 --nginx ,这需要安装相关插件，不一定便利
+# apt install python-certbot-nginx 或者是 pip install -U letsencrypt-nginx 
+
+# 证书更新
+certbot renew --dry-run
+
+/bin/cp -rf /etc/letsencrypt/live/pub.6tu.me/chain.pem   /usr/local/etc/ipsec.d/cacerts/chain.pem
+/bin/cp -rf /etc/letsencrypt/live/pub.6tu.me/cert.pem    /usr/local/etc/ipsec.d/certs/cert.pem
+/bin/cp -rf /etc/letsencrypt/live/pub.6tu.me/privkey.pem /usr/local/etc/ipsec.d/private/privkey.pem
+
+/usr/local/sbin/ipsec reload && /usr/local/sbin/ipsec secrets
+
