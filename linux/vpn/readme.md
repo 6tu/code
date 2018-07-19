@@ -5,6 +5,7 @@ screen -S oneinstack      #如果网路出现中断，可以执行命令`screen 
 wget -N --no-check-certificate https://raw.githubusercontent.com/91yun/91yuntest/master/test.sh
 bash test.sh -i "io,bandwidth,download,traceroute,backtraceroute,allping,gotoping"
 
-
 iptables -nL --line-number
 
+wget https://download.strongswan.org/strongswan.tar.gz
+tar -xzvf strongswan.tar.gz
