@@ -614,21 +614,49 @@ if ($_GET['act'] == "rt"){
 	'memRealPercent'=>"$memRealPercent",'memRealUsed'=>"$memRealUsed",'memRealFree'=>"$memRealFree",'memPercent'=>"$memPercent%",
 	'memCachedPercent'=>"$memCachedPercent",'barmemCachedPercent'=>"$memCachedPercent%",
 	'swapPercent'=>"$swapPercent",'barmemRealPercent'=>"$memRealPercent%",'barswapPercent'=>"$swapPercent%",
-	'NetOut2'=>"$NetOut[3]",
-            'NetOut3'=>"$NetOut[3]",'NetOut4'=>"$NetOut[4]",'NetOut5'=>"$NetOut[5]",'NetOut6'=>"$NetOut[6]",
-            'NetOut7'=>"$NetOut[7]",'NetOut8'=>"$NetOut[8]",'NetOut9'=>"$NetOut[9]",'NetOut10'=>"$NetOut[10]",
+
+        'NetOut2'=>"$NetOut[3]",
+
+            'NetOut3'=>"$NetOut[3]",
+            'NetOut4'=>"$NetOut[4]",
+            'NetOut5'=>"$NetOut[5]",
+            'NetOut6'=>"$NetOut[6]",
+            'NetOut7'=>"$NetOut[7]",
+            'NetOut8'=>"$NetOut[8]",
+            'NetOut9'=>"$NetOut[9]",
+            'NetOut10'=>"$NetOut[10]",
+
 	'NetInput2'=>"$NetInput[3]",
-            'NetInput3'=>"$NetInput[3]",'NetInput4'=>"$NetInput[4]",'NetInput5'=>"$NetInput[5]",'NetInput6'=>"$NetInput[6]",
-            'NetInput7'=>"$NetInput[7]",'NetInput8'=>"$NetInput[8]",'NetInput9'=>"$NetInput[9]",'NetInput10'=>"$NetInput[10]",
-	'NetOutSpeed2'=>"$NetOutSpeed[3]",'NetOutSpeed3'=>"$NetOutSpeed[3]",'NetOutSpeed4'=>"$NetOutSpeed[4]",'NetOutSpeed5'=>"$NetOutSpeed[5]",
-	'NetInputSpeed2'=>"$NetInputSpeed[3]",'NetInputSpeed3'=>"$NetInputSpeed[3]",'NetInputSpeed4'=>"$NetInputSpeed[4]",'NetInputSpeed5'=>"$NetInputSpeed[5]"
+
+            'NetInput3'=>"$NetInput[3]",
+            'NetInput4'=>"$NetInput[4]",
+            'NetInput5'=>"$NetInput[5]",
+            'NetInput6'=>"$NetInput[6]",
+            'NetInput7'=>"$NetInput[7]",
+            'NetInput8'=>"$NetInput[8]",
+            'NetInput9'=>"$NetInput[9]",
+            'NetInput10'=>"$NetInput[10]",
+
+	'NetOutSpeed2'=>"$NetOutSpeed[3]",
+
+            'NetOutSpeed3'=>"$NetOutSpeed[3]",
+            'NetOutSpeed4'=>"$NetOutSpeed[4]",
+            'NetOutSpeed5'=>"$NetOutSpeed[5]",
+
+	'NetInputSpeed2'=>"$NetInputSpeed[3]",
+
+            'NetInputSpeed3'=>"$NetInputSpeed[3]",
+            'NetInputSpeed4'=>"$NetInputSpeed[4]",
+            'NetInputSpeed5'=>"$NetInputSpeed[5]",
 	);
 	$jarr=json_encode($arr); 
 	$_GET['callback'] = htmlspecialchars($_GET['callback']);
 	echo $_GET['callback'],'(',$jarr,')';
 	exit;
 }
-echo access($ALLOWED_IP);
+
+//echo access($ALLOWED_IP);
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
