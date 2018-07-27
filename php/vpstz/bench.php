@@ -6,18 +6,18 @@ if (file_exists('bench.html')) {
 }
 if (!file_exists('superbench.sh')) {
     #$info = exec('wget -q -O ./superbench.sh http://ro.6tu.me/superbench.bak');
-	$info = exec('wget -q -O ./superbench.sh http://git.io/superbench.sh');
+    $info = exec('wget -q -O ./superbench.sh http://git.io/superbench.sh');
 }
 $sh = file_get_contents('./superbench.sh');
 $sh_array = explode("\n", $sh);
 
 $sh = '';
 foreach($sh_array as $value){
-	if(strstr($value, 'run as root')){
-		$sh .= '#' . $value . "\n";
-	}else{
-		$sh .= $value . "\n";
-	}
+    if(strstr($value, 'run as root')){
+        $sh .= '#' . $value . "\n";
+    }else{
+        $sh .= $value . "\n";
+    }
 }
 file_put_contents('./superbench.sh', $sh);
 
