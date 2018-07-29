@@ -7,9 +7,11 @@ echo "" && echo "======== update system ========" && echo ""
 yum install -y epel-release
 yum -y update
 #yum makecache
-yum install -y vim dos2unix zip unzip tree bash-completion
+yum install -y vim dos2unix zip unzip tree
 yum install -y wget curl git lrzsz nmap nc telnet time ntp ntpdate net-tools iproute bind-utils whois
-yum install -y redhat-lsb dmidecode deltarpm vixie-cron crontabs lsof rng-tools psmisc screen nohup
+yum install -y vixie-cron crontabs lsof rng-tools screen nohup
+
+#yum install -y bash-completion redhat-lsb dmidecode deltarpm  psmisc
 #ntpdate pool.ntp.org
 rngd -r /dev/urandom
 
