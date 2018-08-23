@@ -33,22 +33,22 @@ for(i=0; i<maxlen; i++)
 
 </SCRIPT>
 
-"#ʷ����i�i��","Ӷ�j��khoor"
+"#史帻杨眎眎々","佣妀／khoor"
 
 
-��ԭ�ִ���Unicode����+3���ٽ�����µ��ִ�
+在原字串的Unicode编码+3后再解码成新的字串
 
-����ʱ��Unicode����-3����ԭ�ַ���
-
-
+解码时对Unicode编码-3返回原字符串
 
 
 
-charCodeAt()����ָ��λ�õ��ַ����� Unicode ���룬Ĭ�ϵ�һ���ַ�
-str[i].charCodeAt()��str.charCodeAt(i) ����
-str[i].charCodeAt()�����str��һ�����飬�ַ������治����ֱ����[]��ѡ��ÿ��λ�õ��ַ��ģ�
-str.charCodeAt(i)  �����str����һ���ַ���
-String.fromCharCode() ת�� Unicode �ַ�ֵΪ�ַ���
+
+
+charCodeAt()返回指定位置的字符串的 Unicode 编码，默认第一个字符
+str[i].charCodeAt()和str.charCodeAt(i) 区别
+str[i].charCodeAt()这里的str是一个数组，字符串后面不可以直接用[]来选择每个位置的字符的，
+str.charCodeAt(i)  这里的str就是一个字符串
+String.fromCharCode() 转换 Unicode 字符值为字符串
 
 
 
