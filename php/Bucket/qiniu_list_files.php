@@ -38,7 +38,7 @@ function bytesize($num){
     $kb = pow(1024, 2);
     $mb = pow(1024, 3);
     $gb = pow(1024, 4);
-	if(!is_numeric($num)         ) $size = '值不是数字';
+    if(!is_numeric($num)         ) $size = '值不是数字';
     if($num <  0                 ) $size = '值不能小于 0 ';
     if($num >= 0   and $num < $bt) $size = $num . ' B';
     if($num >= $bt and $num < $kb) $size = floor(($num / $bt) * 100) / 100 . ' KB';
