@@ -21,7 +21,7 @@ apache        ALL=NOPASSWD:/usr/local/bin/gplaycli
 # https://github.com/matlink/gplaycli/releases
 # /root/.config/gplaycli/gplaycli.conf
 # /var/www/gplaycli.conf
-# rm ~/.cache/gplaycli/token
+# rm ~/.cache/gplaycli/token #Malformed request
 # 
 # pip uninstall gplaycli
 # rm -rf /etc/gplaycli /etc/cron.daily/gplaycli
