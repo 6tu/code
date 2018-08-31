@@ -18,7 +18,13 @@ visudo
 #apache        ALL=NOPASSWD:/var/www/getapk.php
 apache        ALL=NOPASSWD:/usr/local/bin/gplaycli
 
-
+# https://github.com/matlink/gplaycli/releases
+# /root/.config/gplaycli/gplaycli.conf
+# /var/www/gplaycli.conf
+# rm ~/.cache/gplaycli/token
+# 
+# pip uninstall gplaycli
+# rm -rf /etc/gplaycli /etc/cron.daily/gplaycli
 
 
 
