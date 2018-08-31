@@ -23,6 +23,14 @@ apache        ALL=NOPASSWD:/usr/local/bin/gplaycli
 # /var/www/gplaycli.conf
 # rm ~/.cache/gplaycli/token #Malformed request
 # 
+# cat credentials.conf
+# [Credentials]
+# # created with raccoon
+# android_ID=<redacted>
+# gmail_address=gapps.sucks.cngn.rocks@gmail.com
+# gmail_password=<redacted>
+# language=en_US
+# 
 # pip uninstall gplaycli
 # rm -rf /etc/gplaycli /etc/cron.daily/gplaycli
 
