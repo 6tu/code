@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html class="theme-next mist use-motion" lang="zh-CN" xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN">
+    <head>
+        <meta charset="UTF-8" />
+        <title>
+            轻松几步搭建 WireGuard （快速安全的下一代 VPN） | 无影风随
+        </title><noscript>
+        <style type="text/css">
+        /*<![CDATA[*/ .use-motion .motion-element, .use-motion .brand, .use-motion .menu-item, .sidebar-inner, .use-motion .post-block, .use-motion .pagination, .use-motion .comments, .use-motion .post-header, .use-motion .post-body, .use-motion .collection-title { opacity: initial; } .use-motion .logo, .use-motion .site-title, .use-motion .site-subtitle { opacity: initial; top: initial; } .use-motion { .logo-line-before i { left: initial; } .logo-line-after i { right: initial; } } /*]]>*/ 
+        </style></noscript>
+    </head>
+    <body itemscope="itemscope" itemtype="http://schema.org/WebPage" lang="zh-CN" xml:lang="zh-CN">
+        <article class="post post-type-normal" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <header class="post-header">
+                <h1 class="post-title" itemprop="name headline">
+                    轻松几步搭建 WireGuard （快速安全的下一代 VPN）
+                </h1>http://covertness.me/2018/03/25/轻松几步搭建 WireGuard （快速安全的下一代 VPN）/<br />
+            </header>
+            <div class="post-body" itemprop="articleBody">
+                <p>
+                    WireGuard 是一个快速安全的新型 VPN 隧道程序，它简单高效的特性特别适合在手机等低能耗设备上使用。<br />
+                    <a id="more"></a>
+                </p>
+                <p>
+                    WireGuard 不同于 IPSec ，它的设计简单（目前整体只有几千行代码），在不使用的情况下默认不会传输任何 UDP 数据包，而且能够无缝漫游在不同的 IP 地址间，这些特定都使它特别适合于移动设备的使用。目前 WireGuard 基于 Linux 内核实现，得到了 <a href="http://plus.google.com/+gregkroahhartman/posts/jD6N4BzToa3" target="_blank" rel="noopener">Linux 内核主要维护者 Greg KH 的肯定</a>。下面介绍如何在 Ubuntu 16.04 搭建使用 WireGuard 。
+                </p>
+                <h2 id="搭建步骤">
+                    <a href="#%E6%90%AD%E5%BB%BA%E6%AD%A5%E9%AA%A4" class="headerlink" title="搭建步骤"></a>搭建步骤
+                </h2>
+                <h3 id="下载安装-WireGuard-（服务端和客户端都需要安装）">
+                    <a href="#%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85-WireGuard-%EF%BC%88%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%92%8C%E5%AE%A2%E6%88%B7%E7%AB%AF%E9%83%BD%E9%9C%80%E8%A6%81%E5%AE%89%E8%A3%85%EF%BC%89" class="headerlink" title="下载安装 WireGuard （服务端和客户端都需要安装）"></a>下载安装 WireGuard （服务端和客户端都需要安装）
+                </h3>
+                <figure class="highlight bash">
+                    <table>
+                        <tr>
+                            <td class="code">
+                                <pre><span class="line">$ sudo add-apt-repository ppa:wireguard/wireguard</span><br /><span class="line">$ sudo apt-get update</span><br /><span class="line">$ sudo apt-get install wireguard</span><br /></pre>
+                            </td>
+                        </tr>
+                    </table>
+                </figure>
+                <h3 id="配置服务端相关参数，创建并编辑-etc-wireguard-wg0-conf-，内容如下：">
+                    <a href="#%E9%85%8D%E7%BD%AE%E6%9C%8D%E5%8A%A1%E7%AB%AF%E7%9B%B8%E5%85%B3%E5%8F%82%E6%95%B0%EF%BC%8C%E5%88%9B%E5%BB%BA%E5%B9%B6%E7%BC%96%E8%BE%91-etc-wireguard-wg0-conf-%EF%BC%8C%E5%86%85%E5%AE%B9%E5%A6%82%E4%B8%8B%EF%BC%9A" class="headerlink" title="配置服务端相关参数，创建并编辑 /etc/wireguard/wg0.conf ，内容如下："></a>配置服务端相关参数，创建并编辑 <code>/etc/wireguard/wg0.conf</code> ，内容如下：
+                </h3>
+                <figure class="highlight ini">
+                    <table>
+                        <tr>
+                            <td class="code">
+                                <pre><span class="line section">[Interface]</span><br /><span class="line"><span class="attr">PrivateKey</span> = &lt;Private Key&gt;</span><br /><span class="line"><span class="attr">Address</span> = <span class="number">10.0</span>.<span class="number">0.1</span>/<span class="number">24</span></span><br /><span class="line"><span class="attr">ListenPort</span> = <span class="number">56660</span></span><br /><span class="line"><span class="attr">PostUp</span> = iptables -A FORWARD -i wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE; ip6tables -A FORWARD -i wg0 -j ACCEPT; ip6tables -t nat -A POSTROUTING -o eth0 -j MASQUERADE</span><br /><span class="line"><span class="attr">PostDown</span> = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE; ip6tables -D FORWARD -i wg0 -j ACCEPT; ip6tables -t nat -D POSTROUTING -o eth0 -j MASQUERADE</span><br /><span class="line"><span class="attr">SaveConfig</span> = <span class="literal">true</span></span><br /></pre>
+                            </td>
+                        </tr>
+                    </table>
+                </figure>
+                <p>
+                    其中 <code>PrivateKey</code> 通过命令 <code>wg genkey</code> 生成。
+                </p>
+                <h3 id="启动服务端-WireGuard">
+                    <a href="#%E5%90%AF%E5%8A%A8%E6%9C%8D%E5%8A%A1%E7%AB%AF-WireGuard" class="headerlink" title="启动服务端 WireGuard"></a>启动服务端 WireGuard
+                </h3>
+                <figure class="highlight bash">
+                    <table>
+                        <tr>
+                            <td class="code">
+                                <pre><span class="line">$ wg-quick up wg0</span><br /></pre>
+                            </td>
+                        </tr>
+                    </table>
+                </figure>
+                <p>
+                    可以通过命令 <code>wg</code> 检查启动是否成功，成功的话会输出如下内容：<br />
+                </p>
+                <figure class="highlight bash">
+                    <table>
+                        <tr>
+                            <td class="code">
+                                <pre><span class="line">interface: wg0</span><br /><span class="line"> public key: xxxxxxxxxx</span><br /><span class="line"> private key: (hidden)</span><br /><span class="line"> listening port: 56660</span><br /></pre>
+                            </td>
+                        </tr>
+                    </table>
+                </figure>
+                <h3 id="将-WireGuard-设置成开机启动">
+                    <a href="#%E5%B0%86-WireGuard-%E8%AE%BE%E7%BD%AE%E6%88%90%E5%BC%80%E6%9C%BA%E5%90%AF%E5%8A%A8" class="headerlink" title="将 WireGuard 设置成开机启动"></a>将 WireGuard 设置成开机启动
+                </h3>
+                <figure class="highlight bash">
+                    <table>
+                        <tr>
+                            <td class="code">
+                                <pre><span class="line">$ systemctl <span class="built_in">enable</span> wg-quick@wg0</span><br /></pre>
+                            </td>
+                        </tr>
+                    </table>
+                </figure>
+                <h3 id="配置客户端相关参数，创建并编辑-etc-wireguard-wg0-conf-，内容如下：">
+                    <a href="#%E9%85%8D%E7%BD%AE%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%9B%B8%E5%85%B3%E5%8F%82%E6%95%B0%EF%BC%8C%E5%88%9B%E5%BB%BA%E5%B9%B6%E7%BC%96%E8%BE%91-etc-wireguard-wg0-conf-%EF%BC%8C%E5%86%85%E5%AE%B9%E5%A6%82%E4%B8%8B%EF%BC%9A" class="headerlink" title="配置客户端相关参数，创建并编辑 /etc/wireguard/wg0.conf ，内容如下："></a>配置客户端相关参数，创建并编辑 <code>/etc/wireguard/wg0.conf</code> ，内容如下：
+                </h3>
+                <figure class="highlight ini">
+                    <table>
+                        <tr>
+                            <td class="code">
+                                <pre><span class="line section">[Interface]</span><br /><span class="line"><span class="attr">PrivateKey</span> = &lt;Private Key&gt;</span><br /><span class="line"><span class="attr">Address</span> = <span class="number">10.0</span>.<span class="number">0.3</span>/<span class="number">24</span></span><br /><span class="line"><span class="attr">DNS</span> = <span class="number">8.8</span>.<span class="number">8.8</span></span><br /><br /><span class="line section">[Peer]</span><br /><span class="line"><span class="attr">PublicKey</span> = xxxxxxxxxx</span><br /><span class="line"><span class="attr">Endpoint</span> = &lt;Server Public IP&gt;:<span class="number">56660</span></span><br /><span class="line"><span class="attr">AllowedIPs</span> = <span class="number">0.0</span>.<span class="number">0.0</span>/<span class="number">0</span></span><br /></pre>
+                            </td>
+                        </tr>
+                    </table>
+                </figure>
+                <p>
+                    其中 <code>PrivateKey</code> 也是通过命令 <code>wg genkey</code> 生成， <code>Peer</code> 的 <code>PublicKey</code> 填入上面服务端 <code>wg</code> 命令返回的 <code>public key</code>， <code>Endpoint</code> 的 IP 设置为服务端可访问的公网 IP 。
+                </p>
+                <h3 id="启动客户端-WireGuard">
+                    <a href="#%E5%90%AF%E5%8A%A8%E5%AE%A2%E6%88%B7%E7%AB%AF-WireGuard" class="headerlink" title="启动客户端 WireGuard"></a>启动客户端 WireGuard
+                </h3>
+                <figure class="highlight bash">
+                    <table>
+                        <tr>
+                            <td class="code">
+                                <pre><span class="line">$ wg-quick up wg0</span><br /></pre>
+                            </td>
+                        </tr>
+                    </table>
+                </figure>
+                <p>
+                    启动后同样通过命令 <code>wg</code> 可查看公钥。
+                </p>
+                <h3 id="在服务端添加客户端信息">
+                    <a href="#%E5%9C%A8%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%B7%BB%E5%8A%A0%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BF%A1%E6%81%AF" class="headerlink" title="在服务端添加客户端信息"></a>在服务端添加客户端信息
+                </h3>
+                <figure class="highlight bash">
+                    <table>
+                        <tr>
+                            <td class="code">
+                                <pre><span class="line">$ sudo wg <span class="built_in">set</span> wg0 peer &lt;Public Key&gt; allowed-ips 10.0.0.3/24</span><br /></pre>
+                            </td>
+                        </tr>
+                    </table>
+                </figure>
+                <p>
+                    <code>Public Key</code> 是客户端的公钥。<br />
+                    如果在服务端配置信息里设置了 <code>SaveConfig = true</code> 那么刚才添加的客户端参数信息会在服务端关闭时自动保存到配置文件中。如果想立即存储刚设置的参数也可以执行命令 <code>wg-quick save wg0</code> 。
+                </p>
+                <h3 id="测试验证">
+                    <a href="#%E6%B5%8B%E8%AF%95%E9%AA%8C%E8%AF%81" class="headerlink" title="测试验证"></a>测试验证
+                </h3>
+                <p>
+                    完成上述步骤后客户端便能直接访问服务端所在的网络了，可以通过 <code>ping 10.0.0.1</code> 进行验证。
+                </p>
+                <h2 id="Tips">
+                    <a href="#Tips" class="headerlink" title="Tips"></a>Tips
+                </h2>
+                <ol>
+                    <li>WireGuard 能够提供类似 TCP keepalive 的功能，如果客户端在 NAT 子网可以考虑<a href="https://www.wireguard.com/quickstart/#nat-and-firewall-traversal-persistence" target="_blank" rel="noopener">开启这一选项</a>。
+                    </li>
+                    <li>WireGuard 目前仅实现了 Linux 内核模块版本，所以目前客户端仅支持部分 Linux 和 Android 。
+                    </li>
+                </ol>
+            </div>
+        </article>
+    </body>
+</html>
