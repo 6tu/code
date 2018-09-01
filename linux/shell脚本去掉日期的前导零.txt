@@ -1,0 +1,31 @@
+#!/bin/sh
+# 
+# shell 脚本去掉月份和天数的前导零
+# 前面填 1 变成百位数,然后减 100
+# 去掉前导零的通用方法 $((10#$(date +%m)))
+# 把字符串分割成数组,然后去掉元素中的前导零
+#
+H=`date +%H`
+echo $H
+if [ $H -ge 14 ]; then
+    aa=`date +%Y%m%d`
+    xdate="$(date +%Y)-$((10#$(date +%m)))-$[$(date +1%d) - 100]"
+else
+    aa=`date -d last-day +%Y-1%m-1%d`
+    OLD_IFS="$IFS"
+    IFS="-"
+    arr=($aa)
+    IFS="$OLD_IFS"
+    xdate="${arr[0]}-$[${arr[1]} - 100]-$[${arr[2]} - 100]"
+fi
+echo $xdate
+
+# ======================
+a=`date +%Y-%m-%d`
+b=`date +%Y-1%m-1%d -d "$a -14 hours"`
+OLD_IFS="$IFS"
+IFS="-"
+arr=($b)
+IFS="$OLD_IFS"
+xdate="${arr[0]}-$[${arr[1]} - 100]-$[${arr[2]} - 100]"
+echo $xdate
