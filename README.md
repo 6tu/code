@@ -8,5 +8,5 @@ yum -y update
 
 yum -y install aria2
 
-aria2c --dir=./ --max-connection-per-server=16 --max-concurrent-downloads=16 --split=16 --continue=true "http://gcs.popcn.net/mhdata/app.zip"
+aria2c --dir=保存目录 --max-connection-per-server=16 --max-concurrent-downloads=16 --split=16 --continue=true "网址"
 
