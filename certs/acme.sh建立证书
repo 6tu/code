@@ -1,0 +1,31 @@
+
+https://github.com/Neilpang/acme.sh/wiki/How-to-issue-a-cert
+
+domain=$domain
+time=`date +%Y%m%d%H%M%S`
+
+# http模式
+# acme.sh --issue --standalone -d $domain -d www.$domain -w /var/www/
+# 
+# DNS模
+# 可签发泛域名证书，如果脚本不支持域名服务器自动添加TXT
+# 需要手工添加TXT记录，然后 --renew
+# 
+# # acme.sh --issue --dns (可以指定默认的,如dns_ali) -d *.$domain
+# acme.sh --issue --dns -d *.$domain --yes-I-know-dns-manual-mode-enough-go-ahead-please
+# acme.sh --renew --dns -d *.$domain --yes-I-know-dns-manual-mode-enough-go-ahead-please
+# 
+# san证书
+# # acme.sh  --issue  -d $domain  --standalone  -d www.$domain
+acme.sh  --issue  -d $domain  -w /var/www -d www.$domain
+
+mv /opt/lampp/etc/ssl.key/server.key /opt/lampp/etc/ssl.key/server.key.${time}
+mv /opt/lampp/etc/ssl.crt/server.crt /opt/lampp/etc/ssl.crt/server.crt.${time}
+
+/usr/bin/cp -rf /root/.acme.sh/$domain/$domain.key  /opt/lampp/etc/ssl.key/server.key
+/usr/bin/cp -rf /root/.acme.sh/$domain/fullchain.cer /opt/lampp/etc/ssl.crt/server.crt
+
+/opt/lampp/lampp stopapache
+/opt/lampp/lampp startapache
+
+
