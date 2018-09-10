@@ -1,5 +1,5 @@
 ####自学基地
-==========
+
 CentOS6 安装 aria2
 --------------------
 先安装 RepoForge Repos  http://repoforge.org/use/  
