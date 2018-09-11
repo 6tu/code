@@ -1,0 +1,24 @@
+
+Publishable Mag 主题
+
+去掉 Read More
+仪表盘 --> 外观 --> 编辑 --> 在右侧找到模板函数 (functions.php) 
+
+<div class="readMore">
+    <a href="<?php echo esc_url( get_the_permalink() ); ?>" title="<?php the_title_attribute(); ?>">
+        <?php _e( 'Read More', 'publishable-mag' ); ?>
+    </a>
+</div>
+
+标题行距调整方法
+打开博客首页，F12后找 </article> ，内边距 padding-bottom ，外边距 border-bottom
+找到相关参数 .post.excerpt 是摘要样式，article header h2 是标题样式
+
+仪表盘 --> 外观 --> 编辑 --> 在右侧找到样式表 (style.css)
+查找 post.excerpt ，
+
+
+
+
+
+

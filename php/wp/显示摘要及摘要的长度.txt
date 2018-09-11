@@ -1,0 +1,98 @@
+
+Twenty Seventeen 主题显示摘要和内边距 
+
+仪表盘 --> 外观 --> 编辑 --> 在右侧找到首页模板
+
+# 开启摘要模式（onlytitle）
+# get_template_part( 'template-parts/post/content', get_post_format() );
+get_template_part( 'template-parts/post/content', 'excerpt' );
+
+wp-includes/formating.php 找到excerpt_length，默认值是55，修改成需要的值即可。
+3305行，wp_trim_excerpt()，截取摘要
+#3359行，wp_trim_words()，截取标题、摘要等，
+
+
+#通过给模板函数 (functions.php)增加一个 filter 来修改字数：excerpt_length，示例如下：
+
+/**
+ * Filter the except length to 200 words.
+ * 将字数设置为 200
+ * @param int $length Excerpt length.
+ * @return int (Maybe) modified excerpt length.
+ */
+
+function wpdocs_custom_excerpt_length($length){
+    return 200;
+}
+add_filter( 'excerpt_length', 'wpdocs_custom_excerpt_length', 999 );
+
+https://blog.csdn.net/csnewdn/article/details/54691375
+仪表盘右上角有个“显示选项”按钮，打开，勾选“摘要”，则会在文章编辑框下出现摘要填写栏，
+这个是自定义摘要的，似乎不限字数在编辑文章的时候，编辑器有一个more按钮标签，
+----------------------------------------
+
+WordPress输出文章摘要标签：the_excerpt
+https://www.beizigen.com/588.html
+
+
+//删除阅读更多链接后面的#more-id
+function remove_more_jump_link($link){
+    return preg_replace('/#more-\d+/i','',$link);
+}
+add_filter('the_content_more_link','remove_more_jump_link');
+
+去掉 Read More 模板函数 (functions.php)，注释掉 twentyseventeen_excerpt_more()相关行
+----------------------------------------
+
+标题行距调整方法
+仪表盘 --> 外观 --> 编辑 --> 在右侧找到样式表 (style.css)
+.blog .site-main > article   padding-bottom: 2em;
+----------------------------------------
+
+http://www.coptue-blog.com/2018/06/04/m80605如何增加WordPress-Twenty-Seventeen主题的正文页面显示宽度
+仪表盘 --> 外观 --> 自定义 --> 在右侧找到 额外CSS，将下面需要的代码拷贝到其中，发布即可；
+而且改变其中数值的同时，可以所见即所得的预览)
+
+.wrap {
+/* margin-left: auto; */
+/* margin-right: auto; */
+max-width: 100%;
+/* padding-left: 2em; */
+/* padding-right: 2em; */
+}
+
+@media screen and (min-width: 48em) {
+.wrap {
+max-width: 70%;
+/* padding-left: 3em; */
+/* padding-right: 3em; */
+}
+}
+
+.page.page-one-column:not(.twentyseventeen-front-page) #primary {
+/*margin-left: auto;*/
+/*margin-right: auto;*/
+max-width: 100%;
+}
+
+@media screen and (min-width: 30em) {
+.page-one-column .panel-content .wrap
+{
+max-width: 100%;
+}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
