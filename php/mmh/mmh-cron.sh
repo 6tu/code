@@ -16,6 +16,6 @@ mmhpath=/var/www/mmh
 test -d $mmhpath || mkdir -p $mmhpath
 
 # --spider 不下载任何文件。
-/usr/bin/wget -O $mmhpath/getmh.log http://127.0.0.1/mmh/getmh.php
+/usr/bin/wget --no-check-certificate -O $mmhpath/getmh.log https://ysuo.org/mmh/getmh.php
 rm -rf $mmhpath/getmh.log
 
