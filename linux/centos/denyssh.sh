@@ -5,7 +5,7 @@ export PATH
 test -d /usr/local/cron || mkdir -p /usr/local/cron
 cat > /usr/local/cron/sshdeny.sh << "EOF"
 #!/bin/bash
-DEFINE="3"
+DEFINE="1"
 cat /var/log/secure|awk '/Failed/{print $(NF-3)}'|sort|uniq -c|awk '{print $2"="$1;}' > /tmp/sshDenyTemp.txt
 for i in `cat /tmp/sshDenyTemp.txt`
 do
