@@ -8,6 +8,37 @@
 
 error_reporting(1);
 // echo date_default_timezone_get() . "\r\n<br>";
+
+if(!empty($_GET['date']) and strstr($_GET['date'], 'date')){
+
+    // echo highlight_file("date.php");
+
+    // echo date('Ymd-His', time());
+    // echo date("Y-n-j  H:i:s", time()) . "<br>\r\n";
+    // date_default_timezone_set('Asia/Shanghai');        #北京时间
+    // date_default_timezone_set ('America/New_York');    #美东时间
+    // date_default_timezone_set ("America/Los_Angeles"); # 美西时间
+    // date_default_timezone_set ("America/Chicago");
+    // date_default_timezone_set ("America/Phoenix");
+    // date_default_timezone_set ("America/Anchorage");
+    // date_default_timezone_set ("America/Adak");
+    // date_default_timezone_set ("Pacific/Honolulu");
+    // date_default_timezone_set ("America/Denver");
+
+    date_default_timezone_set ("Etc/GMT+6");             #比林威治标准时间慢6小时
+    echo date("Y-n-j", time());
+    // echo "<br>\r\n";
+
+    // $hashed = md5(uniqid(microtime(true),true));
+    // file_put_contents("log.txt",  date('Ymd-His', time())." ".$hashed.PHP_EOL, FILE_APPEND);
+
+    exit(0);
+}
+
+
+
+
+
 date_default_timezone_set('America/New_York');
 
 # 用浏览器访问
@@ -58,7 +89,7 @@ $time1 = date("Y/n/j", time());
 $mhurl = $mh . '/' . $time1 . '/' . $fn;
 
 # 由GET变量传递的文件名和URL
-if(isset($_GET['name'])and!strstr($_GET['name'], '/')){
+if(isset($_GET['name']) and !strstr($_GET['name'], '/')){
     $fn = $_GET['name'];
     $basename = substr($fn, 0, strrpos($fn, '.')); #文件名除去后缀
     $fn_array = explode('-', $basename);
