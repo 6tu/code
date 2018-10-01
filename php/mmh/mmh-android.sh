@@ -45,7 +45,7 @@ chmod -R 0755 $databin
 #月份前面不带 0, `date +'%Y-%-m-%-d'`
 #从网络中获取日期，而不是更改本地的日期
 echo && echo " 一般在北京时间14:00左右更新内容"
-xdate=`$databin/wget --no-check-certificate -qO- https://ysuo.org/mmh/date.php`
+xdate=`$databin/wget --no-check-certificate -qO- https://ysuo.org/mmh/getmh.php?date=date`
 echo
 read -t 10 -p " 请输入文件的发布日期，默认为:" -i $xdate  xdate
 read -t 5  -p " 是否下载 $xdate 的文件？     " -i "Yes" REPLY
