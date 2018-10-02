@@ -1,0 +1,48 @@
+<?php
+$y = date("Y", time());
+$m = date("n", time());
+$d = date("j", time());
+$d = 2;
+$lastm = $m-1;
+if($lastm === 0){
+    $y = $y-1;
+    $lastm = 12;
+}
+$monthday = cal_days_in_month(CAL_GREGORIAN, $lastm, $y);
+
+# 定义目录
+$mhdata_path = '/var/www/mmh/mhdata/';
+$arch_dir = 'archives';
+$arch_path = $mhdata_path . $arch_dir;
+$arch_zip_path = $arch_path . '/' . $y . $lastm;
+$arch_log_path = $arch_zip_path . '/log-update';
+if(!file_exists($arch_log_path)) mkdir($arch_log_path, 0755, true);
+$archives_log = $arch_dir . '_' . $y . $lastm . '.log';
+
+if(($d === 2) and !file_exists($archives_log) and empty($_GET['name'])){
+    $fnkey = '';
+    for($day = 1; $day < $monthday + 1; $day++){
+		
+        # 定义文件名
+        $arch_fn = $y . '-' . $lastm . '-' . $day . '-t.zip';
+        $arch_fn_sha512 = $arch_fn . '.sha512';
+        $arch_fn_update = 'log/' . $arch_fn . '_update.log';
+        $arch_fn_zip = 'p7m_' . $arch_fn . '.b64.zip';
+
+        $arch_url = $_SERVER['REQUEST_SCHEME'] . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] . '?name=' . $fn;
+        $arch_array = GetPage($arch_url);
+        $arch_key = file_get_contents($arch_fn_sha512);
+        $fnkey .= $arch_fn . '  ' . $arch_key;
+        if(file_exists($arch_fn_sha512)) rename($arch_fn_sha512, $arch_zip_path . '/' . $arch_fn_sha512);
+        if(file_exists($arch_fn_zip)) rename($arch_fn_zip, $arch_zip_path . '/' . $arch_fn_zip);
+        if(file_exists($arch_fn_update)) rename($arch_fn_update, $arch_log_path . '/' . $arch_fn_update);
+    }
+    file_put_contents($archives_log, $fnkey);
+    if(file_exists($archives_log)) rename($archives_log, $arch_path . '/' . $archives_log);
+    exit(0);
+}
+echo 'done';
+function GetPage(){
+    return 'ok';
+}
+?>
