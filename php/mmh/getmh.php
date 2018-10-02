@@ -2,11 +2,10 @@
 /**
  *
  * 对比文件的sha512之后更新文件
- * 文件末端附有定时执行 shell 脚本mmh-cron.sh,
- * 每小时执行一次
+ * 文件末端附有定时执行 shell 脚本mmh-cron.sh,每小时执行一次
  * 
  */
-
+set_time_limit(0);
 error_reporting(1);
 // echo date_default_timezone_get() . "\r\n<br>";
 
@@ -36,17 +35,72 @@ if(!empty($_GET['date']) and strstr($_GET['date'], 'date')){
     exit(0);
 }
 
-
-
-
-
 date_default_timezone_set('America/New_York');
+
+$y = date("Y", time());
+$m = date("n", time());
+$d = date("j", time());
+$d = 32;
+$lm = $m-1;
+if($lm === 0){
+    $y = $y-1;
+    $lm = 12;
+}
+$lm0 = $lm;
+if ($lm0 < 10) $lm0 = '0'.$lm0;
+
+$monthday = cal_days_in_month(CAL_GREGORIAN, $lm, $y);
+
+# 定义目录
+$mhdata = '/var/www/mmh/mhdata/';
+$a = 'archives';
+$a_path = $mhdata . $a;
+$date_path = $a_path . '/' . $y . $lm0;
+$log_path = $date_path . '/log-update';
+if(!file_exists($log_path)) mkdir($log_path, 0777, true);
+$alog = $a . '_' . $y . $lm0 . '.log';
+
+if(($d === 2) and !file_exists($a_path.'/'.$alog) and empty($_GET['name'])){
+    
+    $fnkey = '';
+    for($day = 1; $day < $monthday + 1; $day++){
+		
+        # 定义文件名
+        $afn = $y . '-' . $lm . '-' . $day . '-t.zip';
+        $sha512 = $afn . '.sha512';
+        $update = $afn . '_update.log';
+        $p7mzip = 'p7m_' . $afn . '.b64.zip';
+
+        $locurl = $_SERVER['REQUEST_SCHEME'] . '://' .  $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] . '?name=' . $afn;
+        //echo $arch_url;
+        $a_array = GetPage($locurl);
+    
+        $akey = file_get_contents($mhdata. $sha512);
+        $fnkey .= $afn . '  ' . $akey . "\r\n\r\n";
+        
+        if(file_exists($mhdata.$sha512)) rename($mhdata.$sha512, $date_path . '/' . $sha512);
+        
+        
+        if(file_exists($mhdata.$p7mzip)) rename($mhdata.$p7mzip, $date_path . '/' . $p7mzip);
+        
+        if(file_exists($mhdata.'log/'.$update)) rename($mhdata.'log/'.$update, $log_path . '/' . $update);
+    }
+    file_put_contents($a_path.'/'.$alog, $fnkey);
+
+    echo 'done';
+    exit(0);
+}
+
+
 
 # 用浏览器访问
 if(empty($_GET['name']) and !strstr($_SERVER['HTTP_USER_AGENT'], 'Wget')){
     form_html();
     exit(0);
 }
+
+
+
 
 /** 远端参数 **/
 
@@ -256,7 +310,7 @@ function GetPage($url){
     curl_setopt($ch, CURLOPT_HEADER, 1);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
     curl_setopt($ch, CURLOPT_TIMEOUT, 8);
-    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 4);
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     $result = curl_exec($ch);
     curl_close($ch);
