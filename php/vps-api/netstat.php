@@ -11,6 +11,7 @@ $uptime = trim(shell_exec('uptime'));
 // output is 04:47:32 up 187 days,  5:03,  1 user,  load average: 0.55, 0.55, 0.54
 $uptime = explode(',', $uptime);
 $uptime = explode(' ', $uptime[0]);
+if(empty($uptime[3])) $uptime[3] = '';
 $uptime = $uptime[2] . ' ' . $uptime[3]; // 187 days
 echo "<b>运行时间 ( $uptime)：</b>\n";
 echo trim(shell_exec('last reboot | head -1')) . "\n";
