@@ -1,7 +1,36 @@
 <?php
+
 # 使用CURL获取网页内容，报头，状态码，mime类型和编码 charset
 # CURLOPT_CONNECTTIMEOUT 请求连接超时
 # CURLOPT_TIMEOUT 响应数据传输时允许时间
+
+
+date_default_timezone_set("America/Los_Angeles");# 洛杉矶时间
+$t = date('ymdH',time());
+$log_dir = './log/';
+if(!is_dir($log_dir)) mkdir($log_dir,0777);
+$log = $log_dir . 'vps-' . date('ymd',time()) . '.log';
+if (file_exists($log)) {
+    echo file_get_contents($log);
+    exit;
+}
+
+$cookie_dir = './cookie/';
+if(!is_dir($cookie_dir)) mkdir($cookie_dir,0777);
+$cookie_file = $cookie_dir . time() . '.cookie';
+setcookie("PHPSESSID", "vc0heoa6lfsi3gger54pkns152");
+
+$url = 'https://secure.hostsolutions.ro';
+$dologin = $url . '/dologin.php';
+$clientarea = $url . '/clientarea.php';
+$details = $clientarea . '?action=productdetails&id=5246&rrd=0&timeframe=hour&language=chinese';
+$token = getResponse($clientarea, [], $cookie_file);
+preg_match('/<input type="hidden" name="token" value="(.*)"/U', $token, $match);
+// print_r($match);
+$post['token'] = $match[1];
+$post['username'] = 'admin@liuyun.org';
+$post['password'] = 'password';
+
 
 $url = 'http://ysuo.org';
 $res_array = GetPage($url);
@@ -9,40 +38,58 @@ echo '<pre>';
 # print_r($res_array);
 echo $res_array['body'];
 
-# 返回值网页内容，报头，状态码，mime类型和编码 charset
-function GetPage($url){
-    
+# 支持GET和POST,返回值网页内容，报头，状态码，mime类型和编码 charset
+function GetPage($url, $data = [], $cookie_file = ''){
+
+    $url_array = parse_url($url);
+    $host = $url_array['scheme'] . '://' . $url_array['host'];
+    if(!empty($_SERVER['HTTP_REFERER'])) $refer = $_SERVER['HTTP_REFERER'];
+    else $refer = $host . '/';
     if(!empty($_SERVER['HTTP_ACCEPT_LANGUAGE'])) $lang = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
     else $lang = 'zh-CN,zh;q=0.9';
-    if(!empty($_SERVER['HTTP_REFERER'])) $refer = $_SERVER['HTTP_REFERER'];
-    else $refer = 'https://www.google.com/?gws_rd=ssl';
-    
     if(!empty($_SERVER['HTTP_USER_AGENT'])) $agent = $_SERVER['HTTP_USER_AGENT'];
-    else $agent = 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36';
-    
-    # $agent = 'Wget/1.18 (mingw32)';
-    # $agent = 'Wget/1.17.1 (linux-gnu)';
-    
-    
-    # echo "<pre>\r\n" . $agent . "\r\n" . $refer . "\r\n" . $lang . "\r\n\r\n";
-
+    else $agent = 'Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.67 Safari/537.36';
+    // $agent = 'Wget/1.18 (mingw32)'; # 'Wget/1.17.1 (linux-gnu)';
+    // echo "<pre>\r\n" . $agent . "\r\n" . $refer . "\r\n" . $lang . "\r\n\r\n";
+	
+    if(empty($cookie_file)){
+        $cookie_file = '.cookie';
+    }
+	
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_USERAGENT, $agent);
     curl_setopt($ch, CURLOPT_REFERER, $refer);
     curl_setopt($ch, CURLOPT_HTTPHEADER, array("Accept-Language: " . $lang));
-    
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);   // follow redirects
-    curl_setopt($ch, CURLOPT_AUTOREFERER, true);      // set referer on redirect
+    if(!empty($data)){
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    }
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);   # 302 重定向
+    curl_setopt($ch, CURLOPT_AUTOREFERER, true);      # 301 重定向
 
+    curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie_file);  # 取cookie的参数是
+    curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie_file); # 发送cookie
+	
     curl_setopt($ch, CURLOPT_HEADER, 1);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
     curl_setopt($ch, CURLOPT_TIMEOUT, 8);
-    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 4);
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     $result = curl_exec($ch);
     curl_close($ch);
-    
+	
+	# try{}catch{}语句
+    // try{
+    //     $handles = curl_exec($ch);
+    //     curl_close($ch);
+    //     return $handles;
+    // }
+    // catch(Exception $e){
+    //     echo 'Caught exception:', $e -> getMessage(), "\n";
+    // }
+    unlink($cookie_file);
+
     $res_array = explode("\r\n\r\n", $result, 2);
     $headers = explode("\r\n", $res_array[0]);
     $status = explode(' ', $headers[0]);
