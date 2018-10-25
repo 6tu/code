@@ -37,6 +37,9 @@ $res_array = getResponse($url);
 echo '<pre>';
 # print_r($res_array);
 echo $res_array['body'];
+// unlink($cookie_file);
+
+
 
 # 支持GET和POST,返回值网页内容，报头，状态码，mime类型和编码 charset
 function getResponse($url, $data = [], $cookie_file = ''){
@@ -88,7 +91,7 @@ function getResponse($url, $data = [], $cookie_file = ''){
     // catch(Exception $e){
     //     echo 'Caught exception:', $e -> getMessage(), "\n";
     // }
-    unlink($cookie_file);
+    // unlink($cookie_file);
 
     $res_array = explode("\r\n\r\n", $result, 2);
     $headers = explode("\r\n", $res_array[0]);
