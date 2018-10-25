@@ -33,13 +33,13 @@ $post['password'] = 'password';
 
 
 $url = 'http://ysuo.org';
-$res_array = GetPage($url);
+$res_array = getResponse($url);
 echo '<pre>';
 # print_r($res_array);
 echo $res_array['body'];
 
 # 支持GET和POST,返回值网页内容，报头，状态码，mime类型和编码 charset
-function GetPage($url, $data = [], $cookie_file = ''){
+function getResponse($url, $data = [], $cookie_file = ''){
 
     $url_array = parse_url($url);
     $host = $url_array['scheme'] . '://' . $url_array['host'];
