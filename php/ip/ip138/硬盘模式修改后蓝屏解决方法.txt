@@ -1,0 +1,8 @@
+win7 硬盘模式由IDE-->AHCI之前必须先修改注册表，否则开机蓝屏
+
+HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\Msahci
+HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\iaStor
+HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\iaStorA
+HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\iaStorF
+HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\iaStorV
+修改键名Start的值为0
