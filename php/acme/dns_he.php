@@ -1,8 +1,21 @@
-<?php
+﻿<?php
 /*
 # dnsapi(Hurricane Electric hook script) for php
 #
 #-- dns_he_add() - Add TXT record
+
+# 用法
+
+# 将数据写入文件。或者数据库
+# $key = 'HE_info';
+# create_account($dns, $key);
+
+# $full_domain = 'test.example.com';
+# $txt_value = 'L29wdC9sYW1wcC9sYW1wcCByZWxvYWRhcGFjaGUkk';
+# $zone_id = dns_he_find_zone($full_domain);
+# echo $full_domain .'and'. $txt_value .'will be added to '. $zone_id;
+# echo dns_he_add($dns, $full_domain, $txt_value, $zone_id);
+
 */
 
 # Please set user credentials .
@@ -10,16 +23,6 @@ $dns['HE_info']     = "Using DNS-01 Hurricane Electric hook";
 $dns['HE_url']      = "https://dns.he.net/";
 $dns['HE_username'] = "user";
 $dns['HE_password'] = 'password';
-
-# 将数据写入文件。或者数据库
-// $key = 'HE_info';
-// create_account($dns, $key);
-
-$full_domain = 'test.example.com';
-$txt_value = 'L29wdC9sYW1wcC9sYW1wcCByZWxvYWRhcGFjaGUkk';
-$zone_id = dns_he_find_zone($full_domain);
-echo $full_domain .'and'. $txt_value .'will be added to '. $zone_id;
-echo dns_he_add($dns, $full_domain, $txt_value, $zone_id);
 
 # 添加TXT记录
 function dns_he_add($dns, $full_domain, $txt_value, $zone_id){
@@ -36,6 +39,7 @@ function dns_he_add($dns, $full_domain, $txt_value, $zone_id){
     $data['hosted_dns_recordid']   = '';
     $data['hosted_dns_editzone']   = '1';
     $data['hosted_dns_editrecord'] = 'Submit';
+
     $response = getResponse($dns['HE_url'], $data, $cookie_file = '');
     $body = $response['body'];
     if(strpos($body, 'Successfull') !== false) $rec = "TXT record added successfully.";
@@ -45,8 +49,8 @@ function dns_he_add($dns, $full_domain, $txt_value, $zone_id){
 
 # 移除TXT记录
 function dns_he_rm($dns, $full_domain, $txt_value, $zone_id){
-    
-	# Find the record id to clean
+
+    # Find the record id to clean
     $info = "Cleaning up after DNS-01 Hurricane Electric hook";
     $url = $dns['HE_url'];
     $data['email'] = $dns['HE_username'];
@@ -57,18 +61,17 @@ function dns_he_rm($dns, $full_domain, $txt_value, $zone_id){
     $response = getResponse($url, $data, $cookie_file = '');
     $body = $response['body'];
     unset($response);
-    
-	preg_match("'<table(.+)</table>'s", $body, $arr);
+
+    preg_match("'<table(.+)</table>'s", $body, $arr);
     if($arr){  
         $body = $arr["0"];
     }
     unset($arr);
     //echo $body . "<br>\r\n";
-    
-    
-	# 匹配 ID 和 TXT
-	if(strpos($body, $txt_value) !== false) die("The txt record is not found,just skip.");
-	
+
+    # 匹配 ID 和 TXT
+    if(strpos($body, $txt_value) !== false) die("The txt record is not found,just skip.");
+
     $arr = explode('<tr', $body);
     $str = '';
     $n = count($arr);
@@ -79,7 +82,7 @@ function dns_he_rm($dns, $full_domain, $txt_value, $zone_id){
     }
     unset($arr);
     if(empty($str)) die("Can not find $full_domain .");
-    
+
     $id = substr($str, strpos($str, "dns_tr") + 8, 16);
     $preg = "/\d+/";
     preg_match_all($preg, $id, $arr);
@@ -87,50 +90,53 @@ function dns_he_rm($dns, $full_domain, $txt_value, $zone_id){
     unset($arr);
     if(empty($record_id)) die("Can not find record id .");
 
-	# Remove the record
+    # Remove the record
     $data['hosted_dns_editzone']   = "1";
-    $data['hosted_dns_recordid']   = $record_id;
-    $data['hosted_dns_delrecord']  = "1";
+    $data['hosted_dns_recordid']    = $record_id;
+    $data['hosted_dns_delrecord']   = "1";
     $data['hosted_dns_delconfirm'] = "delete";
     $response = getResponse($url, $data, $cookie_file = '');
     $body = $response['body'];
-	
+
     if(strpos($body, 'Successfull') !== false) $rec = "Record removed successfully.";
     else $rec = "Could not clean(remove) up the record. Please go to HE administration interface and clean it by hand.";
     return "\r\n" . $rec;
 }
 
 # 查找根域名对应的 hosted_dns_zoneid
-function dns_he_find_zone($domain,$dns){
-    
-    preg_match("#\.(.*)#i",$domain,$match);
-    $root_domain = $match[1];
-    
+function dns_he_find_zone($domain, $dns){
+
+    $n = substr_count($domain, '.');
+    $arr = explode('.', $domain, $n);
+    $root_domain = $arr[$n -1];
+    unset($arr);
+    echo  $root_domain;
+
     $url = $dns['HE_url'];
     $data['email'] = $dns['HE_username'];
     $data['pass'] = $dns['HE_password'];
     $response = getResponse($url, $data, $cookie_file = '');
     $body = $response['body'];
-    $preg = "/<script[\s\S]*?<\/script>/i";
-    $html = preg_replace($preg, "", $body, -1);
-    
-    preg_match("'<table(.+)</table>'s", $body, $arr);
-    if($arr){  
-        $html = $arr["0"];
-    }
-    unset($arr);
-    
-    
-    if(strpos($html, 'Incorrect') !== false or strpos($html, 'Password') !== false){
+    unset($response);
+
+    if(strpos($body, 'Incorrect') !== false or strpos($body, 'Password') !== false){
         die("Unable to login to dns.he.net please check username and password. <br>\r\n");
     }
-    $html_array = explode('Start domain panel', $html);
-    $html = $html_array[1];
+
+    $preg = "/<script[\s\S]*?<\/script>/i";
+    $body = preg_replace($preg, "", $body, -1);
+
+    //$html_array = explode('Start domain panel', $html);
+    //$html = $html_array[1];
+    preg_match("'<table(.+)</table>'s", $body, $arr);
+    if($arr) $html = $arr["0"]; 
+    unset($arr);
+
     if(strpos($html, $root_domain) !== false){
         echo "These are the zones on this HE account. <br>\r\n";
         $domain_array = explode($root_domain, $html);
         $html = '';
-        $n = count($domain_array) -1;
+        $n = count($domain_array);
         for($i = 0; $i < $n; $i++){
             if(strpos($domain_array[$i], 'hosted_dns_zoneid') !== false) $html = $domain_array[$i];
         }
@@ -167,11 +173,11 @@ function getResponse($url, $data = [], $cookie_file = ''){
     else $agent = 'Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.67 Safari/537.36';
     // $agent = 'Wget/1.18 (mingw32)'; # 'Wget/1.17.1 (linux-gnu)';
     // echo "<pre>\r\n" . $agent . "\r\n" . $refer . "\r\n" . $lang . "\r\n\r\n";
-	
+
     if(empty($cookie_file)){
         $cookie_file = '.cookie';
     }
-	
+
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_USERAGENT, $agent);
@@ -181,11 +187,11 @@ function getResponse($url, $data = [], $cookie_file = ''){
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
     }
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);   # 302 重定向
-    curl_setopt($ch, CURLOPT_AUTOREFERER, true);      # 301 重定向
-    curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie_file);  # 取cookie的参数是
-    curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie_file); # 发送cookie
-	
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);       # 302 重定向
+    curl_setopt($ch, CURLOPT_AUTOREFERER, true);          # 301 重定向
+    curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie_file);    # 取cookie的参数是
+    curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie_file);   # 发送cookie
+
     curl_setopt($ch, CURLOPT_HEADER, 1);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
     curl_setopt($ch, CURLOPT_TIMEOUT, 8);
@@ -193,8 +199,8 @@ function getResponse($url, $data = [], $cookie_file = ''){
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     $result = curl_exec($ch);
     curl_close($ch);
-	
-	# try{}catch{}语句
+
+    # try{}catch{}语句
     // try{
     //     $handles = curl_exec($ch);
     //     curl_close($ch);
@@ -224,7 +230,7 @@ function getResponse($url, $data = [], $cookie_file = ''){
     }
     $headers = explode("\r\n", $res_array[0]);
     $status = explode(' ', $headers[0]);
-    
+
     $headers[0] = str_replace('HTTP/1.1', 'HTTP/1.1:', $headers[0]);
     foreach($headers as $header){
         if(stripos(strtolower($header), 'content-type:') !== FALSE){
@@ -253,7 +259,7 @@ function getResponse($url, $data = [], $cookie_file = ''){
         $body = mb_convert_encoding ($body, 'utf-8', $charset);
     }
     # $body = preg_replace('/(?s)<meta http-equiv="Expires"[^>]*>/i', '', $body);    
-    
+
     # echo "<pre>\r\n$header_all\r\n\r\n" . "$status[1]\r\n$mime_type\r\n$charset\r\n\r\n";
     # header($res_array[0]);
     $res_array = array();
