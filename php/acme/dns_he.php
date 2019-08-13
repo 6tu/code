@@ -21,46 +21,6 @@ $zone_id = dns_he_find_zone($full_domain);
 echo $full_domain .'and'. $txt_value .'will be added to '. $zone_id;
 echo dns_he_add($dns, $full_domain, $txt_value, $zone_id);
 
-# 移除TXT记录
-function dns_he_rm($dns, $full_domain, $txt_value, $zone_id){
-    
-	# Find the record id to clean
-    $info = "Cleaning up after DNS-01 Hurricane Electric hook";
-    $url = $dns['HE_url'];
-    $data['email'] = $dns['HE_username'];
-    $data['pass']  = $dns['HE_password'];
-    $data['menu']  = "edit_zone";
-    $data['hosted_dns_zoneid']   = $zone_id;
-    $data['hosted_dns_editzone'] = "";
-    $response = getResponse($url, $data, $cookie_file = '');
-    $body = $response['body'];
-	
-	# 匹配 ID 和 TXT
-    if(strpos($body, $txt_value) !== false) die("The txt record is not found,just skip.");
-    if(strpos($body, $full_domain) == false or \
-       strpos($body, "dns_tr")     == false or \
-       strpos($body, $txt_value)   == false){
-           $record_id = '';
-           die("Can not find record id .");
-       }else{
-           
-           $record_id = '';
-       }
-
-	# Remove the record
-    $data['hosted_dns_editzone']   = "1";
-    $data['hosted_dns_recordid']   = $_record_id;
-    $data['hosted_dns_delrecord']  = "1";
-    $data['hosted_dns_delconfirm'] = "delete";
-    unset($response);
-    $response = getResponse($url, $data, $cookie_file = '');
-    $body = $response['body'];
-	
-    if(strpos($body, 'Successfull') !== false) $rec = "Record removed successfully.";
-    else $rec = "Could not clean(remove) up the record. Please go to HE administration interface and clean it by hand.";
-    return "\r\n" . $rec;
-}
-
 # 添加TXT记录
 function dns_he_add($dns, $full_domain, $txt_value, $zone_id){
     $data['email']    = $dns['HE_username'];
@@ -83,6 +43,63 @@ function dns_he_add($dns, $full_domain, $txt_value, $zone_id){
     return $dns['HE_info'] ."\r\n". $rec;
 }
 
+# 移除TXT记录
+function dns_he_rm($dns, $full_domain, $txt_value, $zone_id){
+    
+	# Find the record id to clean
+    $info = "Cleaning up after DNS-01 Hurricane Electric hook";
+    $url = $dns['HE_url'];
+    $data['email'] = $dns['HE_username'];
+    $data['pass']  = $dns['HE_password'];
+    $data['menu']  = "edit_zone";
+    $data['hosted_dns_zoneid']   = $zone_id;
+    $data['hosted_dns_editzone'] = "";
+    $response = getResponse($url, $data, $cookie_file = '');
+    $body = $response['body'];
+    unset($response);
+    
+	preg_match("'<table(.+)</table>'s", $body, $arr);
+    if($arr){  
+        $body = $arr["0"];
+    }
+    unset($arr);
+    //echo $body . "<br>\r\n";
+    
+    
+	# 匹配 ID 和 TXT
+	if(strpos($body, $txt_value) !== false) die("The txt record is not found,just skip.");
+	
+    $arr = explode('<tr', $body);
+    $str = '';
+    $n = count($arr);
+    for($i = 0;$i < $n;$i++){
+        if(strpos($arr[$i], $full_domain) == !false && strpos($arr[$i], $txt_value) == !false){
+            $str = '<tr' . $arr[$i];
+        }
+    }
+    unset($arr);
+    if(empty($str)) die("Can not find $full_domain .");
+    
+    $id = substr($str, strpos($str, "dns_tr") + 8, 16);
+    $preg = "/\d+/";
+    preg_match_all($preg, $id, $arr);
+    $record_id = $arr[0][0];
+    unset($arr);
+    if(empty($record_id)) die("Can not find record id .");
+
+	# Remove the record
+    $data['hosted_dns_editzone']   = "1";
+    $data['hosted_dns_recordid']   = $record_id;
+    $data['hosted_dns_delrecord']  = "1";
+    $data['hosted_dns_delconfirm'] = "delete";
+    $response = getResponse($url, $data, $cookie_file = '');
+    $body = $response['body'];
+	
+    if(strpos($body, 'Successfull') !== false) $rec = "Record removed successfully.";
+    else $rec = "Could not clean(remove) up the record. Please go to HE administration interface and clean it by hand.";
+    return "\r\n" . $rec;
+}
+
 # 查找根域名对应的 hosted_dns_zoneid
 function dns_he_find_zone($domain,$dns){
     
@@ -96,6 +113,14 @@ function dns_he_find_zone($domain,$dns){
     $body = $response['body'];
     $preg = "/<script[\s\S]*?<\/script>/i";
     $html = preg_replace($preg, "", $body, -1);
+    
+    preg_match("'<table(.+)</table>'s", $body, $arr);
+    if($arr){  
+        $html = $arr["0"];
+    }
+    unset($arr);
+    
+    
     if(strpos($html, 'Incorrect') !== false or strpos($html, 'Password') !== false){
         die("Unable to login to dns.he.net please check username and password. <br>\r\n");
     }
