@@ -18,8 +18,33 @@ if(isset($_GET['url']) and strstr($_GET['url'], 'http')){
 }else{
     $url = 'https://www.soundofhope.org/gb/category/%E5%8F%A4%E4%BB%8A%E6%96%87%E5%8C%96/%E5%8D%83%E5%8F%A4%E8%8B%B1%E9%9B%84%E4%BA%BA%E7%89%A9/%E5%A6%82%E6%97%A5%E5%A6%82%E4%BA%91-%E6%98%AD%E6%98%AD%E5%9C%A3%E5%90%9B-%E5%B8%9D%E5%B0%A7%E7%9A%84%E6%95%85%E4%BA%8B';
     $fn = '帝尧的故事.html';
-}
 
+    require('phpquery/phpQuery/phpQuery.php');
+    $html = phpQuery::newDocumentFile($url);
+    $title = pq("title")->text();	// 获取网页标题
+    //$article = pq("div#article-content")->html();	// 获取id为header的div的html内容
+    $article = pq('.list-ref-2')->html();
+
+    $head = '<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8">';
+    $head .= '<title>' . $title . '</title></head><body>';
+    $head = str_replace(">", ">\r\n", $head);
+    # 多个空格转为一个空格
+    $article = preg_replace ("/\s(?=\s)/", "\\1", $article);
+    $article = strip_space_enter($article, '<span><a>', $n = 10);
+    $article = str_replace('</a>', "</a><br>\r\n", $article);
+    $article = str_replace('<a href="', '<a href="?url=https:',  $article);
+    $article = str_replace(array('</span></a>','<span'), array('</span>','</a><span'), $article);
+    
+    $html = $head . "<h4> $title </h4>\r\n" . $article;
+    echo $html;
+file_put_contents($fn, $html);
+exit;
+
+}
+if(strpos($fn, '.') == false){
+    echo file_get_contents('帝尧的故事.html');
+    exit;
+}
 
 if(file_exists($fn) and strpos($fn, '.mp3') == false){
     echo file_get_contents($fn);
@@ -93,8 +118,29 @@ $body = str_replace("128K<p>", '<a href="' . $k128 . "\">128K</a><p>\r\n", $body
 $body = str_replace("http", "?url=http", $body);
 
 $html = $head . $body;
+
 echo beautify_html($html);
 file_put_contents($fn, $html);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -112,8 +158,26 @@ function beautify_html($html){
         $tidy = tidy_parse_string($html, $tidy_config, 'utf8');
         $tidy -> cleanRepair();
         return $tidy;
+    }else{
+        require_once('./beautify-html.php');
+        // Set the beautify options
+        $beautify = true;
+        if($shouldBeautify = true) {
+        	$beautify = new Beautify_Html(array(
+        	  'indent_inner_html' => false,
+        	  'indent_char' => " ",
+        	  'indent_size' => 4,
+        	  'wrap_line_length' => 32786,
+        	  'unformatted' => ['code', 'pre'],
+        	  'preserve_newlines' => false,
+        	  'max_preserve_newlines' => 32786,
+        	  'indent_scripts'	=> 'normal' // keep|separate|normal
+        	));
+        }
+        //$beautify = new Beautify_Html;
+        $html = $beautify->beautify($html);
+        return $html;
     }
-    else return $html;
 }
 
 # 删除空格和回车
