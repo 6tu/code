@@ -64,7 +64,7 @@ $monthday = cal_days_in_month(CAL_GREGORIAN, $lm, $y);
 
 $hash_algorithm = 'sha512';
 $hash_extension = '.' . $hash_algorithm;
-$hash_fn = $afn . $hash_extension;
+# $hash_fn = $afn . $hash_extension;
 
 
 # 定义目录
