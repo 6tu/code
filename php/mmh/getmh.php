@@ -4,11 +4,16 @@
  * 对比文件的sha512之后更新文件
  * 文件末端附有定时执行 shell 脚本mmh-cron.sh,每小时执行一次
  * 
+ * # 64行，定义加密算法 $hash_algorithm = 'sha512';
+ * # 70行，定义目录 $mhdata = __DIR__ . '/mhdata/';
+ * 
+ * # 此处修改
  */
 set_time_limit(0);
 error_reporting(1);
 // echo date_default_timezone_get() . "\r\n<br>";
 
+# 设置日期
 if(!empty($_GET['date']) and strstr($_GET['date'], 'date')){
 
     // echo highlight_file("date.php");
@@ -40,7 +45,7 @@ date_default_timezone_set('America/New_York');
 $y = date("Y", time());
 $m = date("n", time());
 $d = date("j", time());
-$d = 32;
+//$d = 32;
 $lm = $m-1;
 if($lm === 0){
     $y = $y-1;
@@ -51,8 +56,19 @@ if ($lm0 < 10) $lm0 = '0'.$lm0;
 
 $monthday = cal_days_in_month(CAL_GREGORIAN, $lm, $y);
 
+# 定义加密算法
+# MD5,SHA1,SHA256,SHA512 信息摘要算法/安全散列算法
+# 通常被称为 hash value，即 哈希值
+# 被广泛使用的密码散列函数，用于确保信息传输完整一致
+# SHA-224, SHA-256, SHA-384 和 SHA-512 也被称做 SHA-2
+
+$hash_algorithm = 'sha512';
+$hash_extension = '.' . $hash_algorithm;
+$hash_fn = $afn . $hash_extension;
+
+
 # 定义目录
-$mhdata = '/var/www/mmh/mhdata/';
+$mhdata = __DIR__ . '/mhdata/';
 $a = 'archives';
 $a_path = $mhdata . $a;
 $date_path = $a_path . '/' . $y . $lm0;
@@ -67,7 +83,7 @@ if(($d === 2) and !file_exists($a_path.'/'.$alog) and empty($_GET['name'])){
 		
         # 定义文件名
         $afn = $y . '-' . $lm . '-' . $day . '-t.zip';
-        $sha512 = $afn . '.sha512';
+        $hash_fn = $afn . $hash_extension;  # 此处修改
         $update = $afn . '_update.log';
         $p7mzip = 'p7m_' . $afn . '.b64.zip';
 
@@ -75,10 +91,10 @@ if(($d === 2) and !file_exists($a_path.'/'.$alog) and empty($_GET['name'])){
         //echo $arch_url;
         $a_array = GetPage($locurl);
     
-        $akey = file_get_contents($mhdata. $sha512);
+        $akey = file_get_contents($mhdata. $hash_fn);  # 此处修改
         $fnkey .= $afn . '  ' . $akey . "\r\n\r\n";
         
-        if(file_exists($mhdata.$sha512)) rename($mhdata.$sha512, $date_path . '/' . $sha512);
+        if(file_exists($mhdata . $hash_fn)) rename($mhdata . $hash_fn, $date_path . '/' . $hash_fn); # 此处修改
         
         
         if(file_exists($mhdata.$p7mzip)) rename($mhdata.$p7mzip, $date_path . '/' . $p7mzip);
@@ -121,10 +137,10 @@ $up2remotepara = 'file';
 $up2remoteurl = "http://hk.6tu.me/mmh/index.php";
 
 # 上传到对象服务器
-$up2qiniu = true;                     # true为发送,false为不发送
+$up2qiniu = false;                     # true为发送,false为不发送
 $qiniupara = array(
     'qiniupath' => __DIR__ . '/qiniu/upload_to_qiniu.php',
-    'qiniuurl' => 'http://oold3s5tj.bkt.clouddn.com/',
+    'qiniuurl' => 'http://qncdn.popcn.net/',
     'accessKey' => 'KzBWtGa-Qsxd2zA_SbYkcxi9Evw0fRNgQY5ax9T6',
     'secretKey' => 'F8JQ4riqVfQmgCyDWya9Oi5TYBtNpOKBToYUxEyh',
     'bucket' => 'yisuo',
@@ -162,7 +178,7 @@ if(isset($_GET['name']) and !strstr($_GET['name'], '/')){
 }
 
 # 由 $fn 设置相关的文件名
-$fn_hashed = $mhdir . $fn . '.sha512';
+$fn_hashed = $mhdir . $fn . $hash_extension; # 此处修改
 $fn_update = $mhdir . 'log/' . $fn . '_update.log';
 
 $fn_b64 = $fn . '.b64';
@@ -187,7 +203,7 @@ if(!strpos($file_type, 'zip')){
     echo iconv("UTF-8", "gbk//TRANSLIT", $error);
     exit(1);
 }
-$hashed = hash('sha512', $body);
+$hashed = hash($hash_algorithm, $body); # 此处修改
 $hashedlog = date('Ymd-His', time()) . '  ' . $hashed . "\r\n";
 
 # 判断文件是否存在
@@ -199,10 +215,11 @@ if(file_exists($fn_hashed)){
     $asc = '';
 }
 
-# log文件表头table headers
+# log文件表头table header
+# 此处修改
 if(!file_exists($fn_update)){
     # echo "The file $fn does not exists";
-    $th = 'time[' . date_default_timezone_get() . ']    key[sha512]' . "\r\n=================\r\n";
+    $th = 'time[' . date_default_timezone_get() . ']    key['. $hash_algorithm .']' . "\r\n=================\r\n";
     file_put_contents($fn_update, $th);
 }
 
@@ -309,9 +326,10 @@ function GetPage($url){
 
     curl_setopt($ch, CURLOPT_HEADER, 1);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 8);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 120);
     curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_ENCODING, "gzip");
     $result = curl_exec($ch);
     curl_close($ch);
     
@@ -1096,26 +1114,53 @@ class zip_file extends archive
 
 
 
-/** 定时执行 shell 脚本 **/
+/** 定时执行 shell 脚本 mmh-cron.sh **/
+
 // #!/bin/bash
 // PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 // export PATH
 // 
-// # crontab -e
-// # cat /etc/crontab
-// #分 时 日 月 周
-// # centos
-// #echo '* */1 * * * /var/www/mmh/mmh.sh > /dev/null 2>&1' >> /var/spool/cron/root
-// #crontab /var/spool/cron/root
+// # --spider 不下载任何文件
+// mmhpath=/home/www/mmh
+// mmhurl=https://www.liuyun.org/mmh/getmh.php
 // 
-// # ubuntu
-// #echo '* */1 * * * /var/www/mmh/mmh.sh > /dev/null 2>&1' >> /var/spool/cron/crontabs/root
-// #crontab /var/spool/cron/crontabs/root
-// 
-// mmhpath=/var/www/mmh
-// test -d $mmhpath || mkdir -p $mmhpath
-// 
-// # --spider 不下载任何文件。
-// /usr/bin/wget --no-check-certificate -O $mmhpath/getmh.log https://ysuo.org/mmh/getmh.php
+// /usr/bin/wget --no-check-certificate -O $mmhpath/getmh.log $mmhurl
 // rm -rf $mmhpath/getmh.log
+// 
+// # /usr/bin/wget -q --spider --no-check-certificate https://www.liuyun.org/mmh/getmh.php
+// 
+// # 编辑定时器 crontab -e
+// # 移除Cron作业 crontab -r
+// # cat /etc/crontab
+// # 分 时 日 月 周
+// 
+// # /opt/lampp/bin/php -r 'echo file_get_contents(http://domain/cronit.php);'
+// # /opt/lampp/bin/php /home/www/cronit.php
+// # 
+// # wget -q --spider http://domain/cronit.php
+// # wget -O /dev/null http://domain/cronit.php
+// # wget -O- http://domain/cronit.php >> /dev/null
+// 
+// 
+// # 以下命令用于添加定时器，添加后注释掉
+// # 
+// # shellpath=/home/www/mmh
+// #
+// # test -d $shellpath || mkdir -p $shellpath
+// # if [ ! -f "/usr/bin/yum" ]; then
+// #   echo Ubuntu
+// #   aptyum=apt-get
+// #   apt -y install cron
+// #   service cron start
+// #   echo "* */1 * * * $shellpath/mmh-cron.sh > /dev/null 2>&1" >> /var/spool/cron/crontabs/root
+// #   crontab /var/spool/cron/crontabs/root
+// # else
+// #   echo CentOS
+// #   aptyum=yum
+// #   yum -y install crontabs vixie-cron
+// #   /bin/systemctl start crond.service
+// #   /sbin/service crond start
+// #   echo "* */1 * * * $shellpath/mmh-cron.sh > /dev/null 2>&1" >> /var/spool/cron/root
+// #   crontab /var/spool/cron/root
+// # fi
 
