@@ -1,9 +1,6 @@
-**加重强调**
-___特别强调___
-* rm -rf /root/.cpan/CPAN/*
-----
+**rm -rf /root/.cpan/CPAN/* **
 ##/opt/lampp/bin/cpan 
--
+
 
 # 安装模块 ./nph-proxy.cgi install-modules
 
