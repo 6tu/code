@@ -15,9 +15,9 @@ tar xzvf cgiproxy-inner.*.tar.gz
 
 
 # 更新 perl 本地库 
-rm -rf /root/.cpan/CPAN/* 
-/opt/lampp/bin/cpan 
-/opt/lampp/bin/cpan local::lib 
+rm -rf /root/.cpan/CPAN/*   
+/opt/lampp/bin/cpan   
+/opt/lampp/bin/cpan local::lib   
 
 # 默认安装到 /opt/lampp/lib/perl5 
 
