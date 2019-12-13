@@ -1,35 +1,35 @@
 
-安装方法  https://www.jmarshall.com/tools/cgiproxy/install.html
+安装方法  https://www.jmarshall.com/tools/cgiproxy/install.html 
 
-获取源代码
-wget -O nph-proxy.cgi https://www.jmarshall.com/tools/cgiproxy/nph-proxy.txt
+获取源代码 
+wget -O nph-proxy.cgi https://www.jmarshall.com/tools/cgiproxy/nph-proxy.txt 
 
-或者
+或者 
 
-wget https://www.jmarshall.com/tools/cgiproxy/releases/cgiproxy.latest.tar.gz
-tar xzvf cgiproxy.*.tar.gz
-tar xzvf cgiproxy-inner.*.tar.gz
-
-
+wget https://www.jmarshall.com/tools/cgiproxy/releases/cgiproxy.latest.tar.gz 
+tar xzvf cgiproxy.*.tar.gz 
+tar xzvf cgiproxy-inner.*.tar.gz 
 
 
 
-# 更新 perl 本地库
-rm -rf /root/.cpan/CPAN/*
-/opt/lampp/bin/cpan
-/opt/lampp/bin/cpan local::lib
 
-# 默认安装到 /opt/lampp/lib/perl5
 
-# 安装模块 ./nph-proxy.cgi install-modules
+# 更新 perl 本地库 
+rm -rf /root/.cpan/CPAN/* 
+/opt/lampp/bin/cpan 
+/opt/lampp/bin/cpan local::lib 
 
-/opt/lampp/bin/cpan Net::SSLeay
-/opt/lampp/bin/cpan JSON
-/opt/lampp/bin/cpan IO::Compress::Gzip
-/opt/lampp/bin/cpan IO::Compress::Deflate
-/opt/lampp/bin/cpan IO::Compress::Lzma
-/opt/lampp/bin/cpan FCGI
-/opt/lampp/bin/cpan FCGI::ProcManager
+# 默认安装到 /opt/lampp/lib/perl5 
+
+# 安装模块 ./nph-proxy.cgi install-modules 
+
+/opt/lampp/bin/cpan Net::SSLeay 
+/opt/lampp/bin/cpan JSON 
+/opt/lampp/bin/cpan IO::Compress::Gzip 
+/opt/lampp/bin/cpan IO::Compress::Deflate 
+/opt/lampp/bin/cpan IO::Compress::Lzma 
+/opt/lampp/bin/cpan FCGI 
+/opt/lampp/bin/cpan FCGI::ProcManager 
 
 # 安装
 
