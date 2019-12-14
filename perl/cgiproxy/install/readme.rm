@@ -1,0 +1,80 @@
+
+# 安装模块 ./nph-proxy.cgi install-modules
+
+# We couldn't install these modules:
+/opt/lampp/bin/cpan Net::SSLeay
+/opt/lampp/bin/cpan JSON
+/opt/lampp/bin/cpan IO::Compress::Gzip
+/opt/lampp/bin/cpan IO::Compress::Deflate
+/opt/lampp/bin/cpan IO::Compress::Lzma
+/opt/lampp/bin/cpan FCGI
+/opt/lampp/bin/cpan FCGI::ProcManager
+
+# 简单的设置
+
+456 $PROXY_DIR= 'cgiproxy' ;    # 脚本初始化时代码存储目录
+505 $SECRET_PATH= '' ;          # CGIPROXY 的自我保护目录
+520 $LOCAL_LIB_DIR= 'perl5' ;   # 指定perl5 默认在 /root/perl5
+536 $RUNNING_ON_SSL_SERVER= 1 ; # 当前服务器是否能 HTTPS
+613 $USER_FACING_PORT= 443 ;    # 服务器对外的端口
+
+741 $DB_DRIVER= 'SQLite' ;      # 数据库驱动，可选的使用项
+771 $USE_DB_FOR_COOKIES= 1 ;
+
+778 $DEFAULT_LANG= &#39;zh&#39; # 首页语言
+794 $REMOVE_COOKIES= 0 ;        # 是否接受 COOKIES
+
+1487 $OVERRIDE_SECURITY= 1 ;    # 是否允许通过 HTTP 访问 HTTPS 的网站
+
+1531 sub proxy_encode {         # URL 编码
+1540 sub proxy_decode {         # URL 解码
+1567 sub cookie_encode {        # cookie 解码
+1575 sub cookie_decode {        # cookie 解码
+
+
+安装 IO::Compress::Lzma 模块
+
+首先安装需要的库 liblzma-dev/lzma-devel ，然后 cpanm IO::Compress::Lzma 
+http://tukaani.org/lzma/
+http://tukaani.org/xz/
+
+
+apt install -y liblzma-dev 
+然后编译 Compress::Raw::Lzma 模块
+
+ tar zxvf Compress-Raw-Lzma-2.070.tar.gz
+ cd Compress-Raw-Lzma-2.070
+ perl Makefile.PL
+ make
+ make test
+ make install
+
+
+centos7 安装 lzma-devel
+https://centos.pkgs.org/7/repoforge-x86_64/lzma-devel-4.32.7-1.el7.rf.x86_64.rpm.html
+
+方法一
+wget http://ftp.tu-chemnitz.de/pub/linux/dag/redhat/el7/en/x86_64/rpmforge/RPMS/lzma-devel-4.32.7-1.el7.rf.x86_64.rpm
+rpm -Uvh lzma-devel-4.32.7-1.el7.rf.x86_64.rpm
+
+方法二
+下载安装最新的 rpmforge-release rpm 
+http://ftp.tu-chemnitz.de/pub/linux/dag/redhat/el7/en/x86_64/rpmforge/RPMS/
+# rpm -Uvh rpmforge-release*rpm
+# yum install lzma-devel
+
+方法三
+yum install xz-devel -y
+yum install -y zlib zlib-devel
+yum -y install bzip2
+
+yum install perl-IO-Compress-Base
+
+/opt/lampp/bin/cpan
+/opt/lampp/bin/cpan IO::Compress::Base
+/opt/lampp/bin/cpan Compress::Raw::Lzma
+/opt/lampp/bin/cpan IO::Compress::Gzip
+
+/opt/lampp/bin/perl /var/cgi-bin/nph-proxy.cgi install-modules
+
+
