@@ -1,0 +1,59 @@
+
+Linux prerouting和postrouting的区别
+
+https://www.cnblogs.com/wspblog/p/4297160.html
+
+
+通常内网到外网是post，外望到内网是pre，但是外还是内只是个相对概念，在一定条件下是可以转换的。
+落实到网卡上，对于每个网卡数据流入的时候必然经过pre，数量流出必然经过post。
+
+POSTROUTING是源地址转换，要把你的内网地址转换成公网地址才能让你上网。
+PREROUTING是目的地址转换，要把别人的公网IP换成你们内部的IP，才让访问到你们内部受防火墙保护的机器。
+
+
+iptables -t nat -A PREROUTING -p tcp --dport 443 -j DNAT --to-destination 代理鸡ip:443
+# 在路由规则之前转到 代理鸡ip:443
+iptables -t nat -A POSTROUTING -p tcp -d 代理鸡ip --dport 443 -j SNAT --to-source 中转鸡的网关的ip
+# 返回到代理鸡ip的数据经过路由器规则后，将数据发送到中转鸡的网关的ip
+源地址发送数据--> {PREROUTING-->路由规则-->POSTROUTING} -->目的地址接收到数据
+192.168.1.1
+
+iptables -t nat -A POSTROUTING -s {IPv4}/24 -o eth0 -j MASQUERADE 伪装
+把路由后面的内网转到公网网卡eth0上，这样内网就能访问互联网。
+
+iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+
+
+https://github.com/arloor/iptablesUtils
+
+iptables -t nat -A POSTROUTING -s 192.168.1.0/24 -o eth0 -j MASQUERADE(or:SNAT)
+# 路由后的内网能上网
+iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j DNAT --to 192.168.1.1
+# 公网80端口转到内网的 192.168.1.1
+
+https://www.bilibili.com/video/av96244032
+
+route -A inet6 -n
+
+ip -6 route del default from 2001:999:y:671:: dev 6in4-wan6
+ip -6 rule add from 2602:ffd5:1:100::1 table main prio 1
+
+systemctl restart network
+
+strongswan down ccc
+strongswan restart
+strongswan up ccc
+
+http://cyyself.name/
+
+
+/etc/network/interfaces中配置静态地址
+vi /etc/sysconfig/network-scripts/ifcfg-eth0
+
+iface eth0 inet6 static
+    address ipv6/64
+	gateway fe80::/
+iface eth0 inet6 static
+    ipv6
+
+
